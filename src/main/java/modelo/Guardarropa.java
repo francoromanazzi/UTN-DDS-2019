@@ -1,13 +1,13 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Guardarropa {
-	private List<Prenda> prendas;
 
-	public Guardarropa(List<Prenda> prendas) {
-		this.prendas = prendas;
-	}
+	private List<Prenda> prendas = new ArrayList<>();
+
+	public Guardarropa() {}
 
 	public List<Prenda> getPrendas() {
 		return prendas;
