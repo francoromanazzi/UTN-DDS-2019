@@ -1,13 +1,10 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Usuario {
-	private List<Guardarropa> guardarropas;
-
-	public Usuario(List<Guardarropa> guardarropas) {
-		this.guardarropas = guardarropas;
-	}
+	private List<Guardarropa> guardarropas  = new ArrayList<>();
 
 	public List<Guardarropa> getGuardarropas() {
 		return guardarropas;
@@ -20,4 +17,5 @@ public class Usuario {
 	public void removeGuardarropa(Guardarropa guardarropa) {
 		this.guardarropas.remove(guardarropa);
 	}
+
 }
