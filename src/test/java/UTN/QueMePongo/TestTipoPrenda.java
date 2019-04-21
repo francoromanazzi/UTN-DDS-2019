@@ -1,17 +1,28 @@
 package UTN.QueMePongo;
 
-import junit.framework.Assert;
 import modelo.Categoria;
+import modelo.Material;
 import modelo.Tipo;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 public class TestTipoPrenda {
 
-    @Test
-    public void verificarTiposConCategorias(){
-        Assert.assertEquals(Tipo.REMERA.getCategoria(), Categoria.SUPERIOR);
-        Assert.assertEquals(Tipo.PANTALON.getCategoria(), Categoria.INFERIOR);
-        Assert.assertEquals(Tipo.OJOTAS.getCategoria(), Categoria.CALZADO);
-        Assert.assertEquals(Tipo.RELOJ.getCategoria(), Categoria.ACCESORIO);
-    }
+	@Test
+	public void verificarTiposConCategorias() {
+		assertEquals(Tipo.REMERA.getCategoria(), Categoria.SUPERIOR);
+		assertEquals(Tipo.PANTALON.getCategoria(), Categoria.INFERIOR);
+		assertEquals(Tipo.OJOTAS.getCategoria(), Categoria.CALZADO);
+		assertEquals(Tipo.RELOJ.getCategoria(), Categoria.ACCESORIO);
+	}
+
+	@Test
+	public void verificarTiposConMaterialesPosibles() {
+		assertTrue(Tipo.REMERA.puedeSerDeMaterial(Material.ALGODON));
+		assertTrue(Tipo.PANTALON.puedeSerDeMaterial(Material.ALGODON));
+		assertTrue(Tipo.OJOTAS.puedeSerDeMaterial(Material.GOMA));
+		assertTrue(Tipo.RELOJ.puedeSerDeMaterial(Material.PLATA));
+	}
 }

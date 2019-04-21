@@ -1,5 +1,5 @@
 package modelo;
 
 public enum Categoria {
-	SUPERIOR, INFERIOR, CALZADO, ACCESORIO;
+	SUPERIOR, INFERIOR, CALZADO, ACCESORIO
 }
