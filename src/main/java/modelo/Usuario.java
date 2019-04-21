@@ -1,21 +1,17 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Usuario {
-	private List<Guardarropa> guardarropas;
+	private List<Guardarropa> guardarropas  = new ArrayList<>();
 
-	public Usuario(List<Guardarropa> guardarropas) {
+	public Usuario() {
 		super();
-		this.guardarropas = guardarropas;
 	}
 
 	public List<Guardarropa> getGuardarropas() {
 		return guardarropas;
-	}
-
-	public void setGuardarropas(List<Guardarropa> guardarropas) {
-		this.guardarropas = guardarropas;
 	}
 	
 	public void addGuardarropa(Guardarropa guardarropa) {
@@ -25,4 +21,5 @@ public class Usuario {
 	public void removeGuardarropa(Guardarropa guardarropa) {
 		this.guardarropas.remove(guardarropa);
 	}
+
 }
