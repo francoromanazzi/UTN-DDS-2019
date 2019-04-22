@@ -12,6 +12,7 @@ public class TestColor {
 		new Color(0, 0, 300);
 	}
 
+	@SuppressWarnings("null")
 	@Test(expected = RuntimeException.class)
 	public void rgbNulo() {
 		new Color(0, 0, (Integer) null);

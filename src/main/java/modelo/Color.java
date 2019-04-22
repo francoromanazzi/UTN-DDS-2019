@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public class Color {
-	private int rojo, verde, azul;
+	private final int rojo, verde, azul;
 
 	public Color(int rojo, int verde, int azul) {
 		// Validar colores entre 0 y 255 y que no sean nulos

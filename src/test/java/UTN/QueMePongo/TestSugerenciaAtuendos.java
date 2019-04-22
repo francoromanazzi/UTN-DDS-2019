@@ -50,7 +50,19 @@ public class TestSugerenciaAtuendos {
 		guardarropa.addPrenda(reloj);
 
 		List<Atuendo> sugerencias = guardarropa.obtenerSugerencias();
+		Atuendo atuendoSugerido1 = sugerencias.get(0);
+		Atuendo atuendoSugerido2 = sugerencias.get(1);
 
 		assertEquals(sugerencias.size(), 2);
+		
+		assertEquals(atuendoSugerido1.getParteSuperior(), remera);
+		assertEquals(atuendoSugerido1.getParteInferior(), pantalon);
+		assertEquals(atuendoSugerido1.getCalzado(), zapatos);
+		assertEquals(atuendoSugerido1.getAccesorio(), reloj);
+		
+		assertEquals(atuendoSugerido2.getParteSuperior(), camisa);
+		assertEquals(atuendoSugerido2.getParteInferior(), pantalon);
+		assertEquals(atuendoSugerido2.getCalzado(), zapatos);
+		assertEquals(atuendoSugerido2.getAccesorio(), reloj);
 	}
 }

@@ -1,7 +1,7 @@
 package modelo;
 
 public class Atuendo {
-	Prenda parteSuperior, parteInferior, calzado, accesorio;
+	private final Prenda parteSuperior, parteInferior, calzado, accesorio;
 
 	public Atuendo(Prenda parteSuperior, Prenda parteInferior, Prenda calzado, Prenda accesorio) {
 		this.parteSuperior = parteSuperior;

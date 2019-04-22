@@ -2,7 +2,6 @@ package modelo;
 
 import java.util.Objects;
 import java.util.Optional;
-
 import excepciones.ColoresIgualesException;
 import excepciones.MaterialNoTieneSentidoParaEseTipoException;
 
