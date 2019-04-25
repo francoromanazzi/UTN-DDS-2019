@@ -1,8 +1,10 @@
 package modelo;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Guardarropa {
@@ -62,7 +64,12 @@ public class Guardarropa {
 	}
 
 	public List<Atuendo> obtenerSugerencias() {
-		return Lists.cartesianProduct(prendasSuperiores, prendasInferiores, calzados, accesorios).stream()
-				.map(result -> new Atuendo(result.get(0), result.get(1), result.get(2), result.get(3))).collect(Collectors.toList());
+		List<Atuendo> sugerenciasConAccesorio= Lists.cartesianProduct(prendasSuperiores, prendasInferiores, calzados, accesorios).stream()
+				.map(result -> new Atuendo(result.get(0), result.get(1), result.get(2), Optional.of(result.get(3)))).collect(Collectors.toList());
+
+		List<Atuendo> sugerenciasSinAccesorio= Lists.cartesianProduct(prendasSuperiores, prendasInferiores, calzados).stream()
+				.map(result -> new Atuendo(result.get(0), result.get(1), result.get(2), Optional.empty())).collect(Collectors.toList());
+
+		return Lists.newArrayList(Iterables.concat(sugerenciasConAccesorio, sugerenciasSinAccesorio));
 	}
 }

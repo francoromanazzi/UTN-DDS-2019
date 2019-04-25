@@ -23,11 +23,35 @@ public class TestSugerenciaAtuendos {
 	}
 
 	@Test
-	public void prendasSuficientesParaSugerencia() {
+	public void prendasSuficientesParaSugerenciaConPosibleAccesorio() {
 		guardarropa.addPrenda(remera);
 		guardarropa.addPrenda(pantalon);
 		guardarropa.addPrenda(zapatos);
 		guardarropa.addPrenda(reloj);
+
+		List<Atuendo> sugerencias = guardarropa.obtenerSugerencias();
+
+		assertEquals(sugerencias.size(), 2);
+
+		Atuendo atuendoSugeridoConAccesorio = sugerencias.get(0);
+		Atuendo atuendoSugeridoSinAccesorio = sugerencias.get(1);
+
+		assertEquals(atuendoSugeridoConAccesorio.getParteSuperior(), remera);
+		assertEquals(atuendoSugeridoConAccesorio.getParteInferior(), pantalon);
+		assertEquals(atuendoSugeridoConAccesorio.getCalzado(), zapatos);
+		assertEquals(atuendoSugeridoConAccesorio.getAccesorio(), reloj);
+
+		assertEquals(atuendoSugeridoSinAccesorio.getParteSuperior(), remera);
+		assertEquals(atuendoSugeridoSinAccesorio.getParteInferior(), pantalon);
+		assertEquals(atuendoSugeridoSinAccesorio.getCalzado(), zapatos);
+		assertEquals(atuendoSugeridoSinAccesorio.getAccesorio(), null);
+	}
+
+	@Test
+	public void prendasSuficientesParaSugerenciaSinAccesorio() {
+		guardarropa.addPrenda(remera);
+		guardarropa.addPrenda(pantalon);
+		guardarropa.addPrenda(zapatos);
 
 		List<Atuendo> sugerencias = guardarropa.obtenerSugerencias();
 
@@ -38,11 +62,11 @@ public class TestSugerenciaAtuendos {
 		assertEquals(atuendoSugerido.getParteSuperior(), remera);
 		assertEquals(atuendoSugerido.getParteInferior(), pantalon);
 		assertEquals(atuendoSugerido.getCalzado(), zapatos);
-		assertEquals(atuendoSugerido.getAccesorio(), reloj);
+		assertEquals(atuendoSugerido.getAccesorio(), null);
 	}
 
 	@Test
-	public void prendasSuficientesParaMasDeUnaSugerencia() {
+	public void prendasSuficientesParaMasDeUnaSugerenciaConPosibleAccesorio() {
 		guardarropa.addPrenda(remera);
 		guardarropa.addPrenda(camisa);
 		guardarropa.addPrenda(pantalon);
@@ -50,19 +74,32 @@ public class TestSugerenciaAtuendos {
 		guardarropa.addPrenda(reloj);
 
 		List<Atuendo> sugerencias = guardarropa.obtenerSugerencias();
-		Atuendo atuendoSugerido1 = sugerencias.get(0);
-		Atuendo atuendoSugerido2 = sugerencias.get(1);
 
-		assertEquals(sugerencias.size(), 2);
+		assertEquals(sugerencias.size(), 4);
+
+		Atuendo atuendoSugerido1ConAccesorio = sugerencias.get(0);
+		Atuendo atuendoSugerido2ConAccesorio = sugerencias.get(1);
+		Atuendo atuendoSugerido1SinAccesorio = sugerencias.get(2);
+		Atuendo atuendoSugerido2SinAccesorio = sugerencias.get(3);
+
+		assertEquals(atuendoSugerido1ConAccesorio.getParteSuperior(), remera);
+		assertEquals(atuendoSugerido1ConAccesorio.getParteInferior(), pantalon);
+		assertEquals(atuendoSugerido1ConAccesorio.getCalzado(), zapatos);
+		assertEquals(atuendoSugerido1ConAccesorio.getAccesorio(), reloj);
 		
-		assertEquals(atuendoSugerido1.getParteSuperior(), remera);
-		assertEquals(atuendoSugerido1.getParteInferior(), pantalon);
-		assertEquals(atuendoSugerido1.getCalzado(), zapatos);
-		assertEquals(atuendoSugerido1.getAccesorio(), reloj);
-		
-		assertEquals(atuendoSugerido2.getParteSuperior(), camisa);
-		assertEquals(atuendoSugerido2.getParteInferior(), pantalon);
-		assertEquals(atuendoSugerido2.getCalzado(), zapatos);
-		assertEquals(atuendoSugerido2.getAccesorio(), reloj);
+		assertEquals(atuendoSugerido2ConAccesorio.getParteSuperior(), camisa);
+		assertEquals(atuendoSugerido2ConAccesorio.getParteInferior(), pantalon);
+		assertEquals(atuendoSugerido2ConAccesorio.getCalzado(), zapatos);
+		assertEquals(atuendoSugerido2ConAccesorio.getAccesorio(), reloj);
+
+		assertEquals(atuendoSugerido1SinAccesorio.getParteSuperior(), remera);
+		assertEquals(atuendoSugerido1SinAccesorio.getParteInferior(), pantalon);
+		assertEquals(atuendoSugerido1SinAccesorio.getCalzado(), zapatos);
+		assertEquals(atuendoSugerido1SinAccesorio.getAccesorio(), null);
+
+		assertEquals(atuendoSugerido2SinAccesorio.getParteSuperior(), camisa);
+		assertEquals(atuendoSugerido2SinAccesorio.getParteInferior(), pantalon);
+		assertEquals(atuendoSugerido2SinAccesorio.getCalzado(), zapatos);
+		assertEquals(atuendoSugerido2SinAccesorio.getAccesorio(), null);
 	}
 }
