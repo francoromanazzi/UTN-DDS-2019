@@ -22,6 +22,9 @@ public class TestGuardarropa {
 	Prenda reloj = new Prenda(Tipo.RELOJ, Material.ORO, new Color(128, 128, 128), Optional.of(new Color(64, 128, 64)));
 	Prenda zapatos = new Prenda(Tipo.ZAPATOS, Material.CUERO, new Color(128, 128, 128), Optional.empty());
 
+	//TODO mejores nombres de tests
+	//TODO testear más de caja negra (probar que una prenda agregada, el guardarropa la tenga)
+	//crespi.gustavo@gmail.com
 	@Test
 	public void agregarPrenda() {
 		guardarropa.addPrenda(remera);

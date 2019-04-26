@@ -64,6 +64,7 @@ public class Guardarropa {
 	}
 
 	public List<Atuendo> obtenerSugerencias() {
+		//TODO hacer que sea con N accesorios
 		List<Atuendo> sugerenciasConAccesorio= Lists.cartesianProduct(prendasSuperiores, prendasInferiores, calzados, accesorios).stream()
 				.map(result -> new Atuendo(result.get(0), result.get(1), result.get(2), Optional.of(result.get(3)))).collect(Collectors.toList());
 

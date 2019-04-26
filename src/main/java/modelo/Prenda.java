@@ -8,16 +8,15 @@ import excepciones.MaterialNoTieneSentidoParaEseTipoException;
 public class Prenda {
 	private final Tipo tipo;
 	private final Material material;
-	private final Color colorPrincipal, colorSecundario;
+	private final Color colorPrincipal;
+	private final Optional<Color> colorSecundario;
 
 	public Prenda(Tipo tipo, Material material, Color colorPrincipal, Optional<Color> colorSecundario) {
 		this.tipo = Objects.requireNonNull(tipo, "Tipo no puede ser nulo");
 		this.material = Objects.requireNonNull(material, "Material no puede ser nulo");
 		this.colorPrincipal = Objects.requireNonNull(colorPrincipal, "Color principal no puede ser nulo");
 		this.colorSecundario = Objects.requireNonNull(colorSecundario,
-				"Color secundario es opcional, pero no puede ser nulo").isPresent()
-				? colorSecundario.get()
-				: null;
+				"Color secundario es opcional, pero no puede ser nulo");
 
 		validarColoresDistintos();
 		validarMaterialTieneSentido();
@@ -29,7 +28,7 @@ public class Prenda {
 	}
 
 	private void validarColoresDistintos() throws ColoresIgualesException {
-		if (colorSecundario != null && colorPrincipal.esIgualA(colorSecundario))
+		if (colorSecundario.filter(color -> color.esIgualA(colorPrincipal)).isPresent())
 			throw new ColoresIgualesException();
 	}
 
@@ -43,10 +42,6 @@ public class Prenda {
 
 	public Color getColorPrincipal() {
 		return colorPrincipal;
-	}
-
-	public Color getColorSecundario() {
-		return colorSecundario;
 	}
 
 	public Categoria getCategoria() {

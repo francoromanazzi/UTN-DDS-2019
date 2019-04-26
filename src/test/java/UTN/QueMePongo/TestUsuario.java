@@ -23,7 +23,7 @@ public class TestUsuario {
         guardarropaRodrigo.addPrenda(new Prenda(Tipo.PANTALON, Material.ALGODON, new Color(254, 45, 0), Optional.of(new Color(128, 128, 128))));
         guardarropaRodrigo.addPrenda(new Prenda(Tipo.ZAPATILLAS, Material.CUERO, new Color(254,45,0), Optional.empty() ));
         rodrigo.addGuardarropa(guardarropaRodrigo);
-
+        //TODO sacar todo lo no necesario
         federico = new Usuario();
         guardarropaFederico = new Guardarropa();
         guardarropaFederico.addPrenda(new Prenda(Tipo.REMERA, Material.ALGODON, new Color(254, 45, 0), Optional.empty()));

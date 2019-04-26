@@ -1,0 +1,16 @@
+# IntelijIdea
+.idea
+*.iml
+
+# Eclipse
+.settings/
+.classpath
+.project
+
+# Java / Maven
+*target*
+*.jar
+*.war
+*.ear
+*.class
+/.metadata/
