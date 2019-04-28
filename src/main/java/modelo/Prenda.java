@@ -2,8 +2,13 @@ package modelo;
 
 import java.util.Objects;
 import java.util.Optional;
+
+import excepciones.ColorPrincipalNoPuedeSerNuloException;
+import excepciones.ColorSecundarioNoPuedeSerNuloException;
 import excepciones.ColoresIgualesException;
+import excepciones.MaterialNoPuedeSerNuloException;
 import excepciones.MaterialNoTieneSentidoParaEseTipoException;
+import excepciones.TipoNoPuedeSerNuloException;
 
 public class Prenda {
 	private final Tipo tipo;
@@ -12,11 +17,17 @@ public class Prenda {
 	private final Optional<Color> colorSecundario;
 
 	public Prenda(Tipo tipo, Material material, Color colorPrincipal, Optional<Color> colorSecundario) {
-		this.tipo = Objects.requireNonNull(tipo, "Tipo no puede ser nulo");
-		this.material = Objects.requireNonNull(material, "Material no puede ser nulo");
-		this.colorPrincipal = Objects.requireNonNull(colorPrincipal, "Color principal no puede ser nulo");
-		this.colorSecundario = Objects.requireNonNull(colorSecundario,
-				"Color secundario es opcional, pero no puede ser nulo");
+		if (tipo != null) this.tipo = tipo; 
+		else throw new TipoNoPuedeSerNuloException();
+		
+		if (material != null) this.material = material;
+		else throw new MaterialNoPuedeSerNuloException();
+		
+		if (colorPrincipal != null) this.colorPrincipal = colorPrincipal;
+		else throw new ColorPrincipalNoPuedeSerNuloException();
+		
+		if (colorSecundario != null) this.colorSecundario = colorSecundario;
+		else throw new ColorSecundarioNoPuedeSerNuloException();
 
 		validarColoresDistintos();
 		validarMaterialTieneSentido();

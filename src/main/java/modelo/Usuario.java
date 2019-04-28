@@ -17,5 +17,9 @@ public class Usuario {
 	public void removeGuardarropa(Guardarropa guardarropa) {
 		this.guardarropas.remove(guardarropa);
 	}
+	
+	public boolean tieneGuardarropa(Guardarropa g) {
+		return this.guardarropas.contains(g);
+	}
 
 }

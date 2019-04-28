@@ -34,7 +34,6 @@ public enum Tipo {
 		this.materialesPosibles = materiales;
 	}
 
-	//TODO sacar todos los getters (o metodos) que no se usen
 	public Categoria getCategoria() {
 		return categoria;
 	}

@@ -13,35 +13,25 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class TestGuardarropa {
 
 	Guardarropa guardarropa = new Guardarropa();
 	Prenda remera = new Prenda(Tipo.REMERA, Material.ALGODON, new Color(255, 45, 0), Optional.empty());
-	Prenda pantalon = new Prenda(Tipo.PANTALON, Material.ALGODON, new Color(254, 45, 0), Optional.of(new Color(128, 128, 128)));
-	Prenda reloj = new Prenda(Tipo.RELOJ, Material.ORO, new Color(128, 128, 128), Optional.of(new Color(64, 128, 64)));
-	Prenda zapatos = new Prenda(Tipo.ZAPATOS, Material.CUERO, new Color(128, 128, 128), Optional.empty());
 
-	//TODO mejores nombres de tests
-	//TODO testear más de caja negra (probar que una prenda agregada, el guardarropa la tenga)
-	//crespi.gustavo@gmail.com
 	@Test
-	public void agregarPrenda() {
+	public void agregoPrendaYVerificoQueElGuardarropaLaTenga() {
 		guardarropa.addPrenda(remera);
-		guardarropa.addPrenda(pantalon);
-		guardarropa.addPrenda(zapatos);
-		guardarropa.addPrenda(reloj);
-		assertEquals(guardarropa.getPrendasSuperiores().size(), 1);
-		assertEquals(guardarropa.getPrendasInferiores().size(), 1);
-		assertEquals(guardarropa.getCalzados().size(), 1);
-		assertEquals(guardarropa.getAccesorios().size(), 1);
+		assertTrue(guardarropa.tienePrenda(remera));
 	}
 
 	@Test
-	public void removerPrenda() {
+	public void removerPrendaYVerificoQueElGuardarropaYaNoLaTenga() {
 		guardarropa.addPrenda(remera);
-		assertEquals(guardarropa.getPrendasSuperiores().size(), 1);
+		assertTrue(guardarropa.tienePrenda(remera));
 		guardarropa.removePrenda(remera);
-		assertEquals(guardarropa.getPrendasSuperiores().size(), 0);
+		assertFalse(guardarropa.tienePrenda(remera));
 	}
 }

@@ -2,6 +2,7 @@ package modelo;
 
 import java.util.Objects;
 import java.util.stream.Stream;
+import excepciones.LimiteExcedidoEnColorException;
 
 public class Color {
 	private final int rojo, verde, azul;
@@ -10,7 +11,7 @@ public class Color {
 		// Validar colores entre 0 y 255 y que no sean nulos
 		if (Stream.of(rojo, verde, azul).map(color -> Objects.requireNonNull(color, "El color es obligatorio"))
 				.anyMatch(color -> color < 0 || color > 255))
-			throw new IllegalArgumentException("Los colores RGB deben estar definidos entre 0 y 255");
+			throw new LimiteExcedidoEnColorException();
 
 		this.rojo = rojo;
 		this.verde = verde;

@@ -6,6 +6,7 @@ import modelo.Tipo;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class TestTipoPrenda {
@@ -22,7 +23,7 @@ public class TestTipoPrenda {
 	public void verificarTiposConMaterialesPosibles() {
 		assertTrue(Tipo.REMERA.puedeSerDeMaterial(Material.ALGODON));
 		assertTrue(Tipo.PANTALON.puedeSerDeMaterial(Material.ALGODON));
-		assertTrue(Tipo.OJOTAS.puedeSerDeMaterial(Material.GOMA));
-		assertTrue(Tipo.RELOJ.puedeSerDeMaterial(Material.PLATA));
+		assertFalse(Tipo.OJOTAS.puedeSerDeMaterial(Material.CUERO));
+		assertFalse(Tipo.RELOJ.puedeSerDeMaterial(Material.POLIESTER));
 	}
 }

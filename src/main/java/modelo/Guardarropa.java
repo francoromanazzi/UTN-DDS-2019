@@ -63,6 +63,25 @@ public class Guardarropa {
 		}
 	}
 
+	public boolean tienePrenda(Prenda prenda) {
+		List<Prenda> listaABuscar = new ArrayList<Prenda>();
+		switch (prenda.getCategoria()) {
+			case SUPERIOR:
+				listaABuscar = prendasSuperiores;
+				break;
+			case INFERIOR:
+				listaABuscar = prendasInferiores;
+				break;
+			case CALZADO:
+				listaABuscar = calzados;
+				break;
+			case ACCESORIO:
+				listaABuscar = accesorios;
+				break;
+		}
+		return listaABuscar.contains(prenda);
+	}
+	
 	public List<Atuendo> obtenerSugerencias() {
 		//TODO hacer que sea con N accesorios
 		List<Atuendo> sugerenciasConAccesorio= Lists.cartesianProduct(prendasSuperiores, prendasInferiores, calzados, accesorios).stream()
