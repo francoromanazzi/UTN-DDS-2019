@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class Temperatura {
 	@SerializedName("Value")
-	private int valor;
+	private double valor;
 
 	@SerializedName("Unit")
 	private String unidad;
 
-	public int getValor() {
+	public double getValor() {
 		return valor;
 	}
 
