@@ -1,6 +1,5 @@
-package modelo;
+package modelo.prenda;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import excepciones.ColorPrincipalNoPuedeSerNuloException;

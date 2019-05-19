@@ -1,29 +1,23 @@
 package modelo.clima;
 
-import com.google.gson.annotations.SerializedName;
+import modelo.prenda.NivelDeAbrigo;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class Clima {
-	@SerializedName("DateTime")
-	private String fecha;
+	private final LocalDateTime fecha;
+	private final Temperatura temperatura;
+	private final double probabilidadPrecipitacion;
 
-	@SerializedName("IsDaylight")
-	private Boolean esDeDia;
-
-	@SerializedName("Temperature")
-	private Temperatura temperatura;
-
-	@SerializedName("PrecipitationProbability")
-	private double probabilidadPrecipitacion;
-
-	public LocalDateTime getFecha() {
-		return LocalDateTime.parse(fecha, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+	public Clima(LocalDateTime fecha, Temperatura temperatura, double probabilidadPrecipitacion) {
+		this.fecha = fecha;
+		this.temperatura = temperatura;
+		this.probabilidadPrecipitacion = probabilidadPrecipitacion;
 	}
 
-	public Boolean getEsDeDia() {
-		return esDeDia;
+	public LocalDateTime getFecha() {
+		return fecha;
 	}
 
 	public Temperatura getTemperatura() {
@@ -32,5 +26,19 @@ public class Clima {
 
 	public double getProbabilidadPrecipitacion() {
 		return probabilidadPrecipitacion;
+	}
+
+	public Collection<NivelDeAbrigo> formasDeAbrigarme() {
+		double celsius = temperatura.toCelsius();
+		if(celsius < 5)
+			return EnumSet.of(NivelDeAbrigo.MUCHO);
+		else if(celsius < 15)
+			return EnumSet.of(NivelDeAbrigo.MUCHO, NivelDeAbrigo.NORMAL);
+		else if(celsius < 20)
+			return EnumSet.of(NivelDeAbrigo.NORMAL, NivelDeAbrigo.POCO);
+		else if(celsius < 30)
+			return EnumSet.of(NivelDeAbrigo.POCO, NivelDeAbrigo.NADA);
+		else
+			return EnumSet.of(NivelDeAbrigo.NADA);
 	}
 }

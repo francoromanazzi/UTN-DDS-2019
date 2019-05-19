@@ -1,58 +1,78 @@
 package UTN.QueMePongo;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import modelo.clima.proveedores.AccuWeather;
+import modelo.clima.proveedores.AccuWeatherJSON;
 import modelo.clima.Clima;
+import modelo.clima.ServicioDelClima;
+import modelo.clima.proveedores.DarkSky;
+import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
 public class TestClima {
 
-	private Gson gson = new Gson();
-	private String MOCK_ACCUWEATHER_JSON_CLIMA = "{" +
+	private final Gson gson = new Gson();
+	private final String MOCK_ACCUWEATHER_JSON_CLIMA = "{" +
 			"\"DateTime\":\"2019-05-03T01:00:00-03:00\"," +
 			" \"PrecipitationProbability\": 15," +
 			"\"Temperature\": {\"Value\": 57, \"Unit\": \"F\"}" +
 			"}";
 
-	@Test
-	public void debePoderParsearJsonDeAccuweatherHaciaClima() {
-		Clima clima = gson.fromJson(MOCK_ACCUWEATHER_JSON_CLIMA, Clima.class);
-		System.out.println(clima.getFecha());
-		System.out.println(clima.getProbabilidadPrecipitacion());
-		System.out.println(clima.getTemperatura().getUnidad());
-		System.out.println(clima.getTemperatura().getValor());
+	@After
+	public void limpiarMeteorologosDelServicioDelClima() {
+		ServicioDelClima.getInstance().setMeteorologos(new ArrayList<>());
 	}
 
-	// @Ignore TODO: Descomentar para cuando no se quiera pegarle a accuweather
+	@After
+	public void limpiarPronosticosDelServicioDelClima() {
+		ServicioDelClima.getInstance().setPronosticos(new ArrayList<>());
+	}
+
 	@Test
-	public void debePoderPegarleALaAPIDeAccuweather() {
-		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target("http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/7894")
-				.queryParam("apikey", "a9ZEXA1qgqXcX4sIgxv6OXZWV95jOOXC")
-				.queryParam("language", "en-US")
-				.queryParam("details", "false")
-				.queryParam("metric", "false");
+	public void debePoderParsearJsonDeAccuweatherHaciaClima() {
+		Clima clima = gson.fromJson(MOCK_ACCUWEATHER_JSON_CLIMA, AccuWeatherJSON.class).toClima();
+		assertEquals("2019-05-03T01:00", clima.getFecha().toString());
+		assertEquals(0.15, clima.getProbabilidadPrecipitacion(), 0.001);
+		assertEquals(57, clima.getTemperatura().getValor(), 0.001);
+		assertEquals("F", clima.getTemperatura().getUnidad());
+	}
 
-		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
-		Response response = invocationBuilder.get(Response.class);
+	//@Ignore // TODO: Poner el @Ignore para cuando no se quiera pegarle a accuweather
+	@Test
+	public void debePoderPegarleALaAPIDeAccuweatherYParsearlo() {
+		ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
 
-		assertEquals(200, response.getStatus());
+		servicioDelClima.agregarMeteorologo(new AccuWeather());
+		Clima clima = servicioDelClima.obtenerClima();
 
-		List<Clima> pronosticos = gson.fromJson(response.readEntity(String.class), new TypeToken<List<Clima>>(){}.getType());
+		System.out.println(servicioDelClima.getPronosticos().size());
 
-		assertEquals(12, pronosticos.size());
+		System.out.println(clima.getFecha());
+		System.out.println(clima.getProbabilidadPrecipitacion());
+		System.out.println(clima.getTemperatura().getValor());
+		System.out.println(clima.getTemperatura().getUnidad());
+		System.out.println(clima.getTemperatura().toCelsius());
+	}
+
+	//@Ignore // TODO: Poner el @Ignore para cuando no se quiera pegarle a darksky
+	@Test
+	public void debePoderPegarleALaAPIDeDarkSkyYParsearlo() {
+		ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
+
+		servicioDelClima.agregarMeteorologo(new DarkSky());
+		Clima clima = servicioDelClima.obtenerClima();
+
+		System.out.println(servicioDelClima.getPronosticos().size());
+
+		System.out.println(clima.getFecha());
+		System.out.println(clima.getProbabilidadPrecipitacion());
+		System.out.println(clima.getTemperatura().getValor());
+		System.out.println(clima.getTemperatura().getUnidad());
+		System.out.println(clima.getTemperatura().toCelsius());
 	}
 }

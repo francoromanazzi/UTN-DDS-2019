@@ -1,6 +1,6 @@
 package UTN.QueMePongo;
 
-import modelo.Color;
+import modelo.prenda.Color;
 import org.junit.Test;
 
 import excepciones.LimiteExcedidoEnColorException;

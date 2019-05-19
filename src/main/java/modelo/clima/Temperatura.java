@@ -1,19 +1,31 @@
 package modelo.clima;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Temperatura {
-	@SerializedName("Value")
-	private int valor;
+	private final double valor;
+	private final String unidad;
 
-	@SerializedName("Unit")
-	private String unidad;
+	public Temperatura(double valor, String unidad) {
+		this.valor = valor;
+		this.unidad = unidad;
+	}
 
-	public int getValor() {
+	public double getValor() {
 		return valor;
 	}
 
 	public String getUnidad() {
 		return unidad;
+	}
+
+	public double toCelsius() {
+		double ret;
+		switch(unidad.toUpperCase()) {
+			case "F":
+				ret = (valor - 32) * 5/9;
+				break;
+			default:
+				ret = valor;
+		}
+		return ret;
 	}
 }
