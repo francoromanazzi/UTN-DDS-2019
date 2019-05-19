@@ -1,6 +1,10 @@
 package modelo.clima;
 
+import excepciones.ClimaNoDisponibleException;
+import excepciones.ProveedorDeClimaSeCayoException;
+
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,18 +41,27 @@ public class ServicioDelClima {
 		meteorologos.add(meteorologo);
 	}
 
-	public Clima obtenerClima() {
+	public Clima obtenerClima(LocalDateTime fecha) throws ClimaNoDisponibleException {
 		// Reviso si ya lo tenía cacheado
-		if(obtenerPronosticosRazonables().isEmpty()) {
-			// Consulto a un meteorologo
-			pronosticos = meteorologos.get(0).obtenerPronosticos(); // TODO: Cambiar el get(0)
+		// Si no, le pregunto a mis meteorologos hasta que alguno me lo pueda dar
+		for(int i = 0; obtenerPronosticosRazonables(fecha).isEmpty() && i < meteorologos.size(); i++) {
+			try {
+				pronosticos = meteorologos.get(i).obtenerPronosticos();
+			}
+			catch(ProveedorDeClimaSeCayoException ex) {
+				// TODO Hacer algo más?
+				System.out.println("El proveedor " + meteorologos.get(i).getClass() +" se cayo");
+			}
 		}
 
-		return obtenerPronosticosRazonables().get(0); // TODO: Seleccionar el más cercano a ahora
+		if(obtenerPronosticosRazonables(fecha).isEmpty()) {
+			throw new ClimaNoDisponibleException();
+		}
+
+		return obtenerPronosticosRazonables(fecha).get(0); // TODO: Seleccionar el más cercano a ahora
 	}
 
-	private List<Clima> obtenerPronosticosRazonables() {
-		LocalDateTime fechaActual = LocalDateTime.now();
-		return pronosticos.stream().filter(clima -> clima.getFecha().isBefore(fechaActual.plusMinutes(60))).collect(Collectors.toList());
+	private List<Clima> obtenerPronosticosRazonables(LocalDateTime fecha) {
+		return pronosticos.stream().filter(clima -> Math.abs(ChronoUnit.MINUTES.between(fecha, clima.getFecha())) <= 60).collect(Collectors.toList());
 	}
 }

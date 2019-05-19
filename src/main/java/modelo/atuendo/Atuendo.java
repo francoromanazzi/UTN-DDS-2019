@@ -1,6 +1,6 @@
 package modelo.atuendo;
 
-import modelo.Usuario;
+import modelo.usuario.Usuario;
 import modelo.prenda.Prenda;
 
 import java.util.List;

@@ -1,101 +1,73 @@
-package modelo;
+package modelo.guardarropa;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import excepciones.CapacidadExcedidaGuardarropaException;
 import modelo.atuendo.Atuendo;
 import modelo.clima.Clima;
 import modelo.clima.ServicioDelClima;
+import modelo.evento.Evento;
+import modelo.prenda.Categoria;
 import modelo.prenda.Prenda;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Guardarropa {
-	private List<Prenda> prendasSuperiores = new ArrayList<>();
-	private List<Prenda> prendasInferiores = new ArrayList<>();
-	private List<Prenda> calzados = new ArrayList<>();
-	private List<Prenda> accesorios = new ArrayList<>();
-
+	private List<Prenda> prendas = new ArrayList<Prenda>();
+	private int capacidadMaxima = Integer.MAX_VALUE;
+	
+	public void setCapacidadMaxima(int capacidadMaxima) {
+		this.capacidadMaxima = capacidadMaxima;
+	}
+	
+	private List<Prenda> getPrendasDe(Categoria cat){
+		return prendas.stream().filter(p -> p.getCategoria() == cat).collect(Collectors.toList());
+	}
+	
 	public List<Prenda> getPrendasSuperiores() {
-		return prendasSuperiores;
+		return getPrendasDe(Categoria.SUPERIOR);
 	}
 
 	public List<Prenda> getPrendasInferiores() {
-		return prendasInferiores;
+		return getPrendasDe(Categoria.INFERIOR);
 	}
 
 	public List<Prenda> getCalzados() {
-		return calzados;
+		return getPrendasDe(Categoria.CALZADO);
 	}
 
 	public List<Prenda> getAccesorios() {
-		return accesorios;
+		return getPrendasDe(Categoria.ACCESORIO);
 	}
 
-	public void addPrenda(Prenda prenda) {
-		switch (prenda.getCategoria()) {
-			case SUPERIOR:
-				prendasSuperiores.add(prenda);
-				break;
-			case INFERIOR:
-				prendasInferiores.add(prenda);
-				break;
-			case CALZADO:
-				calzados.add(prenda);
-				break;
-			case ACCESORIO:
-				accesorios.add(prenda);
-				break;
-		}
+	public int cantidadPrendas() {
+		return this.prendas.size();
+	}
+
+	public void addPrenda(Prenda prenda) throws CapacidadExcedidaGuardarropaException{
+		if(this.prendas.size() < this.capacidadMaxima)
+			this.prendas.add(prenda);
+		else throw new CapacidadExcedidaGuardarropaException();
 	}
 
 	public void removePrenda(Prenda prenda) {
-		switch (prenda.getCategoria()) {
-			case SUPERIOR:
-				prendasSuperiores.remove(prenda);
-				break;
-			case INFERIOR:
-				prendasInferiores.remove(prenda);
-				break;
-			case CALZADO:
-				calzados.remove(prenda);
-				break;
-			case ACCESORIO:
-				accesorios.remove(prenda);
-				break;
-		}
+		this.prendas.remove(prenda);
 	}
 
 	public boolean tienePrenda(Prenda prenda) {
-		List<Prenda> listaABuscar = new ArrayList<>();
-		switch (prenda.getCategoria()) {
-			case SUPERIOR:
-				listaABuscar = prendasSuperiores;
-				break;
-			case INFERIOR:
-				listaABuscar = prendasInferiores;
-				break;
-			case CALZADO:
-				listaABuscar = calzados;
-				break;
-			case ACCESORIO:
-				listaABuscar = accesorios;
-				break;
-		}
-		return listaABuscar.contains(prenda);
+		return this.prendas.contains(prenda);
 	}
 	
-	public List<Atuendo> obtenerSugerencias() {
-		Clima clima = ServicioDelClima.getInstance().obtenerClima();
-		//Map<Categoria, List<List<NivelDeAbrigo>>> nivelesDeAbrigosPorCategoria = clima.obtenerNivelesDeAbrigoValidos();
+	public List<Atuendo> obtenerSugerencias(Evento evento) {
+		Clima clima = ServicioDelClima.getInstance().obtenerClima(evento.getFechaInicio());
 
 		// TODO hacer que sea con N accesorios
-		List<Atuendo> sugerenciasConAccesorio = Lists.cartesianProduct(prendasSuperiores, prendasInferiores, calzados, accesorios).stream()
+		List<Atuendo> sugerenciasConAccesorio = Lists.cartesianProduct(getPrendasSuperiores(), getPrendasInferiores(), getCalzados(), getAccesorios()).stream()
 				.map(result -> new Atuendo(null, result.get(1), result.get(2), null)).collect(Collectors.toList());
 
-		List<Atuendo> sugerenciasSinAccesorio= Lists.cartesianProduct(prendasSuperiores, prendasInferiores, calzados).stream()
+		List<Atuendo> sugerenciasSinAccesorio= Lists.cartesianProduct(getPrendasSuperiores(), getPrendasInferiores(), getCalzados()).stream()
 				.map(result -> new Atuendo(null, result.get(1), result.get(2), null)).collect(Collectors.toList());
 
 		return Lists.newArrayList(Iterables.concat(sugerenciasConAccesorio, sugerenciasSinAccesorio));

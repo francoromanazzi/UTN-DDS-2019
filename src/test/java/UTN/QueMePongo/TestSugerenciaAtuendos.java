@@ -1,15 +1,11 @@
 package UTN.QueMePongo;
 
-import modelo.*;
-import modelo.atuendo.Atuendo;
-import modelo.clima.proveedores.AccuWeather;
+import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Color;
 import modelo.prenda.Material;
 import modelo.prenda.Prenda;
 import modelo.prenda.Tipo;
-import org.junit.Test;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;

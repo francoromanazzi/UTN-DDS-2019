@@ -1,15 +1,14 @@
 package UTN.QueMePongo;
 
-import modelo.Guardarropa;
+import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Color;
 import modelo.prenda.Material;
 import modelo.prenda.Prenda;
 import modelo.prenda.Tipo;
 import org.junit.Test;
 
+import excepciones.CapacidadExcedidaGuardarropaException;
 import java.util.Optional;
-
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -30,5 +29,12 @@ public class TestGuardarropa {
 		assertTrue(guardarropa.tienePrenda(remera));
 		guardarropa.removePrenda(remera);
 		assertFalse(guardarropa.tienePrenda(remera));
+	}
+	
+	@Test(expected = CapacidadExcedidaGuardarropaException.class)
+	public void guardarropaSuperaElLimiteQueTieneDePrendasPosibles() {
+		guardarropa.setCapacidadMaxima(1);
+		guardarropa.addPrenda(remera);
+		guardarropa.addPrenda(remera);
 	}
 }
