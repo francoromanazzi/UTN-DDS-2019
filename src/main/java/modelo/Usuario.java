@@ -3,8 +3,8 @@ package modelo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Usuario {
-	private List<Guardarropa> guardarropas  = new ArrayList<>();
+public abstract class Usuario {
+	protected List<Guardarropa> guardarropas  = new ArrayList<>();
 
 	public List<Guardarropa> getGuardarropas() {
 		return guardarropas;
