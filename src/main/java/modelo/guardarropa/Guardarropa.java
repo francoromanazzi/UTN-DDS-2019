@@ -1,6 +1,5 @@
 package modelo.guardarropa;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import excepciones.CapacidadExcedidaGuardarropaException;
 import excepciones.ClimaNoDisponibleException;
@@ -12,22 +11,17 @@ import modelo.evento.Evento;
 import modelo.prenda.Categoria;
 import modelo.prenda.NivelDeAbrigo;
 import modelo.prenda.Prenda;
+import modelo.usuario.Usuario;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Guardarropa {
 	private List<Prenda> prendas = new ArrayList<>();
-	private int capacidadMaxima = Integer.MAX_VALUE;
-
-	public void setCapacidadMaxima(int capacidadMaxima) {
-		this.capacidadMaxima = capacidadMaxima;
-	}
-
-	private List<Prenda> getPrendasDe(Categoria cat) {
-		return prendas.stream().filter(p -> p.getCategoria() == cat).collect(Collectors.toList());
-	}
 
 	public List<Prenda> getPrendasSuperiores() {
 		return getPrendasDe(Categoria.SUPERIOR);
@@ -41,6 +35,10 @@ public class Guardarropa {
 		return getPrendasDe(Categoria.CALZADO);
 	}
 
+	private List<Prenda> getPrendasDe(Categoria cat) {
+		return prendas.stream().filter(p -> p.getCategoria() == cat).collect(Collectors.toList());
+	}
+
 	public List<Prenda> getAccesorios() {
 		return getPrendasDe(Categoria.ACCESORIO);
 	}
@@ -49,10 +47,8 @@ public class Guardarropa {
 		return this.prendas.size();
 	}
 
-	public void addPrenda(Prenda prenda) throws CapacidadExcedidaGuardarropaException {
-		if (this.prendas.size() >= this.capacidadMaxima)
-			throw new CapacidadExcedidaGuardarropaException();
-		this.prendas.add(prenda);
+	public void addPrenda(Prenda prenda, Usuario usuarioDuenio) throws CapacidadExcedidaGuardarropaException {
+		usuarioDuenio.addPrenda(this.prendas, prenda);
 	}
 
 	public void removePrenda(Prenda prenda) {

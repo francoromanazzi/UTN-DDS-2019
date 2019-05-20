@@ -11,6 +11,8 @@ import modelo.prenda.Color;
 import modelo.prenda.Material;
 import modelo.prenda.Prenda;
 import modelo.prenda.Tipo;
+import modelo.usuario.Premium;
+import modelo.usuario.Usuario;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class TestSugerenciaAtuendos {
+	Usuario userPremium = new Usuario();
 	Guardarropa guardarropa = new Guardarropa();
 	Prenda musculosa = new Prenda(Tipo.MUSCULOSA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
 	Prenda remera1 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
@@ -38,20 +41,25 @@ public class TestSugerenciaAtuendos {
 	Prenda reloj = new Prenda(Tipo.RELOJ, Material.PLATA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
 
 	@Before
+	public void asignarPrivilegios() {
+		userPremium.setPrivilegios(new Premium());
+	}
+
+	@Before
 	public void llenarGuardarropa() {
-		guardarropa.addPrenda(musculosa);
-		guardarropa.addPrenda(remera1);
-		guardarropa.addPrenda(remera2);
-		guardarropa.addPrenda(buzo);
-		guardarropa.addPrenda(campera);
+		guardarropa.addPrenda(musculosa, userPremium);
+		guardarropa.addPrenda(remera1, userPremium);
+		guardarropa.addPrenda(remera2, userPremium);
+		guardarropa.addPrenda(buzo, userPremium);
+		guardarropa.addPrenda(campera, userPremium);
 
-		guardarropa.addPrenda(pantalonLargo);
-		guardarropa.addPrenda(pantalonCorto);
+		guardarropa.addPrenda(pantalonLargo, userPremium);
+		guardarropa.addPrenda(pantalonCorto, userPremium);
 
-		guardarropa.addPrenda(zapatos);
-		guardarropa.addPrenda(zapatillas);
+		guardarropa.addPrenda(zapatos, userPremium);
+		guardarropa.addPrenda(zapatillas, userPremium);
 
-		guardarropa.addPrenda(reloj);
+		guardarropa.addPrenda(reloj, userPremium);
 	}
 
 	@After
