@@ -44,20 +44,25 @@ public class ServicioDelClima {
 	public Clima obtenerClima(LocalDateTime fecha) throws ClimaNoDisponibleException {
 		// Reviso si ya lo tenía cacheado
 		// Si no, le pregunto a mis meteorologos hasta que alguno me lo pueda dar
-		for(int i = 0; obtenerPronosticosRazonables(fecha).isEmpty() && i < meteorologos.size(); i++) {
+		for (int i = 0; obtenerPronosticosRazonables(fecha).isEmpty() && i < meteorologos.size(); i++) {
 			try {
 				pronosticos = meteorologos.get(i).obtenerPronosticos();
-			}
-			catch(ProveedorDeClimaSeCayoException ex) {
-				System.out.println("El proveedor " + meteorologos.get(i).getClass() +" se cayo");
+			} catch (ProveedorDeClimaSeCayoException ex) {
+				System.out.println("El proveedor " + meteorologos.get(i).getClass() + " se cayo");
 			}
 		}
 
-		if(obtenerPronosticosRazonables(fecha).isEmpty()) {
+		if (obtenerPronosticosRazonables(fecha).isEmpty()) {
 			throw new ClimaNoDisponibleException();
 		}
 
-		return obtenerPronosticosRazonables(fecha).get(0); // TODO: Seleccionar el más cercano a ahora
+		Clima climaMasProximo = obtenerPronosticosRazonables(fecha)
+				.stream()
+				.reduce(obtenerPronosticosRazonables(fecha).get(0), (clima1, clima2) ->
+						Math.abs(ChronoUnit.MINUTES.between(fecha, clima1.getFecha())) <= Math.abs(ChronoUnit.MINUTES.between(fecha, clima2.getFecha()))
+								? clima1 : clima2);
+
+		return climaMasProximo;
 	}
 
 	private List<Clima> obtenerPronosticosRazonables(LocalDateTime fecha) {
