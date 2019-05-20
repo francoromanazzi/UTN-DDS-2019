@@ -4,35 +4,50 @@ import java.util.Collection;
 import java.util.EnumSet;
 
 public enum Tipo {
-	REMERA_MANGA_CORTA(Categoria.SUPERIOR, NivelDeAbrigo.POCO, EnumSet.of(Material.ALGODON, Material.POLIESTER)),
-	REMERA_MANGA_LARGA(Categoria.SUPERIOR, NivelDeAbrigo.NORMAL, EnumSet.of(Material.ALGODON, Material.POLIESTER)),
-	CAMISA(Categoria.SUPERIOR, NivelDeAbrigo.NORMAL, EnumSet.of(Material.ALGODON, Material.POLIESTER)),
-	MUSCULOSA(Categoria.SUPERIOR, NivelDeAbrigo.NADA, EnumSet.of(Material.ALGODON, Material.POLIESTER)),
-	CAMPERA(Categoria.SUPERIOR, NivelDeAbrigo.MUCHO, EnumSet.of(Material.ALGODON, Material.POLIESTER, Material.CUERO)),
-	BUZO(Categoria.SUPERIOR, NivelDeAbrigo.MUCHO, EnumSet.of(Material.ALGODON, Material.POLIESTER, Material.LANA)),
+	MUSCULOSA(Categoria.SUPERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER), NivelDeAbrigo.POCO),
+	REMERA_MANGA_CORTA(Categoria.SUPERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER), NivelDeAbrigo.POCO),
+	REMERA_MANGA_LARGA(Categoria.SUPERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER), NivelDeAbrigo.NORMAL){
+		@Override
+		public Collection<Tipo> getRequisitosParaUsarse() {
+			return EnumSet.of(Tipo.REMERA_MANGA_CORTA, this);
+		}
+	},
+	CAMISA(Categoria.SUPERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER), NivelDeAbrigo.NORMAL),
+	BUZO(Categoria.SUPERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER, Material.LANA), NivelDeAbrigo.NORMAL){
+		@Override
+		public Collection<Tipo> getRequisitosParaUsarse() {
+			return EnumSet.of(Tipo.MUSCULOSA, Tipo.REMERA_MANGA_CORTA, Tipo.REMERA_MANGA_LARGA, Tipo.CAMISA);
+		}
+	},
+	CAMPERA(Categoria.SUPERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER, Material.CUERO), NivelDeAbrigo.MUCHO){
+		@Override
+		public Collection<Tipo> getRequisitosParaUsarse() {
+			return EnumSet.of(Tipo.BUZO, Tipo.REMERA_MANGA_CORTA, Tipo.REMERA_MANGA_LARGA, Tipo.CAMISA);
+		}
+	},
 
-	PANTALON_CORTO(Categoria.INFERIOR, NivelDeAbrigo.POCO, EnumSet.of(Material.ALGODON, Material.DENIM)),
-	PANTALON_LARGO(Categoria.INFERIOR, NivelDeAbrigo.MUCHO, EnumSet.of(Material.ALGODON, Material.DENIM)),
-	BERMUDA(Categoria.INFERIOR, NivelDeAbrigo.POCO, EnumSet.of(Material.ALGODON)),
-	POLLERA(Categoria.INFERIOR, NivelDeAbrigo.POCO, EnumSet.of(Material.ALGODON, Material.POLIESTER)),
-	CALZA(Categoria.INFERIOR, NivelDeAbrigo.NORMAL, EnumSet.of(Material.ALGODON, Material.POLIESTER)),
+	PANTALON_CORTO(Categoria.INFERIOR, EnumSet.of(Material.ALGODON, Material.DENIM), NivelDeAbrigo.POCO),
+	PANTALON_LARGO(Categoria.INFERIOR, EnumSet.of(Material.ALGODON, Material.DENIM), NivelDeAbrigo.MUCHO),
+	BERMUDA(Categoria.INFERIOR, EnumSet.of(Material.ALGODON), NivelDeAbrigo.POCO),
+	POLLERA(Categoria.INFERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER), NivelDeAbrigo.POCO),
+	CALZA(Categoria.INFERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER), NivelDeAbrigo.NORMAL),
 
-	ZAPATOS(Categoria.CALZADO, NivelDeAbrigo.NORMAL, EnumSet.of(Material.CUERO)),
-	ZAPATILLAS(Categoria.CALZADO, NivelDeAbrigo.NORMAL, EnumSet.of(Material.CUERO)),
-	BOTAS(Categoria.CALZADO, NivelDeAbrigo.MUCHO, EnumSet.of(Material.CUERO)),
-	OJOTAS(Categoria.CALZADO, NivelDeAbrigo.NADA, EnumSet.of(Material.GOMA, Material.POLIESTER)),
+	ZAPATOS(Categoria.CALZADO, EnumSet.of(Material.CUERO), NivelDeAbrigo.COMODIN),
+	ZAPATILLAS(Categoria.CALZADO, EnumSet.of(Material.CUERO), NivelDeAbrigo.COMODIN),
+	BOTAS(Categoria.CALZADO, EnumSet.of(Material.CUERO), NivelDeAbrigo.MUCHO),
+	OJOTAS(Categoria.CALZADO, EnumSet.of(Material.GOMA, Material.POLIESTER), NivelDeAbrigo.POCO),
 
-	GORRA(Categoria.ACCESORIO, NivelDeAbrigo.POCO, EnumSet.of(Material.POLIESTER)),
-	BUFANDA(Categoria.ACCESORIO, NivelDeAbrigo.MUCHO, EnumSet.of(Material.LANA)),
-	ANTEOJOS(Categoria.ACCESORIO, NivelDeAbrigo.NADA, EnumSet.of(Material.PLASTICO)),
-	RELOJ(Categoria.ACCESORIO, NivelDeAbrigo.NADA, EnumSet.of(Material.PLATA, Material.ORO)),
-	COLGANTE(Categoria.ACCESORIO, NivelDeAbrigo.NADA, EnumSet.of(Material.PLATA, Material.ORO));
+	GORRA(Categoria.ACCESORIO, EnumSet.of(Material.POLIESTER), NivelDeAbrigo.COMODIN),
+	BUFANDA(Categoria.ACCESORIO, EnumSet.of(Material.LANA), NivelDeAbrigo.MUCHO),
+	ANTEOJOS(Categoria.ACCESORIO, EnumSet.of(Material.PLASTICO), NivelDeAbrigo.COMODIN),
+	RELOJ(Categoria.ACCESORIO, EnumSet.of(Material.PLATA, Material.ORO), NivelDeAbrigo.COMODIN),
+	COLGANTE(Categoria.ACCESORIO, EnumSet.of(Material.PLATA, Material.ORO), NivelDeAbrigo.COMODIN);
 
 	private final Categoria categoria;
-	private final NivelDeAbrigo nivelDeAbrigo;
 	private final Collection<Material> materialesPosibles;
+	private final NivelDeAbrigo nivelDeAbrigo;
 
-	Tipo(Categoria categoria, NivelDeAbrigo nivelDeAbrigo, Collection<Material> materiales) {
+	Tipo(Categoria categoria, Collection<Material> materiales, NivelDeAbrigo nivelDeAbrigo) {
 		this.categoria = categoria;
 		this.nivelDeAbrigo = nivelDeAbrigo;
 		this.materialesPosibles = materiales;
@@ -44,6 +59,11 @@ public enum Tipo {
 
 	public NivelDeAbrigo getNivelDeAbrigo() {
 		return nivelDeAbrigo;
+	}
+
+	// Para las prendas que necesiten alguna otra para poder usarse, lo overridean:
+	public Collection<Tipo> getRequisitosParaUsarse() {
+		return EnumSet.of(this); // Como le digo que necesita de sí misma (this), en realidad le estoy diciendo que puede usarse sola
 	}
 
 	public boolean puedeSerDeMaterial(Material mat) {

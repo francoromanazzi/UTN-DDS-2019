@@ -49,7 +49,6 @@ public class ServicioDelClima {
 				pronosticos = meteorologos.get(i).obtenerPronosticos();
 			}
 			catch(ProveedorDeClimaSeCayoException ex) {
-				// TODO Hacer algo más?
 				System.out.println("El proveedor " + meteorologos.get(i).getClass() +" se cayo");
 			}
 		}

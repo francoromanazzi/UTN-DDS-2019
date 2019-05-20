@@ -57,4 +57,9 @@ public class Prenda {
 	public Categoria getCategoria() {
 		return this.tipo.getCategoria();
 	}
+
+	@Override
+	public String toString() {
+		return tipo.toString() + " de " + material.toString();
+	}
 }

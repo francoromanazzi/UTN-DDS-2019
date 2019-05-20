@@ -7,14 +7,15 @@ import excepciones.ProveedorDeClimaSeCayoException;
 import modelo.clima.Clima;
 import modelo.clima.Meteorologo;
 import modelo.clima.ServicioDelClima;
-import modelo.clima.proveedores.*;
+import modelo.clima.proveedores.AccuWeather;
+import modelo.clima.proveedores.AccuWeatherJSON;
+import modelo.clima.proveedores.DarkSky;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,7 +25,6 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.assertEquals;
 
 public class TestClima {
-
 	Meteorologo mockAccuweather2018 = Mockito.mock(AccuWeather.class);
 	Meteorologo mockAccuweather2019 = Mockito.mock(AccuWeather.class);
 	Meteorologo mockProveedorQueFalla = Mockito.mock(AccuWeather.class);

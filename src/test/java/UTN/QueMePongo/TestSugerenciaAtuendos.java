@@ -1,22 +1,92 @@
 package UTN.QueMePongo;
 
+import modelo.atuendo.Atuendo;
+import modelo.clima.Clima;
+import modelo.clima.ServicioDelClima;
+import modelo.clima.Temperatura;
+import modelo.evento.Evento;
+import modelo.evento.EventoEnInterior;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Color;
 import modelo.prenda.Material;
 import modelo.prenda.Prenda;
 import modelo.prenda.Tipo;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
-
-import static org.junit.Assert.assertEquals;
 
 public class TestSugerenciaAtuendos {
 	Guardarropa guardarropa = new Guardarropa();
-	Prenda remera = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	Prenda musculosa = new Prenda(Tipo.MUSCULOSA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	Prenda remera1 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	Prenda remera2 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.POLIESTER, new Color(50, 0, 0), Optional.of(new Color(0, 0, 0)));
+	Prenda remeraMangaLarga = new Prenda(Tipo.REMERA_MANGA_LARGA, Material.POLIESTER, new Color(50, 0, 0), Optional.of(new Color(0, 0, 0)));
 	Prenda camisa = new Prenda(Tipo.CAMISA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
-	Prenda pantalon = new Prenda(Tipo.PANTALON_LARGO, Material.DENIM, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	Prenda buzo = new Prenda(Tipo.BUZO, Material.ALGODON, new Color(0, 0, 0), Optional.empty());
+	Prenda campera = new Prenda(Tipo.CAMPERA, Material.ALGODON, new Color(0, 0, 0), Optional.empty());
+	Prenda pantalonLargo = new Prenda(Tipo.PANTALON_LARGO, Material.DENIM, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	Prenda pantalonCorto = new Prenda(Tipo.PANTALON_CORTO, Material.DENIM, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
 	Prenda zapatos = new Prenda(Tipo.ZAPATOS, Material.CUERO, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	Prenda zapatillas = new Prenda(Tipo.ZAPATILLAS, Material.CUERO, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	Prenda ojotas = new Prenda(Tipo.OJOTAS, Material.GOMA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
 	Prenda reloj = new Prenda(Tipo.RELOJ, Material.PLATA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+
+	@Before
+	public void llenarGuardarropa() {
+		guardarropa.addPrenda(musculosa);
+		guardarropa.addPrenda(remera1);
+		guardarropa.addPrenda(remera2);
+		guardarropa.addPrenda(buzo);
+		guardarropa.addPrenda(campera);
+
+		guardarropa.addPrenda(pantalonLargo);
+		guardarropa.addPrenda(pantalonCorto);
+
+		guardarropa.addPrenda(zapatos);
+		guardarropa.addPrenda(zapatillas);
+
+		guardarropa.addPrenda(reloj);
+	}
+
+	@After
+	public void limpiarMeteorologosDelServicioDelClima() {
+		ServicioDelClima.getInstance().setMeteorologos(new ArrayList<>());
+	}
+
+	@After
+	public void limpiarPronosticosDelServicioDelClima() {
+		ServicioDelClima.getInstance().setPronosticos(new ArrayList<>());
+	}
+
+	@Test
+	public void prendasRequisitoDebeRetornarLasCombinacionesDeRequisitosDeUnaPrenda() {
+		System.out.println("Requisitos musculosa " + guardarropa.prendasRequisito(musculosa));
+		System.out.println("Requisitos remera manga corta " + guardarropa.prendasRequisito(remera1));
+		System.out.println("Requisitos remera manga larga" + guardarropa.prendasRequisito(remeraMangaLarga));
+		System.out.println("Requisitos buzo " + guardarropa.prendasRequisito(buzo));
+		System.out.println("Requisitos campera " + guardarropa.prendasRequisito(campera));
+	}
+
+	@Test
+	public void deberiaSugerirRopaAbrigadaSiHaceFrio() {
+		ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
+		LocalDateTime fecha = LocalDateTime.of(2019, 5, 3, 1, 0);
+
+		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Clima(fecha, new Temperatura(2, "C"), 0.1))));
+
+		Evento evento = new EventoEnInterior(fecha, fecha.plusMinutes(60));
+
+		List<Atuendo> sugerencias = guardarropa.obtenerSugerencias(evento);
+		for(int i = 0; i < sugerencias.size(); i++) {
+			System.out.println(i + ": " + sugerencias.get(i));
+		}
+	}
 
 	/*
 	@Test

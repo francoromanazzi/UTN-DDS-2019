@@ -29,16 +29,19 @@ public class Clima {
 	}
 
 	public Collection<NivelDeAbrigo> formasDeAbrigarme() {
+		Collection<NivelDeAbrigo> ret;
 		double celsius = temperatura.toCelsius();
+
 		if(celsius < 5)
-			return EnumSet.of(NivelDeAbrigo.MUCHO);
+			ret = EnumSet.of(NivelDeAbrigo.MUCHO);
 		else if(celsius < 15)
-			return EnumSet.of(NivelDeAbrigo.MUCHO, NivelDeAbrigo.NORMAL);
-		else if(celsius < 20)
-			return EnumSet.of(NivelDeAbrigo.NORMAL, NivelDeAbrigo.POCO);
-		else if(celsius < 30)
-			return EnumSet.of(NivelDeAbrigo.POCO, NivelDeAbrigo.NADA);
+			ret = EnumSet.of(NivelDeAbrigo.MUCHO, NivelDeAbrigo.NORMAL);
+		else if(celsius < 25)
+			ret = EnumSet.of(NivelDeAbrigo.NORMAL, NivelDeAbrigo.POCO);
 		else
-			return EnumSet.of(NivelDeAbrigo.NADA);
+			ret = EnumSet.of(NivelDeAbrigo.POCO);
+
+		ret.add(NivelDeAbrigo.COMODIN);
+		return ret;
 	}
 }

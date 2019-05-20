@@ -67,4 +67,9 @@ public class Atuendo {
 		usuario.setUltimaDecision(new DecisionRechazar(this));
 		estado = EstadoAtuendo.RECHAZADO;
 	}
+
+	@Override
+	public String toString() {
+		return "Sup: " + partesSuperiores + ", inf: " + parteInferior + ", calzado: " + calzado + ", acc: " + accesorios;
+	}
 }
