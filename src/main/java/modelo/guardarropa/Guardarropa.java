@@ -11,6 +11,7 @@ import modelo.evento.Evento;
 import modelo.prenda.Categoria;
 import modelo.prenda.NivelDeAbrigo;
 import modelo.prenda.Prenda;
+import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Usuario;
 
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class Guardarropa {
 		return this.prendas.contains(prenda);
 	}
 
-	public List<Atuendo> obtenerSugerencias(Evento evento) throws ClimaNoDisponibleException, SinSugerenciasPosiblesException {
+	public List<Sugerencia> obtenerSugerencias(Evento evento) throws ClimaNoDisponibleException, SinSugerenciasPosiblesException {
 		Clima clima = ServicioDelClima.getInstance().obtenerClima(evento.getFechaInicio());
 
 		List<List<Prenda>> prendasSuperioresValidas = filtrarYSuperponerPrendasPorClima(getPrendasSuperiores(), clima, 1, 3);
@@ -67,10 +68,10 @@ public class Guardarropa {
 		List<List<Prenda>> calzadosValidos = filtrarYSuperponerPrendasPorClima(getCalzados(), clima, 1, 1);
 		List<List<Prenda>> accesoriosValidos = filtrarYSuperponerPrendasPorClima(getAccesorios(), clima, 0, 5);
 
-		List<Atuendo> ret = Lists
+		List<Sugerencia> ret = Lists
 				.cartesianProduct(prendasSuperioresValidas, prendasInferioresValidas, calzadosValidos, accesoriosValidos)
 				.stream()
-				.map(result -> new Atuendo(result.get(0), result.get(1).get(0), result.get(2).get(0), result.get(3)))
+				.map(result -> new Sugerencia(new Atuendo(result.get(0), result.get(1).get(0), result.get(2).get(0), result.get(3))))
 				.collect(Collectors.toList());
 
 		if(ret.isEmpty()) throw new SinSugerenciasPosiblesException();

@@ -11,6 +11,7 @@ import modelo.prenda.Color;
 import modelo.prenda.Material;
 import modelo.prenda.Prenda;
 import modelo.prenda.Tipo;
+import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Premium;
 import modelo.usuario.Usuario;
 import org.junit.After;
@@ -90,7 +91,7 @@ public class TestSugerenciaAtuendos {
 
 		Evento evento = new EventoEnInterior(fecha, fecha.plusMinutes(60));
 
-		List<Atuendo> sugerencias = guardarropa.obtenerSugerencias(evento);
+		List<Sugerencia> sugerencias = guardarropa.obtenerSugerencias(evento);
 		for(int i = 0; i < sugerencias.size(); i++) {
 			System.out.println(i + ": " + sugerencias.get(i));
 		}

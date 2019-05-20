@@ -2,8 +2,8 @@ package modelo.usuario;
 
 import excepciones.CapacidadExcedidaGuardarropaException;
 import modelo.guardarropa.Guardarropa;
-import modelo.atuendo.Decision;
-import modelo.atuendo.DecisionVacia;
+import modelo.sugerencia.decision.Decision;
+import modelo.sugerencia.decision.DecisionVacia;
 import modelo.prenda.Prenda;
 
 import java.util.ArrayList;
