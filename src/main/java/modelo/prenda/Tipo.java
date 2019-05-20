@@ -2,24 +2,25 @@ package modelo.prenda;
 
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.stream.Collectors;
 
 public enum Tipo {
 	MUSCULOSA(Categoria.SUPERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER), NivelDeAbrigo.POCO),
 	REMERA_MANGA_CORTA(Categoria.SUPERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER), NivelDeAbrigo.POCO),
-	REMERA_MANGA_LARGA(Categoria.SUPERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER), NivelDeAbrigo.NORMAL){
+	REMERA_MANGA_LARGA(Categoria.SUPERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER), NivelDeAbrigo.NORMAL) {
 		@Override
 		public Collection<Tipo> getRequisitosParaUsarse() {
 			return EnumSet.of(Tipo.REMERA_MANGA_CORTA, this);
 		}
 	},
 	CAMISA(Categoria.SUPERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER), NivelDeAbrigo.NORMAL),
-	BUZO(Categoria.SUPERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER, Material.LANA), NivelDeAbrigo.NORMAL){
+	BUZO(Categoria.SUPERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER, Material.LANA), NivelDeAbrigo.NORMAL) {
 		@Override
 		public Collection<Tipo> getRequisitosParaUsarse() {
 			return EnumSet.of(Tipo.MUSCULOSA, Tipo.REMERA_MANGA_CORTA, Tipo.REMERA_MANGA_LARGA, Tipo.CAMISA);
 		}
 	},
-	CAMPERA(Categoria.SUPERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER, Material.CUERO), NivelDeAbrigo.MUCHO){
+	CAMPERA(Categoria.SUPERIOR, EnumSet.of(Material.ALGODON, Material.POLIESTER, Material.CUERO), NivelDeAbrigo.MUCHO) {
 		@Override
 		public Collection<Tipo> getRequisitosParaUsarse() {
 			return EnumSet.of(Tipo.BUZO, Tipo.REMERA_MANGA_CORTA, Tipo.REMERA_MANGA_LARGA, Tipo.CAMISA);
@@ -37,11 +38,46 @@ public enum Tipo {
 	BOTAS(Categoria.CALZADO, EnumSet.of(Material.CUERO), NivelDeAbrigo.MUCHO),
 	OJOTAS(Categoria.CALZADO, EnumSet.of(Material.GOMA, Material.POLIESTER), NivelDeAbrigo.POCO),
 
-	GORRA(Categoria.ACCESORIO, EnumSet.of(Material.POLIESTER), NivelDeAbrigo.COMODIN),
-	BUFANDA(Categoria.ACCESORIO, EnumSet.of(Material.LANA), NivelDeAbrigo.MUCHO),
-	ANTEOJOS(Categoria.ACCESORIO, EnumSet.of(Material.PLASTICO), NivelDeAbrigo.COMODIN),
-	RELOJ(Categoria.ACCESORIO, EnumSet.of(Material.PLATA, Material.ORO), NivelDeAbrigo.COMODIN),
-	COLGANTE(Categoria.ACCESORIO, EnumSet.of(Material.PLATA, Material.ORO), NivelDeAbrigo.COMODIN);
+	// Los requisitos de los accesorios tienen una dependencia con una estructura piramidal para evitar loops infinitos
+	// Cuando mayor nivel de abrigo tengan, serán más abarcativos (gorro, bufanda)
+	// Los menos abarcativos son los comodines ya que en principio podrían usarse siempre
+	// excepto que no puedan superponers con otra de un nivel de abrigo mayor (ej la gorra "pierde" contra el gorro)
+	GORRA(Categoria.ACCESORIO, EnumSet.of(Material.POLIESTER), NivelDeAbrigo.COMODIN) {
+		@Override
+		public Collection<Tipo> getRequisitosParaUsarse() {
+			return EnumSet.of(this);
+		}
+	},
+	ANTEOJOS(Categoria.ACCESORIO, EnumSet.of(Material.PLASTICO), NivelDeAbrigo.COMODIN) {
+		@Override
+		public Collection<Tipo> getRequisitosParaUsarse() {
+			return EnumSet.of(this, Tipo.GORRA);
+		}
+	},
+	RELOJ(Categoria.ACCESORIO, EnumSet.of(Material.PLATA, Material.ORO), NivelDeAbrigo.COMODIN) {
+		@Override
+		public Collection<Tipo> getRequisitosParaUsarse() {
+			return EnumSet.of(this, Tipo.GORRA, Tipo.ANTEOJOS);
+		}
+	},
+	COLGANTE(Categoria.ACCESORIO, EnumSet.of(Material.PLATA, Material.ORO), NivelDeAbrigo.COMODIN) {
+		@Override
+		public Collection<Tipo> getRequisitosParaUsarse() {
+			return EnumSet.of(this, Tipo.GORRA, Tipo.ANTEOJOS, Tipo.RELOJ);
+		}
+	},
+	GORRO(Categoria.ACCESORIO, EnumSet.of(Material.LANA, Material.POLIESTER), NivelDeAbrigo.MUCHO) {
+		@Override
+		public Collection<Tipo> getRequisitosParaUsarse() {
+			return EnumSet.of(this, Tipo.ANTEOJOS, Tipo.RELOJ, Tipo.COLGANTE); // Le saqué Tipo.GORRA
+		}
+	},
+	BUFANDA(Categoria.ACCESORIO, EnumSet.of(Material.LANA), NivelDeAbrigo.MUCHO) {
+		@Override
+		public Collection<Tipo> getRequisitosParaUsarse() {
+			return EnumSet.allOf(Tipo.class).stream().filter(tipo -> tipo.getCategoria() == Categoria.ACCESORIO).collect(Collectors.toList());
+		}
+	};
 
 	private final Categoria categoria;
 	private final Collection<Material> materialesPosibles;

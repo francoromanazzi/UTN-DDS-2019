@@ -1,6 +1,7 @@
 package UTN.QueMePongo;
 
-import modelo.atuendo.Atuendo;
+import excepciones.ClimaNoDisponibleException;
+import excepciones.SinSugerenciasPosiblesException;
 import modelo.clima.Clima;
 import modelo.clima.ServicioDelClima;
 import modelo.clima.Temperatura;
@@ -23,10 +24,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.junit.Assert.*;
 
 public class TestSugerenciaAtuendos {
 	Usuario userPremium = new Usuario();
 	Guardarropa guardarropa = new Guardarropa();
+
 	Prenda musculosa = new Prenda(Tipo.MUSCULOSA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
 	Prenda remera1 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
 	Prenda remera2 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.POLIESTER, new Color(50, 0, 0), Optional.of(new Color(0, 0, 0)));
@@ -40,17 +45,31 @@ public class TestSugerenciaAtuendos {
 	Prenda zapatillas = new Prenda(Tipo.ZAPATILLAS, Material.CUERO, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
 	Prenda ojotas = new Prenda(Tipo.OJOTAS, Material.GOMA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
 	Prenda reloj = new Prenda(Tipo.RELOJ, Material.PLATA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	Prenda bufanda = new Prenda(Tipo.BUFANDA, Material.LANA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	Prenda gorra = new Prenda(Tipo.GORRA, Material.POLIESTER, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	Prenda gorro = new Prenda(Tipo.GORRO, Material.LANA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+
+	ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
+	LocalDateTime fecha = LocalDateTime.of(2019, 5, 3, 1, 0);
+	Evento evento = new EventoEnInterior(fecha, fecha.plusMinutes(60));
+
 
 	@Before
 	public void asignarPrivilegios() {
 		userPremium.setPrivilegios(new Premium());
 	}
 
-	@Before
-	public void llenarGuardarropa() {
+	@After
+	public void limpiarPronosticosDelServicioDelClima() {
+		ServicioDelClima.getInstance().setPronosticos(new ArrayList<>());
+	}
+
+	@Test
+	public void deberiaSugerirRopaAbrigadaSiHaceFrio() {
 		guardarropa.addPrenda(musculosa, userPremium);
 		guardarropa.addPrenda(remera1, userPremium);
 		guardarropa.addPrenda(remera2, userPremium);
+		guardarropa.addPrenda(remeraMangaLarga, userPremium);
 		guardarropa.addPrenda(buzo, userPremium);
 		guardarropa.addPrenda(campera, userPremium);
 
@@ -61,128 +80,137 @@ public class TestSugerenciaAtuendos {
 		guardarropa.addPrenda(zapatillas, userPremium);
 
 		guardarropa.addPrenda(reloj, userPremium);
-	}
-
-	@After
-	public void limpiarMeteorologosDelServicioDelClima() {
-		ServicioDelClima.getInstance().setMeteorologos(new ArrayList<>());
-	}
-
-	@After
-	public void limpiarPronosticosDelServicioDelClima() {
-		ServicioDelClima.getInstance().setPronosticos(new ArrayList<>());
-	}
-
-	@Test
-	public void prendasRequisitoDebeRetornarLasCombinacionesDeRequisitosDeUnaPrenda() {
-		System.out.println("Requisitos musculosa " + guardarropa.prendasRequisito(musculosa));
-		System.out.println("Requisitos remera manga corta " + guardarropa.prendasRequisito(remera1));
-		System.out.println("Requisitos remera manga larga" + guardarropa.prendasRequisito(remeraMangaLarga));
-		System.out.println("Requisitos buzo " + guardarropa.prendasRequisito(buzo));
-		System.out.println("Requisitos campera " + guardarropa.prendasRequisito(campera));
-	}
-
-	@Test
-	public void deberiaSugerirRopaAbrigadaSiHaceFrio() {
-		ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
-		LocalDateTime fecha = LocalDateTime.of(2019, 5, 3, 1, 0);
+		guardarropa.addPrenda(bufanda, userPremium);
 
 		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Clima(fecha, new Temperatura(2, "C"), 0.1))));
 
-		Evento evento = new EventoEnInterior(fecha, fecha.plusMinutes(60));
+		List<Sugerencia> sugerencias = guardarropa.obtenerSugerencias(evento);
+
+		// Todas las sugerencias deberían tener la campera
+		assertTrue(sugerencias.stream().allMatch(sugerencia -> sugerencia.getAtuendo().getPartesSuperiores().contains(campera)));
+
+		// No debería sugerir un pantalón corto
+		assertTrue(sugerencias.stream().allMatch(sugerencia -> sugerencia.getAtuendo().getParteInferior() != pantalonCorto));
+
+		// No debería sugerir un pantalón corto
+		assertTrue(sugerencias.stream().allMatch(sugerencia -> sugerencia.getAtuendo().getParteInferior() != pantalonCorto));
+
+		// Debería poder, en algunas sugerencias, sugerir tanto el reloj como la bufanda
+		// Sugiere ambos el 25% de las veces, ya que el accesorio puede ser [], [reloj], [bufanda] o [reloj, bufanda]
+		long sugerencias_totales = sugerencias.size();
+		long sugerencias_con_reloj_y_bufanda = sugerencias.stream().filter(sug -> sug.getAtuendo().getAccesorios().contains(reloj) && sug.getAtuendo().getAccesorios().contains(bufanda)).count();
+
+		assertTrue(sugerencias.stream().anyMatch(sug -> sug.getAtuendo().getAccesorios().contains(reloj) && sug.getAtuendo().getAccesorios().contains(bufanda)));
+		assertEquals(0.25, (double) sugerencias_con_reloj_y_bufanda / (double) sugerencias_totales, 0.001);
+	}
+
+	@Test
+	public void deberiaSugerirRopaLivianaSiHaceCalor() {
+		guardarropa.addPrenda(musculosa, userPremium);
+		guardarropa.addPrenda(remera1, userPremium);
+		guardarropa.addPrenda(remera2, userPremium);
+		guardarropa.addPrenda(remeraMangaLarga, userPremium);
+		guardarropa.addPrenda(buzo, userPremium);
+		guardarropa.addPrenda(campera, userPremium);
+
+		guardarropa.addPrenda(pantalonLargo, userPremium);
+		guardarropa.addPrenda(pantalonCorto, userPremium);
+
+		guardarropa.addPrenda(zapatos, userPremium);
+		guardarropa.addPrenda(zapatillas, userPremium);
+		guardarropa.addPrenda(ojotas, userPremium);
+
+		guardarropa.addPrenda(reloj, userPremium);
+		guardarropa.addPrenda(bufanda, userPremium);
+
+		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Clima(fecha, new Temperatura(34, "C"), 0.1))));
 
 		List<Sugerencia> sugerencias = guardarropa.obtenerSugerencias(evento);
-		for(int i = 0; i < sugerencias.size(); i++) {
-			System.out.println(i + ": " + sugerencias.get(i));
-		}
+
+		// Todas las sugerencias deberían tener pantalon corto
+		assertTrue(sugerencias.stream().allMatch(sugerencia -> sugerencia.getAtuendo().getParteInferior() == pantalonCorto));
+
+		// No debería sugerir un buzo
+		assertTrue(sugerencias.stream().allMatch(sugerencia -> !sugerencia.getAtuendo().getPartesSuperiores().contains(buzo)));
+
+		// No debería sugerir una campera
+		assertTrue(sugerencias.stream().allMatch(sugerencia -> !sugerencia.getAtuendo().getPartesSuperiores().contains(campera)));
+
+		// No debería haber superposicion de prendas en la parte superior
+		assertTrue(sugerencias.stream().allMatch(sugerencia -> sugerencia.getAtuendo().getPartesSuperiores().size() == 1));
+
+		// No debería sugerir nunca una bufanda
+		assertTrue(sugerencias.stream().allMatch(sugerencia -> !sugerencia.getAtuendo().getAccesorios().contains(bufanda)));
+
+		// Debería sugerir el reloj la mitad de las veces
+		long sugerencias_totales = sugerencias.size();
+		long sugerencias_con_reloj = sugerencias.stream().filter(sug -> sug.getAtuendo().getAccesorios().contains(reloj)).count();
+		assertEquals(0.5, (double) sugerencias_con_reloj / (double) sugerencias_totales, 0.001);
 	}
 
-	/*
-	@Test
-	public void prendasInsuficientesParaSugerencia() {
-		guardarropa.addPrenda(remera);
-		assertEquals(guardarropa.obtenerSugerencias(new AccuWeather()).size(), 0);
+	@Test(expected = SinSugerenciasPosiblesException.class)
+	public void deberiaFallarSiNoHayPrendasSuficientesParaSugerencia() {
+		guardarropa.addPrenda(remera2, userPremium);
+		guardarropa.addPrenda(buzo, userPremium);
+		guardarropa.addPrenda(campera, userPremium);
+
+		guardarropa.addPrenda(pantalonLargo, userPremium);
+
+		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Clima(fecha, new Temperatura(18, "C"), 0.1))));
+
+		guardarropa.obtenerSugerencias(evento); // Le falta calzado => falla
 	}
 
-	@Test
-	public void prendasSuficientesParaSugerenciaConPosibleAccesorio() {
-		guardarropa.addPrenda(remera);
-		guardarropa.addPrenda(pantalon);
-		guardarropa.addPrenda(zapatos);
-		guardarropa.addPrenda(reloj);
+	@Test(expected = ClimaNoDisponibleException.class)
+	public void deberiaFallarSiNoHayPronosticoDisponible() {
+		guardarropa.addPrenda(remera2, userPremium);
+		guardarropa.addPrenda(buzo, userPremium);
+		guardarropa.addPrenda(campera, userPremium);
 
-		List<Atuendo> sugerencias = guardarropa.obtenerSugerencias(new AccuWeather());
+		guardarropa.addPrenda(pantalonLargo, userPremium);
 
-		assertEquals(sugerencias.size(), 2);
+		guardarropa.addPrenda(zapatos, userPremium);
 
-		Atuendo atuendoSugeridoConAccesorio = sugerencias.get(0);
-		Atuendo atuendoSugeridoSinAccesorio = sugerencias.get(1);
-
-		assertEquals(atuendoSugeridoConAccesorio.getParteSuperior(), remera);
-		assertEquals(atuendoSugeridoConAccesorio.getParteInferior(), pantalon);
-		assertEquals(atuendoSugeridoConAccesorio.getCalzado(), zapatos);
-		assertEquals(atuendoSugeridoConAccesorio.getAccesorio(), reloj);
-
-		assertEquals(atuendoSugeridoSinAccesorio.getParteSuperior(), remera);
-		assertEquals(atuendoSugeridoSinAccesorio.getParteInferior(), pantalon);
-		assertEquals(atuendoSugeridoSinAccesorio.getCalzado(), zapatos);
-		assertEquals(atuendoSugeridoSinAccesorio.getAccesorio(), null);
-	}
-
-	@Test
-	public void prendasSuficientesParaSugerenciaSinAccesorio() {
-		guardarropa.addPrenda(remera);
-		guardarropa.addPrenda(pantalon);
-		guardarropa.addPrenda(zapatos);
-
-		List<Atuendo> sugerencias = guardarropa.obtenerSugerencias(new AccuWeather());
-
-		assertEquals(sugerencias.size(), 1);
-
-		Atuendo atuendoSugerido = sugerencias.get(0);
-
-		assertEquals(atuendoSugerido.getParteSuperior(), remera);
-		assertEquals(atuendoSugerido.getParteInferior(), pantalon);
-		assertEquals(atuendoSugerido.getCalzado(), zapatos);
-		assertEquals(atuendoSugerido.getAccesorio(), null);
+		guardarropa.obtenerSugerencias(evento); // No hay clima disponible => falla
 	}
 
 	@Test
-	public void prendasSuficientesParaMasDeUnaSugerenciaConPosibleAccesorio() {
-		guardarropa.addPrenda(remera);
-		guardarropa.addPrenda(camisa);
-		guardarropa.addPrenda(pantalon);
-		guardarropa.addPrenda(zapatos);
-		guardarropa.addPrenda(reloj);
+	public void gorraYGorroSonExcluyentes() {
+		guardarropa.addPrenda(remera1, userPremium);
+		guardarropa.addPrenda(campera, userPremium);
 
-		List<Atuendo> sugerencias = guardarropa.obtenerSugerencias(new AccuWeather());
+		guardarropa.addPrenda(pantalonLargo, userPremium);
+		guardarropa.addPrenda(pantalonCorto, userPremium);
 
-		assertEquals(sugerencias.size(), 4);
+		guardarropa.addPrenda(zapatillas, userPremium);
 
-		Atuendo atuendoSugerido1ConAccesorio = sugerencias.get(0);
-		Atuendo atuendoSugerido2ConAccesorio = sugerencias.get(1);
-		Atuendo atuendoSugerido1SinAccesorio = sugerencias.get(2);
-		Atuendo atuendoSugerido2SinAccesorio = sugerencias.get(3);
+		guardarropa.addPrenda(gorra, userPremium);
+		guardarropa.addPrenda(gorro, userPremium);
 
-		assertEquals(atuendoSugerido1ConAccesorio.getParteSuperior(), remera);
-		assertEquals(atuendoSugerido1ConAccesorio.getParteInferior(), pantalon);
-		assertEquals(atuendoSugerido1ConAccesorio.getCalzado(), zapatos);
-		assertEquals(atuendoSugerido1ConAccesorio.getAccesorio(), reloj);
-		
-		assertEquals(atuendoSugerido2ConAccesorio.getParteSuperior(), camisa);
-		assertEquals(atuendoSugerido2ConAccesorio.getParteInferior(), pantalon);
-		assertEquals(atuendoSugerido2ConAccesorio.getCalzado(), zapatos);
-		assertEquals(atuendoSugerido2ConAccesorio.getAccesorio(), reloj);
+		// 1. Si hace frío => tanto gorro como gorra (pero por separado)
+		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Clima(fecha, new Temperatura(2, "C"), 0.1))));
+		List<Sugerencia> sugerencias = guardarropa.obtenerSugerencias(evento);
 
-		assertEquals(atuendoSugerido1SinAccesorio.getParteSuperior(), remera);
-		assertEquals(atuendoSugerido1SinAccesorio.getParteInferior(), pantalon);
-		assertEquals(atuendoSugerido1SinAccesorio.getCalzado(), zapatos);
-		assertEquals(atuendoSugerido1SinAccesorio.getAccesorio(), null);
+		// No debería tener gorro y gorra al mismo tiempo
+		assertFalse(sugerencias.stream().anyMatch(sugerencia -> sugerencia.getAtuendo().getAccesorios().contains(gorra) && sugerencia.getAtuendo().getAccesorios().contains(gorro)));
 
-		assertEquals(atuendoSugerido2SinAccesorio.getParteSuperior(), camisa);
-		assertEquals(atuendoSugerido2SinAccesorio.getParteInferior(), pantalon);
-		assertEquals(atuendoSugerido2SinAccesorio.getCalzado(), zapatos);
-		assertEquals(atuendoSugerido2SinAccesorio.getAccesorio(), null);
+		// Debería tener gorro y gorra por separado
+		assertTrue(sugerencias.stream().anyMatch(sugerencia -> sugerencia.getAtuendo().getAccesorios().contains(gorra)));
+		assertTrue(sugerencias.stream().anyMatch(sugerencia -> sugerencia.getAtuendo().getAccesorios().contains(gorro)));
+
+		limpiarPronosticosDelServicioDelClima(); // Reset
+
+		// 2. Si hace calor => solamente gorra
+		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Clima(fecha, new Temperatura(34, "C"), 0.1))));
+		sugerencias = guardarropa.obtenerSugerencias(evento);
+
+		// No debería tener gorro
+		assertTrue(sugerencias.stream().allMatch(sugerencia -> !sugerencia.getAtuendo().getAccesorios().contains(gorro)));
+
+		// Debería tener gorra la mitad de las veces
+		long sugerencias_totales = sugerencias.size();
+		long sugerencias_con_gorra = sugerencias.stream().filter(sug -> sug.getAtuendo().getAccesorios().contains(gorra)).count();
+		assertEquals(0.5, (double) sugerencias_con_gorra / (double) sugerencias_totales, 0.001);
+
 	}
-	 */
 }

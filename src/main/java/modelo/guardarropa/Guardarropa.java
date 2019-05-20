@@ -106,7 +106,7 @@ public class Guardarropa {
 		return ret.stream().distinct().collect(Collectors.toList());
 	}
 
-	public List<List<Prenda>> prendasRequisito(Prenda prendaTarget) { // TODO Hacer private (está así para testearlo)
+	private List<List<Prenda>> prendasRequisito(Prenda prendaTarget) {
 		List<List<Prenda>> ret = new ArrayList<>();
 		prendaTarget.getTipo().getRequisitosParaUsarse().forEach(tipo -> {
 			if(tipo == prendaTarget.getTipo()) { // Significa que la prenda podía también usarse por sí misma
