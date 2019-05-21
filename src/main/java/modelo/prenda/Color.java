@@ -1,8 +1,9 @@
 package modelo.prenda;
 
+import excepciones.LimiteExcedidoEnColorException;
+
 import java.util.Objects;
 import java.util.stream.Stream;
-import excepciones.LimiteExcedidoEnColorException;
 
 public class Color {
 	private final int rojo, verde, azul;

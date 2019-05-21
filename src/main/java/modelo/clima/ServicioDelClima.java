@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ServicioDelClima {
-	private static ServicioDelClima ourInstance = new ServicioDelClima();
+	private static final ServicioDelClima ourInstance = new ServicioDelClima();
 	private List<Clima> pronosticos = new ArrayList<>();
 	private List<Meteorologo> meteorologos = new ArrayList<>();
 
@@ -56,13 +56,11 @@ public class ServicioDelClima {
 			throw new ClimaNoDisponibleException();
 		}
 
-		Clima climaMasProximo = obtenerPronosticosRazonables(fecha)
+		return obtenerPronosticosRazonables(fecha)
 				.stream()
 				.reduce(obtenerPronosticosRazonables(fecha).get(0), (clima1, clima2) ->
 						Math.abs(ChronoUnit.MINUTES.between(fecha, clima1.getFecha())) <= Math.abs(ChronoUnit.MINUTES.between(fecha, clima2.getFecha()))
 								? clima1 : clima2);
-
-		return climaMasProximo;
 	}
 
 	private List<Clima> obtenerPronosticosRazonables(LocalDateTime fecha) {

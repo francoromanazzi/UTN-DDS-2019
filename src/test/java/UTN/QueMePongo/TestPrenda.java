@@ -1,5 +1,6 @@
 package UTN.QueMePongo;
 
+import excepciones.ColorSecundarioNoPuedeSerNuloException;
 import excepciones.ColoresIgualesException;
 import excepciones.MaterialNoTieneSentidoParaEseTipoException;
 import excepciones.TipoNoPuedeSerNuloException;
@@ -18,13 +19,18 @@ public class TestPrenda {
 		new Prenda(null, Material.ALGODON, new Color(0, 0,  0), Optional.empty());
 	}
 
+	@Test(expected = ColorSecundarioNoPuedeSerNuloException.class)
+	public void exceptionSiColorSecundarioTieneTipoNulo() {
+		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0,  0), null);
+	}
+
 	@Test(expected = ColoresIgualesException.class)
 	public void exceptionSiColoresPrincipalYSecundarioSonIguales() {
 		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(128, 128, 128), Optional.of(new Color(128, 128, 128)));
 	}
 
 	@Test(expected = MaterialNoTieneSentidoParaEseTipoException.class)
-	public void ExceptionSiTipoYMaterialSonIncompatibles() {
+	public void exceptionSiTipoYMaterialSonIncompatibles() {
 		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ORO, new Color(0, 0, 0), Optional.empty());
 	}
 

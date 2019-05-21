@@ -25,9 +25,9 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.assertEquals;
 
 public class TestClima {
-	Meteorologo mockAccuweather2018 = Mockito.mock(AccuWeather.class);
-	Meteorologo mockAccuweather2019 = Mockito.mock(AccuWeather.class);
-	Meteorologo mockProveedorQueFalla = Mockito.mock(AccuWeather.class);
+	private final Meteorologo mockAccuweather2018 = Mockito.mock(AccuWeather.class);
+	private final Meteorologo mockAccuweather2019 = Mockito.mock(AccuWeather.class);
+	private final Meteorologo mockProveedorQueFalla = Mockito.mock(AccuWeather.class);
 
 	@Before
 	public void setupMockito() {
@@ -41,7 +41,7 @@ public class TestClima {
 							"\"Temperature\": {\"Value\": 57, \"Unit\": \"F\"}" +
 							"}]", new TypeToken<List<AccuWeatherJSON>>() {
 					}.getType());
-					return pronosticosAccuWeather.stream().map(pronostico -> pronostico.toClima()).collect(Collectors.toList());
+					return pronosticosAccuWeather.stream().map(AccuWeatherJSON::toClima).collect(Collectors.toList());
 				}
 		);
 
@@ -53,7 +53,7 @@ public class TestClima {
 							"\"Temperature\": {\"Value\": 57, \"Unit\": \"F\"}" +
 							"}]", new TypeToken<List<AccuWeatherJSON>>() {
 					}.getType());
-					return pronosticosAccuWeather.stream().map(pronostico -> pronostico.toClima()).collect(Collectors.toList());
+					return pronosticosAccuWeather.stream().map(AccuWeatherJSON::toClima).collect(Collectors.toList());
 				}
 		);
 	}

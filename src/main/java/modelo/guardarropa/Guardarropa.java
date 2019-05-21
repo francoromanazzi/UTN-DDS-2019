@@ -14,15 +14,12 @@ import modelo.prenda.Prenda;
 import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Usuario;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Guardarropa {
-	private List<Prenda> prendas = new ArrayList<>();
+	private final List<Prenda> prendas = new ArrayList<>();
 
 	public List<Prenda> getPrendasSuperiores() {
 		return getPrendasDe(Categoria.SUPERIOR);
@@ -36,12 +33,12 @@ public class Guardarropa {
 		return getPrendasDe(Categoria.CALZADO);
 	}
 
-	private List<Prenda> getPrendasDe(Categoria cat) {
-		return prendas.stream().filter(p -> p.getCategoria() == cat).collect(Collectors.toList());
-	}
-
 	public List<Prenda> getAccesorios() {
 		return getPrendasDe(Categoria.ACCESORIO);
+	}
+
+	private List<Prenda> getPrendasDe(Categoria cat) {
+		return prendas.stream().filter(p -> p.getCategoria() == cat).collect(Collectors.toList());
 	}
 
 	public int cantidadPrendas() {
@@ -85,7 +82,7 @@ public class Guardarropa {
 		Collection<NivelDeAbrigo> formasDeAbrigarme = clima.formasDeAbrigarme();
 
 		for(final int i : IntStream.rangeClosed(min, max).boxed().collect(Collectors.toList())) {
-			if(i == 0) ret.add(new ArrayList<>(Arrays.asList())); // Ya que es opcional
+			if(i == 0) ret.add(new ArrayList<>(Collections.emptyList())); // Ya que es opcional
 
 			formasDeAbrigarme.forEach(nivelDeAbrigo -> {
 				List<Prenda> prendasDeEsteNivelDeAbrigo = prendas.stream().filter(prenda -> prenda.getTipo().getNivelDeAbrigo() == nivelDeAbrigo).collect(Collectors.toList());
@@ -110,7 +107,7 @@ public class Guardarropa {
 		List<List<Prenda>> ret = new ArrayList<>();
 		prendaTarget.getTipo().getRequisitosParaUsarse().forEach(tipo -> {
 			if(tipo == prendaTarget.getTipo()) { // Significa que la prenda podía también usarse por sí misma
-				ret.add(new ArrayList<>(Arrays.asList()));
+				ret.add(new ArrayList<>(Collections.emptyList()));
 				return;
 			}
 
@@ -132,10 +129,9 @@ public class Guardarropa {
 	private List<List<Prenda>> productoCartesiano(Prenda prenda, List<List<Prenda>> prendas) {
 		List<List<Prenda>> prendaEnvuelta = new ArrayList<>(Arrays.asList(new ArrayList<>(Arrays.asList(prenda))));
 		List<List<List<Prenda>>> cartesiano = Lists.cartesianProduct(prendaEnvuelta, prendas);
-		List<List<Prenda>> cartesianoFlat = cartesiano
+		return cartesiano
 				.stream()
 				.map(result -> result.stream().flatMap(Collection::stream).collect(Collectors.toList()))
 				.collect(Collectors.toList());
-		return cartesianoFlat;
 	}
 }

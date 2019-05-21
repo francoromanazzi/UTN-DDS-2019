@@ -6,6 +6,7 @@ import modelo.clima.Clima;
 import modelo.clima.Meteorologo;
 
 import javax.ws.rs.client.ClientBuilder;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class DarkSky extends Meteorologo {
 				.queryParam("units", "si"));
 
 		DarkSkyJSONResponse respuestaParseada = new Gson().fromJson(json, DarkSkyJSONResponse.class);
-		List<DarkSkyJSON> pronosticosDarkSky = (List) respuestaParseada.getPronosticos();
-		return pronosticosDarkSky.stream().map(pronostico -> pronostico.toClima()).collect(Collectors.toList());
+		Collection<DarkSkyJSON> pronosticosDarkSky = respuestaParseada.getPronosticos();
+		return pronosticosDarkSky.stream().map(DarkSkyJSON::toClima).collect(Collectors.toList());
 	}
 }

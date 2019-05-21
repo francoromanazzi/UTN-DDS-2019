@@ -24,34 +24,33 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
 public class TestSugerenciaAtuendos {
-	Usuario userPremium = new Usuario();
-	Guardarropa guardarropa = new Guardarropa();
+	private final Usuario userPremium = new Usuario();
+	private final Guardarropa guardarropa = new Guardarropa();
 
-	Prenda musculosa = new Prenda(Tipo.MUSCULOSA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
-	Prenda remera1 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
-	Prenda remera2 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.POLIESTER, new Color(50, 0, 0), Optional.of(new Color(0, 0, 0)));
-	Prenda remeraMangaLarga = new Prenda(Tipo.REMERA_MANGA_LARGA, Material.POLIESTER, new Color(50, 0, 0), Optional.of(new Color(0, 0, 0)));
-	Prenda camisa = new Prenda(Tipo.CAMISA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
-	Prenda buzo = new Prenda(Tipo.BUZO, Material.ALGODON, new Color(0, 0, 0), Optional.empty());
-	Prenda campera = new Prenda(Tipo.CAMPERA, Material.ALGODON, new Color(0, 0, 0), Optional.empty());
-	Prenda pantalonLargo = new Prenda(Tipo.PANTALON_LARGO, Material.DENIM, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
-	Prenda pantalonCorto = new Prenda(Tipo.PANTALON_CORTO, Material.DENIM, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
-	Prenda zapatos = new Prenda(Tipo.ZAPATOS, Material.CUERO, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
-	Prenda zapatillas = new Prenda(Tipo.ZAPATILLAS, Material.CUERO, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
-	Prenda ojotas = new Prenda(Tipo.OJOTAS, Material.GOMA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
-	Prenda reloj = new Prenda(Tipo.RELOJ, Material.PLATA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
-	Prenda bufanda = new Prenda(Tipo.BUFANDA, Material.LANA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
-	Prenda gorra = new Prenda(Tipo.GORRA, Material.POLIESTER, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
-	Prenda gorro = new Prenda(Tipo.GORRO, Material.LANA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	private final Prenda musculosa = new Prenda(Tipo.MUSCULOSA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	private final Prenda remera1 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	private final Prenda remera2 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.POLIESTER, new Color(50, 0, 0), Optional.of(new Color(0, 0, 0)));
+	private final Prenda remeraMangaLarga = new Prenda(Tipo.REMERA_MANGA_LARGA, Material.POLIESTER, new Color(50, 0, 0), Optional.of(new Color(0, 0, 0)));
+	private final Prenda camisa = new Prenda(Tipo.CAMISA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	private final Prenda buzo = new Prenda(Tipo.BUZO, Material.ALGODON, new Color(0, 0, 0), Optional.empty());
+	private final Prenda campera = new Prenda(Tipo.CAMPERA, Material.ALGODON, new Color(0, 0, 0), Optional.empty());
+	private final Prenda pantalonLargo = new Prenda(Tipo.PANTALON_LARGO, Material.DENIM, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	private final Prenda pantalonCorto = new Prenda(Tipo.PANTALON_CORTO, Material.DENIM, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	private final Prenda zapatos = new Prenda(Tipo.ZAPATOS, Material.CUERO, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	private final Prenda zapatillas = new Prenda(Tipo.ZAPATILLAS, Material.CUERO, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	private final Prenda ojotas = new Prenda(Tipo.OJOTAS, Material.GOMA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	private final Prenda reloj = new Prenda(Tipo.RELOJ, Material.PLATA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	private final Prenda bufanda = new Prenda(Tipo.BUFANDA, Material.LANA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	private final Prenda gorra = new Prenda(Tipo.GORRA, Material.POLIESTER, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
+	private final Prenda gorro = new Prenda(Tipo.GORRO, Material.LANA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
 
-	ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
-	LocalDateTime fecha = LocalDateTime.of(2019, 5, 3, 1, 0);
-	Evento evento = new EventoEnInterior(fecha, fecha.plusMinutes(60));
+	private final ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
+	private final LocalDateTime fecha = LocalDateTime.of(2019, 5, 3, 1, 0);
+	private final Evento evento = new EventoEnInterior(fecha, fecha.plusMinutes(60));
 
 
 	@Before
@@ -134,13 +133,13 @@ public class TestSugerenciaAtuendos {
 		assertTrue(sugerencias.stream().allMatch(sugerencia -> !sugerencia.getAtuendo().getPartesSuperiores().contains(buzo)));
 
 		// No debería sugerir una campera
-		assertTrue(sugerencias.stream().allMatch(sugerencia -> !sugerencia.getAtuendo().getPartesSuperiores().contains(campera)));
+		assertTrue(sugerencias.stream().noneMatch(sugerencia -> sugerencia.getAtuendo().getPartesSuperiores().contains(campera)));
 
 		// No debería haber superposicion de prendas en la parte superior
 		assertTrue(sugerencias.stream().allMatch(sugerencia -> sugerencia.getAtuendo().getPartesSuperiores().size() == 1));
 
 		// No debería sugerir nunca una bufanda
-		assertTrue(sugerencias.stream().allMatch(sugerencia -> !sugerencia.getAtuendo().getAccesorios().contains(bufanda)));
+		assertTrue(sugerencias.stream().noneMatch(sugerencia -> sugerencia.getAtuendo().getAccesorios().contains(bufanda)));
 
 		// Debería sugerir el reloj la mitad de las veces
 		long sugerencias_totales = sugerencias.size();
@@ -205,7 +204,7 @@ public class TestSugerenciaAtuendos {
 		sugerencias = guardarropa.obtenerSugerencias(evento);
 
 		// No debería tener gorro
-		assertTrue(sugerencias.stream().allMatch(sugerencia -> !sugerencia.getAtuendo().getAccesorios().contains(gorro)));
+		assertTrue(sugerencias.stream().noneMatch(sugerencia -> sugerencia.getAtuendo().getAccesorios().contains(gorro)));
 
 		// Debería tener gorra la mitad de las veces
 		long sugerencias_totales = sugerencias.size();

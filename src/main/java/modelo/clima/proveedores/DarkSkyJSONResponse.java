@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class DarkSkyJSONResponse {
+class DarkSkyJSONResponse {
 	@SerializedName("currently")
 	private DarkSkyJSON pronosticoYa;
 

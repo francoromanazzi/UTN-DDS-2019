@@ -1,5 +1,6 @@
 package UTN.QueMePongo;
 
+import excepciones.GuardarropaConMayorPrendasQueCapMaxException;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Color;
 import modelo.prenda.Material;
@@ -11,15 +12,18 @@ import modelo.usuario.PrivilegiosUsuario;
 import modelo.usuario.Usuario;
 import org.junit.Before;
 import org.junit.Test;
-import excepciones.GuardarropaConMayorPrendasQueCapMaxException;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+
 import java.util.Optional;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 public class TestUsuario {
-	Usuario userGratuito = new Usuario(), userPremium = new Usuario();
-    PrivilegiosUsuario privilegiosPremium = new Premium(), privilegiosGratuito = new Gratuito(2);
-    Guardarropa guardarropa = new Guardarropa();
+	private final Usuario userGratuito = new Usuario();
+	private final Usuario userPremium = new Usuario();
+    private final PrivilegiosUsuario privilegiosPremium = new Premium();
+	private final PrivilegiosUsuario privilegiosGratuito = new Gratuito(2);
+    private final Guardarropa guardarropa = new Guardarropa();
 
     @Before
 	public void asignarPrivilegios() {

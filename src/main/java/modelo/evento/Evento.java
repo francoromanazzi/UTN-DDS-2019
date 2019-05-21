@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public abstract class Evento {
 	private final LocalDateTime fechaInicio, fechaFin;
 
-	public Evento(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+	Evento(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
 	}

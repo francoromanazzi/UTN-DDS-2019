@@ -8,7 +8,7 @@ import modelo.prenda.Prenda;
 import java.util.List;
 
 public class Gratuito implements PrivilegiosUsuario {
-	private int capacidadGuardarropa;
+	private final int capacidadGuardarropa;
 	
 	public Gratuito(int capMax) {
 		this.capacidadGuardarropa = capMax;

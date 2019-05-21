@@ -1,13 +1,8 @@
 package modelo.prenda;
 
-import java.util.Optional;
+import excepciones.*;
 
-import excepciones.ColorPrincipalNoPuedeSerNuloException;
-import excepciones.ColorSecundarioNoPuedeSerNuloException;
-import excepciones.ColoresIgualesException;
-import excepciones.MaterialNoPuedeSerNuloException;
-import excepciones.MaterialNoTieneSentidoParaEseTipoException;
-import excepciones.TipoNoPuedeSerNuloException;
+import java.util.Optional;
 
 public class Prenda {
 	private final Tipo tipo;

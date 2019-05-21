@@ -2,15 +2,15 @@ package modelo.usuario;
 
 import excepciones.CapacidadExcedidaGuardarropaException;
 import modelo.guardarropa.Guardarropa;
+import modelo.prenda.Prenda;
 import modelo.sugerencia.decision.Decision;
 import modelo.sugerencia.decision.DecisionVacia;
-import modelo.prenda.Prenda;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Usuario {
-	protected final List<Guardarropa> guardarropas  = new ArrayList<>();
+	private final List<Guardarropa> guardarropas  = new ArrayList<>();
 	private Decision ultimaDecision = new DecisionVacia();
 	private PrivilegiosUsuario privilegios = new Gratuito(10);
 
@@ -36,7 +36,7 @@ public class Usuario {
 
 	public void addGuardarropa(Guardarropa guardarropa) {
 		privilegios.addGuardarropa(this.guardarropas, guardarropa);
-	};
+	}
 
 	public void removeGuardarropa(Guardarropa guardarropa) {
 		this.guardarropas.remove(guardarropa);

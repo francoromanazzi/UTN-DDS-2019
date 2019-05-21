@@ -21,6 +21,6 @@ public class AccuWeather extends Meteorologo {
 				.queryParam("metric", "false"));
 
 		List<AccuWeatherJSON> pronosticosAccuWeather = new Gson().fromJson(json, new TypeToken<List<AccuWeatherJSON>>(){}.getType());
-		return pronosticosAccuWeather.stream().map(pronostico -> pronostico.toClima()).collect(Collectors.toList());
+		return pronosticosAccuWeather.stream().map(AccuWeatherJSON::toClima).collect(Collectors.toList());
 	}
 }

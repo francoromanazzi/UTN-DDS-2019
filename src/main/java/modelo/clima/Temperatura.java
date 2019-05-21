@@ -18,14 +18,6 @@ public class Temperatura {
 	}
 
 	public double toCelsius() {
-		double ret;
-		switch(unidad.toUpperCase()) {
-			case "F":
-				ret = (valor - 32) * 5/9;
-				break;
-			default:
-				ret = valor;
-		}
-		return ret;
+		return unidad.toUpperCase() == "F" ? (valor - 32) * 5/9 : valor;
 	}
 }

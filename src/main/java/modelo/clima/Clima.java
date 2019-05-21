@@ -3,7 +3,8 @@ package modelo.clima;
 import modelo.prenda.NivelDeAbrigo;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.EnumSet;
 
 public class Clima {
 	private final LocalDateTime fecha;
