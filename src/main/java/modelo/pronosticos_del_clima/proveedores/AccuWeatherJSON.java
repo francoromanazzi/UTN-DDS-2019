@@ -1,9 +1,10 @@
-package modelo.clima.proveedores;
+package modelo.pronosticos_del_clima.proveedores;
 
 import com.google.gson.annotations.SerializedName;
-import modelo.clima.Clima;
-import modelo.clima.MeteorologoJSON;
-import modelo.clima.Temperatura;
+import modelo.pronosticos_del_clima.Clima;
+import modelo.pronosticos_del_clima.MeteorologoJSON;
+import modelo.pronosticos_del_clima.Pronostico;
+import modelo.pronosticos_del_clima.Temperatura;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -24,12 +25,10 @@ public class AccuWeatherJSON implements MeteorologoJSON {
 	@SerializedName("Temperature")
 	private AccuWeatherTemperaturaJSON temperatura;
 
-	@SerializedName("PrecipitationProbability")
-	private double probabilidadPrecipitacion;
-
-	public Clima toClima() {
+	public Pronostico toPronostico() {
 		LocalDateTime fechaParseada = LocalDateTime.parse(fecha, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 		Temperatura temperaturaParseada = new Temperatura((double) temperatura.valor, temperatura.unidad);
-		return new Clima(fechaParseada, temperaturaParseada, probabilidadPrecipitacion / 100);
+		Clima clima = new Clima(temperaturaParseada);
+		return new Pronostico(fechaParseada.minusMinutes(30), fechaParseada.plusMinutes(30), clima); // TODO No hardcodear acá el +-30, sino deducirlo por la respuesta de accuweather
 	}
 }

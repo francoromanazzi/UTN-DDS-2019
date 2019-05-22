@@ -1,4 +1,4 @@
-package modelo.clima;
+package modelo.pronosticos_del_clima;
 
 import excepciones.ProveedorDeClimaSeCayoException;
 
@@ -9,9 +9,9 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 public abstract class Meteorologo {
-	public abstract List<Clima> obtenerPronosticos();
+	public abstract List<Pronostico> obtenerPronosticos();
 
-	protected String pegarleA(WebTarget webTarget) throws ProveedorDeClimaSeCayoException {
+	protected String pegarleA(WebTarget webTarget) throws ProveedorDeClimaSeCayoException { // TODO Sacarlo y ponerlo en Utils
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 		Response response;
 

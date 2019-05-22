@@ -1,4 +1,4 @@
-package modelo.clima.proveedores;
+package modelo.pronosticos_del_clima.proveedores;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;

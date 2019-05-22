@@ -1,4 +1,4 @@
-package modelo.clima;
+package modelo.pronosticos_del_clima;
 
 public class Temperatura {
 	private final double valor;
@@ -18,6 +18,6 @@ public class Temperatura {
 	}
 
 	public double toCelsius() {
-		return unidad.toUpperCase() == "F" ? (valor - 32) * 5/9 : valor;
+		return unidad.toUpperCase().equals("F") ? (valor - 32) * 5/9 : valor;
 	}
 }

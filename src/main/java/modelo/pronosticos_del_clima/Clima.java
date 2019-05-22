@@ -1,32 +1,19 @@
-package modelo.clima;
+package modelo.pronosticos_del_clima;
 
 import modelo.prenda.NivelDeAbrigo;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.EnumSet;
 
 public class Clima {
-	private final LocalDateTime fecha;
 	private final Temperatura temperatura;
-	private final double probabilidadPrecipitacion;
 
-	public Clima(LocalDateTime fecha, Temperatura temperatura, double probabilidadPrecipitacion) {
-		this.fecha = fecha;
+	public Clima(Temperatura temperatura) {
 		this.temperatura = temperatura;
-		this.probabilidadPrecipitacion = probabilidadPrecipitacion;
-	}
-
-	public LocalDateTime getFecha() {
-		return fecha;
 	}
 
 	public Temperatura getTemperatura() {
 		return temperatura;
-	}
-
-	public double getProbabilidadPrecipitacion() {
-		return probabilidadPrecipitacion;
 	}
 
 	public Collection<NivelDeAbrigo> formasDeAbrigarme() {

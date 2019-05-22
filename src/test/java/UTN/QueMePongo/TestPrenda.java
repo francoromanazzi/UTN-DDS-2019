@@ -1,9 +1,9 @@
 package UTN.QueMePongo;
 
-import excepciones.ColorSecundarioNoPuedeSerNuloException;
+import excepciones.parametros_nulos.ColorSecundarioNoPuedeSerNuloException;
 import excepciones.ColoresIgualesException;
 import excepciones.MaterialNoTieneSentidoParaEseTipoException;
-import excepciones.TipoNoPuedeSerNuloException;
+import excepciones.parametros_nulos.TipoNoPuedeSerNuloException;
 import modelo.prenda.Color;
 import modelo.prenda.Material;
 import modelo.prenda.Prenda;

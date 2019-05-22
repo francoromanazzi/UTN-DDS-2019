@@ -2,15 +2,16 @@ package modelo.guardarropa;
 
 import com.google.common.collect.Lists;
 import excepciones.CapacidadExcedidaGuardarropaException;
-import excepciones.ClimaNoDisponibleException;
+import excepciones.PronosticoNoDisponibleException;
 import excepciones.SinSugerenciasPosiblesException;
 import modelo.atuendo.Atuendo;
-import modelo.clima.Clima;
-import modelo.clima.ServicioDelClima;
 import modelo.evento.Evento;
 import modelo.prenda.Categoria;
 import modelo.prenda.NivelDeAbrigo;
 import modelo.prenda.Prenda;
+import modelo.pronosticos_del_clima.Clima;
+import modelo.pronosticos_del_clima.Pronostico;
+import modelo.pronosticos_del_clima.ServicioDelClima;
 import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Usuario;
 
@@ -57,8 +58,9 @@ public class Guardarropa {
 		return this.prendas.contains(prenda);
 	}
 
-	public List<Sugerencia> obtenerSugerencias(Evento evento) throws ClimaNoDisponibleException, SinSugerenciasPosiblesException {
-		Clima clima = ServicioDelClima.getInstance().obtenerClima(evento.getFechaInicio());
+	public List<Sugerencia> obtenerSugerencias(Evento evento) throws PronosticoNoDisponibleException, SinSugerenciasPosiblesException {
+		Pronostico pronostico = ServicioDelClima.getInstance().obtenerPronosticoPromedioEntre2Fechas(evento.getFechaInicio(), evento.getFechaFin());
+		Clima clima = pronostico.getClima();
 
 		List<List<Prenda>> prendasSuperioresValidas = filtrarYSuperponerPrendasPorClima(getPrendasSuperiores(), clima, 1, 3);
 		List<List<Prenda>> prendasInferioresValidas = filtrarYSuperponerPrendasPorClima(getPrendasInferiores(), clima, 1, 1);

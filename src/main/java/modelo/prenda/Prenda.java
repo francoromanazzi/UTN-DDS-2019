@@ -1,6 +1,11 @@
 package modelo.prenda;
 
-import excepciones.*;
+import excepciones.ColoresIgualesException;
+import excepciones.MaterialNoTieneSentidoParaEseTipoException;
+import excepciones.parametros_nulos.ColorPrincipalNoPuedeSerNuloException;
+import excepciones.parametros_nulos.ColorSecundarioNoPuedeSerNuloException;
+import excepciones.parametros_nulos.MaterialNoPuedeSerNuloException;
+import excepciones.parametros_nulos.TipoNoPuedeSerNuloException;
 
 import java.util.Optional;
 
@@ -10,16 +15,18 @@ public class Prenda {
 	private final Color colorPrincipal;
 	private final Optional<Color> colorSecundario;
 
-	public Prenda(Tipo tipo, Material material, Color colorPrincipal, Optional<Color> colorSecundario) {
-		if (tipo != null) this.tipo = tipo; 
+	public Prenda(Tipo tipo, Material material, Color colorPrincipal, Optional<Color> colorSecundario)
+			throws TipoNoPuedeSerNuloException, MaterialNoPuedeSerNuloException, ColorPrincipalNoPuedeSerNuloException, ColorSecundarioNoPuedeSerNuloException,
+			MaterialNoTieneSentidoParaEseTipoException, ColoresIgualesException {
+		if (tipo != null) this.tipo = tipo;
 		else throw new TipoNoPuedeSerNuloException();
-		
+
 		if (material != null) this.material = material;
 		else throw new MaterialNoPuedeSerNuloException();
-		
+
 		if (colorPrincipal != null) this.colorPrincipal = colorPrincipal;
 		else throw new ColorPrincipalNoPuedeSerNuloException();
-		
+
 		if (colorSecundario != null) this.colorSecundario = colorSecundario;
 		else throw new ColorSecundarioNoPuedeSerNuloException();
 
