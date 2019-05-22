@@ -45,7 +45,13 @@ public class ServicioDelClima {
 		// Si no, le pregunto a mis meteorologos hasta que alguno me lo pueda dar
 		for (int i = 0; obtenerPronosticosRazonables(fecha).isEmpty() && i < meteorologos.size(); i++) {
 			try {
-				pronosticos = meteorologos.get(i).obtenerPronosticos(); // TODO: En vez de asignar, hacerle un add sin repetidos, y limpiar los pronosticos viejos
+				List<Pronostico> pronosticosNuevos = meteorologos.get(i).obtenerPronosticos();
+
+				// Agrego los pronósticos nuevos a los que ya tenía
+				pronosticos.addAll(pronosticosNuevos);
+
+				// Saco los pronosticos viejos que hay en pronosticos
+				pronosticos = pronosticos.stream().filter(pronostico -> !pronostico.getFechaFin().isBefore(LocalDateTime.now())).collect(Collectors.toList());
 			} catch (ProveedorDeClimaSeCayoException ex) {
 				System.out.println("El proveedor " + meteorologos.get(i).getClass() + " se cayo");
 			}

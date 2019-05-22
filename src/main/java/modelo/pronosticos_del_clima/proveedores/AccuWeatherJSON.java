@@ -29,6 +29,10 @@ public class AccuWeatherJSON implements MeteorologoJSON {
 		LocalDateTime fechaParseada = LocalDateTime.parse(fecha, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 		Temperatura temperaturaParseada = new Temperatura((double) temperatura.valor, temperatura.unidad);
 		Clima clima = new Clima(temperaturaParseada);
-		return new Pronostico(fechaParseada.minusMinutes(30), fechaParseada.plusMinutes(30), clima); // TODO No hardcodear acá el +-30, sino deducirlo por la respuesta de accuweather
+		return new Pronostico(fechaParseada.minusMinutes(60), fechaParseada, clima);
+		/*
+		TODO En realidad el rango sería (0, 60) en vez de (-60, 0), pero accuweather no me devuelve a partir de la hora actual
+		 sino a partir de la siguiente. Ej si son las 7:05, me devuelve (8:00, 9:00), (9:00, 10:00), etc, entonces les resto 1 hora
+		*/
 	}
 }

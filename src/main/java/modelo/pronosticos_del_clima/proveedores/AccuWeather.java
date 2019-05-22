@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import excepciones.ProveedorDeClimaSeCayoException;
 import modelo.pronosticos_del_clima.Meteorologo;
 import modelo.pronosticos_del_clima.Pronostico;
+import utils.HttpRequest;
 
 import javax.ws.rs.client.ClientBuilder;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 public class AccuWeather extends Meteorologo {
 	@Override
 	public List<Pronostico> obtenerPronosticos() throws ProveedorDeClimaSeCayoException {
-		String json = pegarleA(ClientBuilder.newClient()
+		String json = HttpRequest.pegarleA(ClientBuilder.newClient()
 				.target("http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/7894")
 				.queryParam("apikey", "a9ZEXA1qgqXcX4sIgxv6OXZWV95jOOXC")
 				.queryParam("language", "en-US")

@@ -4,14 +4,9 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 class DarkSkyJSONResponse {
-	@SerializedName("currently")
-	private DarkSkyJSON pronosticoYa;
-
 	@SerializedName("hourly")
 	private Hourly hourly;
 
@@ -21,6 +16,6 @@ class DarkSkyJSONResponse {
 	}
 
 	public Collection<DarkSkyJSON> getPronosticos() {
-		return Lists.newArrayList(Iterables.concat(hourly.pronosticos, new ArrayList<>(Arrays.asList(pronosticoYa))));
+		return Lists.newArrayList(Iterables.concat(hourly.pronosticos));
 	}
 }
