@@ -50,7 +50,7 @@ public class TestSugerenciaAtuendos {
 	private final Prenda gorro = new Prenda(Tipo.GORRO, Material.LANA, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)));
 
 	private final ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
-	private final LocalDateTime fecha = LocalDateTime.of(2019, 5, 3, 1, 0);
+	private final LocalDateTime fecha = LocalDateTime.now();
 	private final Evento eventoCorto = new EventoEnInterior(fecha, fecha.plusMinutes(15));
 	private final Evento eventoLargo = new EventoEnInterior(fecha, fecha.plusHours(4));
 

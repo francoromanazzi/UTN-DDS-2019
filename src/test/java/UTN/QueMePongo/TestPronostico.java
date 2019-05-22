@@ -26,18 +26,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TestPronostico {
-	private final Meteorologo mockAccuweather2018 = Mockito.mock(AccuWeather.class);
-	private final Meteorologo mockAccuweather2019 = Mockito.mock(AccuWeather.class);
+	private final Meteorologo mockAccuweather2055 = Mockito.mock(AccuWeather.class);
+	private final Meteorologo mockAccuweather2056 = Mockito.mock(AccuWeather.class);
 	private final Meteorologo mockProveedorQueFalla = Mockito.mock(AccuWeather.class);
 
 	@Before
 	public void setupMockito() {
 		Mockito.when(mockProveedorQueFalla.obtenerPronosticos()).thenThrow(new ProveedorDeClimaSeCayoException());
 
-		Mockito.when(mockAccuweather2018.obtenerPronosticos()).thenAnswer(
+		Mockito.when(mockAccuweather2055.obtenerPronosticos()).thenAnswer(
 				(InvocationOnMock invocation) -> {
 					List<AccuWeatherJSON> pronosticosAccuWeather = new Gson().fromJson("[{" +
-							"\"DateTime\":\"2018-11-02T01:00:00-03:00\"," +
+							"\"DateTime\":\"2055-11-02T01:00:00-03:00\"," +
 							" \"PrecipitationProbability\": 15," +
 							"\"Temperature\": {\"Value\": 57, \"Unit\": \"F\"}" +
 							"}]", new TypeToken<List<AccuWeatherJSON>>() {
@@ -46,10 +46,10 @@ public class TestPronostico {
 				}
 		);
 
-		Mockito.when(mockAccuweather2019.obtenerPronosticos()).thenAnswer(
+		Mockito.when(mockAccuweather2056.obtenerPronosticos()).thenAnswer(
 				(InvocationOnMock invocation) -> {
 					List<AccuWeatherJSON> pronosticosAccuWeather = new Gson().fromJson("[{" +
-							"\"DateTime\":\"2019-05-03T01:00:00-03:00\"," +
+							"\"DateTime\":\"2056-05-03T01:00:00-03:00\"," +
 							" \"PrecipitationProbability\": 15," +
 							"\"Temperature\": {\"Value\": 57, \"Unit\": \"F\"}" +
 							"}]", new TypeToken<List<AccuWeatherJSON>>() {
@@ -73,8 +73,8 @@ public class TestPronostico {
 	public void debePoderParsearJsonDeAccuweatherHaciaPronostico() {
 		ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
 
-		servicioDelClima.agregarMeteorologo(mockAccuweather2019);
-		LocalDateTime fechaTarget = LocalDateTime.of(2019, 5, 3, 1, 0);
+		servicioDelClima.agregarMeteorologo(mockAccuweather2056);
+		LocalDateTime fechaTarget = LocalDateTime.of(2056, 5, 3, 1, 0);
 		Pronostico pronostico = servicioDelClima.obtenerPronostico(fechaTarget);
 
 		assertTrue(pronostico.intervaloContieneAFecha(fechaTarget));
@@ -86,18 +86,18 @@ public class TestPronostico {
 	public void debeFallarSiNoPuedeConseguirElPronostico() {
 		ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
 
-		servicioDelClima.agregarMeteorologo(mockAccuweather2019);
-		servicioDelClima.obtenerPronostico(LocalDateTime.of(2055, 5, 3, 1, 0));
+		servicioDelClima.agregarMeteorologo(mockAccuweather2056);
+		servicioDelClima.obtenerPronostico(LocalDateTime.of(2088, 5, 3, 1, 0));
 	}
 
 	@Test
 	public void debeConsultarAOtroProveedorsiUnProveedorNoTienePronostico() {
 		ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
 
-		servicioDelClima.agregarMeteorologo(mockAccuweather2019); // Este no lo tiene
-		servicioDelClima.agregarMeteorologo(mockAccuweather2018); // Este sí
+		servicioDelClima.agregarMeteorologo(mockAccuweather2056); // Este no lo tiene
+		servicioDelClima.agregarMeteorologo(mockAccuweather2055); // Este sí
 
-		LocalDateTime fechaTarget = LocalDateTime.of(2018, 11, 2, 1, 0);
+		LocalDateTime fechaTarget = LocalDateTime.of(2055, 11, 2, 1, 0);
 		Pronostico pronostico = servicioDelClima.obtenerPronostico(fechaTarget);
 
 		assertTrue(pronostico.intervaloContieneAFecha(fechaTarget));
@@ -110,9 +110,9 @@ public class TestPronostico {
 		ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
 
 		servicioDelClima.agregarMeteorologo(mockProveedorQueFalla); // Este falla
-		servicioDelClima.agregarMeteorologo(mockAccuweather2018); // Este tiene el clima
+		servicioDelClima.agregarMeteorologo(mockAccuweather2055); // Este tiene el clima
 
-		LocalDateTime fechaTarget = LocalDateTime.of(2018, 11, 2, 1, 0);
+		LocalDateTime fechaTarget = LocalDateTime.of(2055, 11, 2, 1, 0);
 		Pronostico pronostico = servicioDelClima.obtenerPronostico(fechaTarget);
 
 		assertTrue(pronostico.intervaloContieneAFecha(fechaTarget));

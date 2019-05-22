@@ -22,6 +22,6 @@ public class DarkSkyJSON implements MeteorologoJSON {
 		LocalDateTime fechaParseada = LocalDateTime.ofInstant(Instant.ofEpochSecond(fecha), TimeZone.getDefault().toZoneId());
 		Temperatura temperaturaParseada = new Temperatura(temperatura, "C");
 		Clima clima = new Clima(temperaturaParseada);
-		return new Pronostico(fechaParseada.minusMinutes(30), fechaParseada.plusMinutes(30), clima); // TODO No hardcodear acá el +-30, sino deducirlo por la respuesta de darksky
+		return new Pronostico(fechaParseada, fechaParseada.plusMinutes(60), clima); // Documentación: "hourly data point objects are pointed to the top of the hour"
 	}
 }
