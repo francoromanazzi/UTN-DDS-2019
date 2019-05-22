@@ -57,7 +57,7 @@ public class TestSugerenciaAtuendos {
 
 	@Before
 	public void asignarPrivilegios() {
-		userPremium.setPrivilegios(new Premium());
+		userPremium.setPrivilegio(new Premium());
 	}
 
 	@After

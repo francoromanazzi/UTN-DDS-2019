@@ -33,5 +33,4 @@ public class TestPrenda {
 	public void exceptionSiTipoYMaterialSonIncompatibles() {
 		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ORO, new Color(0, 0, 0), Optional.empty());
 	}
-
 }

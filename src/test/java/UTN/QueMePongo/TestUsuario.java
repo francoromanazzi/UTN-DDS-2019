@@ -27,8 +27,8 @@ public class TestUsuario {
 
     @Before
 	public void asignarPrivilegios() {
-		userGratuito.setPrivilegios(privilegiosGratuito);
-    	userPremium.setPrivilegios(privilegiosPremium);
+		userGratuito.setPrivilegio(privilegiosGratuito);
+    	userPremium.setPrivilegio(privilegiosPremium);
 	}
 
     @Test

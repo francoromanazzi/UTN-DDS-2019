@@ -6,14 +6,20 @@ import excepciones.parametros_nulos.ColorPrincipalNoPuedeSerNuloException;
 import excepciones.parametros_nulos.ColorSecundarioNoPuedeSerNuloException;
 import excepciones.parametros_nulos.MaterialNoPuedeSerNuloException;
 import excepciones.parametros_nulos.TipoNoPuedeSerNuloException;
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Optional;
+
+import javax.swing.ImageIcon;
 
 public class Prenda {
 	private final Tipo tipo;
 	private final Material material;
 	private final Color colorPrincipal;
 	private final Optional<Color> colorSecundario;
+	private ImageIcon imagen = new ImageIcon();
 
 	public Prenda(Tipo tipo, Material material, Color colorPrincipal, Optional<Color> colorSecundario)
 			throws TipoNoPuedeSerNuloException, MaterialNoPuedeSerNuloException, ColorPrincipalNoPuedeSerNuloException, ColorSecundarioNoPuedeSerNuloException,
@@ -43,7 +49,23 @@ public class Prenda {
 		if (colorSecundario.filter(color -> color.esIgualA(colorPrincipal)).isPresent())
 			throw new ColoresIgualesException();
 	}
-
+	
+	public void setImagen(File archivoImagen) throws IOException {
+		try {
+			byte[] bytesImagen = new byte[1024*100];
+			FileInputStream entry = new FileInputStream(archivoImagen);
+			entry.read(bytesImagen);
+			entry.close();
+			this.imagen = new ImageIcon(bytesImagen);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public ImageIcon getImagen() {
+		return this.imagen;
+	}
+	
 	public Tipo getTipo() {
 		return tipo;
 	}

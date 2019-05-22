@@ -12,7 +12,7 @@ import java.util.List;
 public class Usuario {
 	private final List<Guardarropa> guardarropas  = new ArrayList<>();
 	private Decision ultimaDecision = new DecisionVacia();
-	private PrivilegiosUsuario privilegios = new Gratuito(10);
+	private PrivilegiosUsuario privilegio = new Gratuito(10);
 
 	public List<Guardarropa> getGuardarropas() {
 		return guardarropas;
@@ -26,16 +26,16 @@ public class Usuario {
 		this.ultimaDecision = ultimaDecision;
 	}
 
-	public PrivilegiosUsuario getPrivilegios() {
-		return privilegios;
+	public PrivilegiosUsuario getPrivilegio() {
+		return privilegio;
 	}
 
-	public void setPrivilegios(PrivilegiosUsuario privilegios) {
-		this.privilegios = privilegios;
+	public void setPrivilegio(PrivilegiosUsuario privilegio) {
+		this.privilegio = privilegio;
 	}
 
 	public void addGuardarropa(Guardarropa guardarropa) {
-		privilegios.addGuardarropa(this.guardarropas, guardarropa);
+		privilegio.addGuardarropa(this.guardarropas, guardarropa);
 	}
 
 	public void removeGuardarropa(Guardarropa guardarropa) {
@@ -47,7 +47,7 @@ public class Usuario {
 	}
 
 	public void addPrenda(List<Prenda> prendasPrevias, Prenda prendaNueva) throws CapacidadExcedidaGuardarropaException {
-		privilegios.addPrenda(prendasPrevias, prendaNueva);
+		privilegio.addPrenda(prendasPrevias, prendaNueva);
 	}
 
 	public void deshacer() {
