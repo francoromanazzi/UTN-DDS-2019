@@ -1,10 +1,9 @@
 package utils;
 
 import excepciones.ImagenNoPudoSerCargadaException;
-import javax.imageio.ImageIO;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
