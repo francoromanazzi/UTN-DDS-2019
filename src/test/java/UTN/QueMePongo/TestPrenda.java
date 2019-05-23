@@ -10,10 +10,19 @@ import modelo.prenda.Color;
 import modelo.prenda.Material;
 import modelo.prenda.Prenda;
 import modelo.prenda.Tipo;
+import utils.Imagen;
+
 import org.junit.Test;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Optional;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public class TestPrenda {
 
@@ -60,5 +69,17 @@ public class TestPrenda {
 	@Test(expected = ImagenNoPudoSerCargadaException.class)
 	public void deberiaFallarSiElPathNoEsDeUnaImagen() {
 		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.of(new File("src/test/resources/img/texto.txt")));
+	}
+	
+	@Test
+	public void reescaladoImagenGrande() throws IOException {
+		String pathIMagenGrande = "src/test/resources/img/RemeraArchivoGrande.jpg";
+		File arch = new File(pathIMagenGrande);
+		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.of(arch));
+		BufferedImage im = Imagen.leerYNormalizarImagen(arch);
+        
+		File outputfile = new File("src/test/resources/img/RemeraArchivoGrandeCopia.png");
+		ImageIO.write(im, "png", outputfile);
+		//Crea una copia de la imagen pero reescalada - ver src/test/resources/img/
 	}
 }
