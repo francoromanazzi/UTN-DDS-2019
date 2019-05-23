@@ -52,7 +52,7 @@ public class ServicioDelClima {
 
 				// Saco los pronosticos viejos que hay en pronosticos
 				pronosticos = pronosticos.stream().filter(pronostico -> !pronostico.getFechaFin().isBefore(LocalDateTime.now())).collect(Collectors.toList());
-			} catch (ProveedorDeClimaSeCayoException ex) {
+			} catch (ProveedorDeClimaSeCayoException e) {
 				System.out.println("El proveedor " + meteorologos.get(i).getClass() + " se cayo");
 			}
 		}

@@ -47,9 +47,9 @@ public class TestUsuario {
     
     @Test(expected = GuardarropaConMayorPrendasQueCapMaxException.class)
     public void agregarAlGuardarropaMasPrendasDeLasQueSoportariaYQueNoSePuedaAgregarAlUsuarioGratuito(){
-		guardarropa.addPrenda(new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(255, 45, 0), Optional.empty()), userPremium);
-		guardarropa.addPrenda(new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 42), Optional.empty()), userPremium);
-		guardarropa.addPrenda(new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(244, 5, 22), Optional.empty()), userPremium);
+		guardarropa.addPrenda(new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(255, 45, 0), Optional.empty(), Optional.empty()), userPremium);
+		guardarropa.addPrenda(new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 42), Optional.empty(), Optional.empty()), userPremium);
+		guardarropa.addPrenda(new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(244, 5, 22), Optional.empty(), Optional.empty()), userPremium);
 		userGratuito.addGuardarropa(guardarropa);
     }
 }

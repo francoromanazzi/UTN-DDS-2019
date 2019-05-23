@@ -24,8 +24,8 @@ public class TestGuardarropa {
 	private final PrivilegiosUsuario privilegiosPremium = new Premium();
 	private final PrivilegiosUsuario privilegiosGratuito = new Gratuito(1);
 	private final Guardarropa guardarropa = new Guardarropa();
-	private final Prenda remera = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(255, 45, 0), Optional.empty());
-	private final Prenda remera2 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.POLIESTER, new Color(255, 45, 0), Optional.empty());
+	private final Prenda remera = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(255, 45, 0), Optional.empty(), Optional.empty());
+	private final Prenda remera2 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.POLIESTER, new Color(255, 45, 0), Optional.empty(), Optional.empty());
 
 	@Before
 	public void asignarPrivilegios() {

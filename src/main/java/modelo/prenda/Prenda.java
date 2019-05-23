@@ -1,11 +1,11 @@
 package modelo.prenda;
 
 import excepciones.ColoresIgualesException;
+import excepciones.ImagenNoPudoSerCargadaException;
 import excepciones.MaterialNoTieneSentidoParaEseTipoException;
-import excepciones.parametros_nulos.ColorPrincipalNoPuedeSerNuloException;
-import excepciones.parametros_nulos.ColorSecundarioNoPuedeSerNuloException;
-import excepciones.parametros_nulos.MaterialNoPuedeSerNuloException;
-import excepciones.parametros_nulos.TipoNoPuedeSerNuloException;
+import excepciones.parametros_nulos.*;
+import utils.Imagen;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,11 +19,11 @@ public class Prenda {
 	private final Material material;
 	private final Color colorPrincipal;
 	private final Optional<Color> colorSecundario;
-	private ImageIcon imagen = new ImageIcon();
+	private final Optional<ImageIcon> imagen;
 
-	public Prenda(Tipo tipo, Material material, Color colorPrincipal, Optional<Color> colorSecundario)
+	public Prenda(Tipo tipo, Material material, Color colorPrincipal, Optional<Color> colorSecundario, Optional<File> archivoImagen)
 			throws TipoNoPuedeSerNuloException, MaterialNoPuedeSerNuloException, ColorPrincipalNoPuedeSerNuloException, ColorSecundarioNoPuedeSerNuloException,
-			MaterialNoTieneSentidoParaEseTipoException, ColoresIgualesException {
+			MaterialNoTieneSentidoParaEseTipoException, ColoresIgualesException, ImagenNoPuedeSerNulaException, ImagenNoPudoSerCargadaException {
 		if (tipo != null) this.tipo = tipo;
 		else throw new TipoNoPuedeSerNuloException();
 
@@ -35,6 +35,9 @@ public class Prenda {
 
 		if (colorSecundario != null) this.colorSecundario = colorSecundario;
 		else throw new ColorSecundarioNoPuedeSerNuloException();
+
+		if (archivoImagen != null) imagen = archivoImagen.map(Imagen::leerYNormalizarImagen);
+		else throw new ImagenNoPuedeSerNulaException();
 
 		validarColoresDistintos();
 		validarMaterialTieneSentido();
@@ -49,23 +52,7 @@ public class Prenda {
 		if (colorSecundario.filter(color -> color.esIgualA(colorPrincipal)).isPresent())
 			throw new ColoresIgualesException();
 	}
-	
-	public void setImagen(File archivoImagen) throws IOException {
-		try {
-			byte[] bytesImagen = new byte[1024*100];
-			FileInputStream entry = new FileInputStream(archivoImagen);
-			entry.read(bytesImagen);
-			entry.close();
-			this.imagen = new ImageIcon(bytesImagen);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public ImageIcon getImagen() {
-		return this.imagen;
-	}
-	
+
 	public Tipo getTipo() {
 		return tipo;
 	}
@@ -80,6 +67,14 @@ public class Prenda {
 
 	public Categoria getCategoria() {
 		return this.tipo.getCategoria();
+	}
+
+	public Optional<Color> getColorSecundario() {
+		return colorSecundario;
+	}
+
+	public Optional<ImageIcon> getImagen() {
+		return imagen;
 	}
 
 	@Override
