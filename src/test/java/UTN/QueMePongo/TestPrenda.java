@@ -1,7 +1,8 @@
 package UTN.QueMePongo;
 
 import excepciones.ColoresIgualesException;
-import excepciones.ImagenNoPudoSerCargadaException;
+import excepciones.ExtensionDeImagenErroneaException;
+import excepciones.ImagenNoPudoSerLeidaException;
 import excepciones.MaterialNoTieneSentidoParaEseTipoException;
 import excepciones.parametros_nulos.ColorSecundarioNoPuedeSerNuloException;
 import excepciones.parametros_nulos.ImagenNoPuedeSerNulaException;
@@ -52,12 +53,12 @@ public class TestPrenda {
 		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.of(new File("src/test/resources/img/RemeraArchivoGrande.jpg")));
 	}
 
-	@Test(expected = ImagenNoPudoSerCargadaException.class)
+	@Test(expected = ImagenNoPudoSerLeidaException.class)
 	public void deberiaFallarSiElPathNoTieneNada() {
 		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.of(new File("src/test/resources/img/vacio.png")));
 	}
 
-	@Test(expected = ImagenNoPudoSerCargadaException.class)
+	@Test(expected = ExtensionDeImagenErroneaException.class)
 	public void deberiaFallarSiElPathNoEsDeUnaImagen() {
 		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.of(new File("src/test/resources/img/texto.txt")));
 	}

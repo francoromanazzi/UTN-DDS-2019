@@ -8,24 +8,36 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+
 public class TestImagen {
+	private final File
+			archivoGrande = new File("src/test/resources/img/RemeraArchivoGrande.jpg"),
+			archivoGrandeReescalado = new File("src/test/resources/img/RemeraArchivoGrandeReescalado.jpg"),
+			archivoChico = new File("src/test/resources/img/RemeraArchivoChico.jpg"),
+			archivoChicoReescalado = new File("src/test/resources/img/RemeraArchivoChicoReescalado.jpg");
+
 	@Test
 	public void deberiaPoderReescalarUnaImagenGrande() throws IOException {
-		File arch = new File("src/test/resources/img/RemeraArchivoGrande.jpg");
-		BufferedImage im = Imagen.leerYNormalizarImagen(arch);
+		BufferedImage imagenOriginal = Imagen.leerYNormalizarImagen(archivoGrande);
 
-		File outputfile = new File("src/test/resources/img/RemeraArchivoGrandeCopia.png");
-		ImageIO.write(im, "png", outputfile);
-		//Crea una copia de la imagen pero reescalada - ver src/test/resources/img/
+		ImageIO.write(imagenOriginal, "png", archivoGrandeReescalado); //Crea una copia de la imagen pero reescalada - ver src/test/resources/img/
+
+		BufferedImage imagenReescalada = ImageIO.read(archivoGrandeReescalado);
+
+		assertEquals(imagenReescalada.getWidth(), Imagen.WIDTH);
+		assertEquals(imagenReescalada.getHeight(), Imagen.HEIGHT);
 	}
 
 	@Test
 	public void deberiaPoderReescalarUnaImagenChica() throws IOException {
-		File arch = new File("src/test/resources/img/RemeraArchivoChico.jpg");
-		BufferedImage im = Imagen.leerYNormalizarImagen(arch);
+		BufferedImage imagenOriginal = Imagen.leerYNormalizarImagen(archivoChico);
 
-		File outputfile = new File("src/test/resources/img/RemeraArchivoChicoCopia.png");
-		ImageIO.write(im, "png", outputfile);
-		//Crea una copia de la imagen pero reescalada - ver src/test/resources/img/
+		ImageIO.write(imagenOriginal, "png", archivoChicoReescalado); //Crea una copia de la imagen pero reescalada - ver src/test/resources/img/
+
+		BufferedImage imagenReescalada = ImageIO.read(archivoChicoReescalado);
+
+		assertEquals(imagenReescalada.getWidth(), Imagen.WIDTH);
+		assertEquals(imagenReescalada.getHeight(), Imagen.HEIGHT);
 	}
 }

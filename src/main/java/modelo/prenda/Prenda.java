@@ -1,7 +1,8 @@
 package modelo.prenda;
 
 import excepciones.ColoresIgualesException;
-import excepciones.ImagenNoPudoSerCargadaException;
+import excepciones.ExtensionDeImagenErroneaException;
+import excepciones.ImagenNoPudoSerLeidaException;
 import excepciones.MaterialNoTieneSentidoParaEseTipoException;
 import excepciones.parametros_nulos.*;
 import utils.Imagen;
@@ -15,11 +16,11 @@ public class Prenda {
 	private final Material material;
 	private final Color colorPrincipal;
 	private final Optional<Color> colorSecundario;
-	private Optional<BufferedImage> imagen; //La imagen se deberìa poder cambiar
+	private final Optional<BufferedImage> imagen;
 
 	public Prenda(Tipo tipo, Material material, Color colorPrincipal, Optional<Color> colorSecundario, Optional<File> archivoImagen)
 			throws TipoNoPuedeSerNuloException, MaterialNoPuedeSerNuloException, ColorPrincipalNoPuedeSerNuloException, ColorSecundarioNoPuedeSerNuloException,
-			MaterialNoTieneSentidoParaEseTipoException, ColoresIgualesException, ImagenNoPuedeSerNulaException, ImagenNoPudoSerCargadaException {
+			MaterialNoTieneSentidoParaEseTipoException, ColoresIgualesException, ImagenNoPuedeSerNulaException, ImagenNoPudoSerLeidaException, ExtensionDeImagenErroneaException {
 		if (tipo != null) this.tipo = tipo;
 		else throw new TipoNoPuedeSerNuloException();
 
@@ -71,10 +72,6 @@ public class Prenda {
 
 	public Optional<BufferedImage> getImagen() {
 		return imagen;
-	}
-	
-	public void setImagen(Optional<BufferedImage> im) {
-		imagen = im;
 	}
 
 	@Override
