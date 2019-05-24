@@ -10,5 +10,5 @@ import java.util.List;
 public interface PrivilegiosUsuario {
 	void addGuardarropa(List<Guardarropa> guardarropasPrevios, Guardarropa guardarropaNuevo) throws GuardarropaConMayorPrendasQueCapMaxException;
 
-	void addPrenda(List<Prenda> prendasPrevias, Prenda prendaNueva) throws CapacidadExcedidaGuardarropaException;
+	void addPrenda(Prenda prendaNueva, Guardarropa guardarropa) throws CapacidadExcedidaGuardarropaException;
 }

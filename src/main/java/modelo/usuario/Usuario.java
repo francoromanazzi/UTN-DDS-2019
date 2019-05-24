@@ -1,6 +1,8 @@
 package modelo.usuario;
 
 import excepciones.CapacidadExcedidaGuardarropaException;
+import excepciones.GuardarropaConMayorPrendasQueCapMaxException;
+import excepciones.UsuarioNoEsDuenioDelGuardarropaException;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Prenda;
 import modelo.sugerencia.decision.Decision;
@@ -34,7 +36,7 @@ public class Usuario {
 		this.privilegio = privilegio;
 	}
 
-	public void addGuardarropa(Guardarropa guardarropa) {
+	public void addGuardarropa(Guardarropa guardarropa) throws GuardarropaConMayorPrendasQueCapMaxException {
 		privilegio.addGuardarropa(this.guardarropas, guardarropa);
 	}
 
@@ -46,8 +48,11 @@ public class Usuario {
 		return this.guardarropas.contains(g);
 	}
 
-	public void addPrenda(List<Prenda> prendasPrevias, Prenda prendaNueva) throws CapacidadExcedidaGuardarropaException {
-		privilegio.addPrenda(prendasPrevias, prendaNueva);
+	public void addPrenda(Prenda prendaNueva, Guardarropa guardarropa) throws UsuarioNoEsDuenioDelGuardarropaException, CapacidadExcedidaGuardarropaException {
+		if(!tieneGuardarropa(guardarropa))
+			throw new UsuarioNoEsDuenioDelGuardarropaException();
+
+		privilegio.addPrenda(prendaNueva, guardarropa);
 	}
 
 	public void deshacer() {

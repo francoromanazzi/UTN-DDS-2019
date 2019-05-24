@@ -54,34 +54,38 @@ public class TestSugerenciaAtuendos {
 	private final Evento eventoCorto = new EventoEnInterior(fecha, fecha.plusMinutes(15));
 	private final Evento eventoLargo = new EventoEnInterior(fecha, fecha.plusHours(4));
 
-
 	@Before
 	public void asignarPrivilegios() {
 		userPremium.setPrivilegio(new Premium());
 	}
 
+	@Before
+	public void agregarGuardarropaAUsuario() {
+		userPremium.addGuardarropa(guardarropa);
+	}
+
 	@After
 	public void limpiarPronosticosDelServicioDelClima() {
-		ServicioDelClima.getInstance().setPronosticos(new ArrayList<>());
+		servicioDelClima.setPronosticos(new ArrayList<>());
 	}
 
 	@Test
 	public void deberiaSugerirRopaAbrigadaSiHaceFrio() {
-		guardarropa.addPrenda(musculosa, userPremium);
-		guardarropa.addPrenda(remera1, userPremium);
-		guardarropa.addPrenda(remera2, userPremium);
-		guardarropa.addPrenda(remeraMangaLarga, userPremium);
-		guardarropa.addPrenda(buzo, userPremium);
-		guardarropa.addPrenda(campera, userPremium);
+		userPremium.addPrenda(musculosa, guardarropa);
+		userPremium.addPrenda(remera1, guardarropa);
+		userPremium.addPrenda(remera2, guardarropa);
+		userPremium.addPrenda(remeraMangaLarga, guardarropa);
+		userPremium.addPrenda(buzo, guardarropa);
+		userPremium.addPrenda(campera, guardarropa);
 
-		guardarropa.addPrenda(pantalonLargo, userPremium);
-		guardarropa.addPrenda(pantalonCorto, userPremium);
+		userPremium.addPrenda(pantalonLargo, guardarropa);
+		userPremium.addPrenda(pantalonCorto, guardarropa);
 
-		guardarropa.addPrenda(zapatos, userPremium);
-		guardarropa.addPrenda(zapatillas, userPremium);
+		userPremium.addPrenda(zapatos, guardarropa);
+		userPremium.addPrenda(zapatillas, guardarropa);
 
-		guardarropa.addPrenda(reloj, userPremium);
-		guardarropa.addPrenda(bufanda, userPremium);
+		userPremium.addPrenda(reloj, guardarropa);
+		userPremium.addPrenda(bufanda, guardarropa);
 
 		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Temperatura(2, "C"))))));
 
@@ -104,22 +108,22 @@ public class TestSugerenciaAtuendos {
 
 	@Test
 	public void deberiaSugerirRopaLivianaSiHaceCalor() {
-		guardarropa.addPrenda(musculosa, userPremium);
-		guardarropa.addPrenda(remera1, userPremium);
-		guardarropa.addPrenda(remera2, userPremium);
-		guardarropa.addPrenda(remeraMangaLarga, userPremium);
-		guardarropa.addPrenda(buzo, userPremium);
-		guardarropa.addPrenda(campera, userPremium);
+		userPremium.addPrenda(musculosa, guardarropa);
+		userPremium.addPrenda(remera1, guardarropa);
+		userPremium.addPrenda(remera2, guardarropa);
+		userPremium.addPrenda(remeraMangaLarga, guardarropa);
+		userPremium.addPrenda(buzo, guardarropa);
+		userPremium.addPrenda(campera, guardarropa);
 
-		guardarropa.addPrenda(pantalonLargo, userPremium);
-		guardarropa.addPrenda(pantalonCorto, userPremium);
+		userPremium.addPrenda(pantalonLargo, guardarropa);
+		userPremium.addPrenda(pantalonCorto, guardarropa);
 
-		guardarropa.addPrenda(zapatos, userPremium);
-		guardarropa.addPrenda(zapatillas, userPremium);
-		guardarropa.addPrenda(ojotas, userPremium);
+		userPremium.addPrenda(zapatos, guardarropa);
+		userPremium.addPrenda(zapatillas, guardarropa);
+		userPremium.addPrenda(ojotas, guardarropa);
 
-		guardarropa.addPrenda(reloj, userPremium);
-		guardarropa.addPrenda(bufanda, userPremium);
+		userPremium.addPrenda(reloj, guardarropa);
+		userPremium.addPrenda(bufanda, guardarropa);
 
 		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Temperatura(34, "C"))))));
 
@@ -148,11 +152,11 @@ public class TestSugerenciaAtuendos {
 
 	@Test(expected = SinSugerenciasPosiblesException.class)
 	public void deberiaFallarSiNoHayPrendasSuficientesParaSugerencia() {
-		guardarropa.addPrenda(remera2, userPremium);
-		guardarropa.addPrenda(buzo, userPremium);
-		guardarropa.addPrenda(campera, userPremium);
+		userPremium.addPrenda(remera2, guardarropa);
+		userPremium.addPrenda(buzo, guardarropa);
+		userPremium.addPrenda(campera, guardarropa);
 
-		guardarropa.addPrenda(pantalonLargo, userPremium);
+		userPremium.addPrenda(pantalonLargo, guardarropa);
 
 		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Temperatura(18, "C"))))));
 
@@ -161,29 +165,29 @@ public class TestSugerenciaAtuendos {
 
 	@Test(expected = PronosticoNoDisponibleException.class)
 	public void deberiaFallarSiNoHayPronosticoDisponible() {
-		guardarropa.addPrenda(remera2, userPremium);
-		guardarropa.addPrenda(buzo, userPremium);
-		guardarropa.addPrenda(campera, userPremium);
+		userPremium.addPrenda(remera2, guardarropa);
+		userPremium.addPrenda(buzo, guardarropa);
+		userPremium.addPrenda(campera, guardarropa);
 
-		guardarropa.addPrenda(pantalonLargo, userPremium);
+		userPremium.addPrenda(pantalonLargo, guardarropa);
 
-		guardarropa.addPrenda(zapatos, userPremium);
+		userPremium.addPrenda(zapatos, guardarropa);
 
 		guardarropa.obtenerSugerencias(eventoCorto); // No hay pronostico disponible => falla
 	}
 
 	@Test
 	public void gorraYGorroSonExcluyentes() {
-		guardarropa.addPrenda(remera1, userPremium);
-		guardarropa.addPrenda(campera, userPremium);
+		userPremium.addPrenda(remera1, guardarropa);
+		userPremium.addPrenda(campera, guardarropa);
 
-		guardarropa.addPrenda(pantalonLargo, userPremium);
-		guardarropa.addPrenda(pantalonCorto, userPremium);
+		userPremium.addPrenda(pantalonLargo, guardarropa);
+		userPremium.addPrenda(pantalonCorto, guardarropa);
 
-		guardarropa.addPrenda(zapatillas, userPremium);
+		userPremium.addPrenda(zapatillas, guardarropa);
 
-		guardarropa.addPrenda(gorra, userPremium);
-		guardarropa.addPrenda(gorro, userPremium);
+		userPremium.addPrenda(gorra, guardarropa);
+		userPremium.addPrenda(gorro, guardarropa);
 
 		// 1. Si hace frío => tanto gorro como gorra (pero por separado)
 		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Temperatura(2, "C"))))));
@@ -214,13 +218,13 @@ public class TestSugerenciaAtuendos {
 
 	@Test(expected = PronosticoNoDisponibleException.class)
 	public void deberiaFallarSiNoHayTodosLosPronosticosParaUnEventoLargo() {
-		guardarropa.addPrenda(remera2, userPremium);
-		guardarropa.addPrenda(buzo, userPremium);
-		guardarropa.addPrenda(campera, userPremium);
+		userPremium.addPrenda(remera2, guardarropa);
+		userPremium.addPrenda(buzo, guardarropa);
+		userPremium.addPrenda(campera, guardarropa);
 
-		guardarropa.addPrenda(pantalonLargo, userPremium);
+		userPremium.addPrenda(pantalonLargo, guardarropa);
 
-		guardarropa.addPrenda(zapatos, userPremium);
+		userPremium.addPrenda(zapatos, guardarropa);
 
 		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(
 				new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Temperatura(10, "C"))),
@@ -233,21 +237,21 @@ public class TestSugerenciaAtuendos {
 
 	@Test
 	public void deberiaSugerirSegunElPromedioDelClimaParaUnEventoLargo() {
-		guardarropa.addPrenda(musculosa, userPremium);
-		guardarropa.addPrenda(remera1, userPremium);
-		guardarropa.addPrenda(remera2, userPremium);
-		guardarropa.addPrenda(remeraMangaLarga, userPremium);
-		guardarropa.addPrenda(buzo, userPremium);
-		guardarropa.addPrenda(campera, userPremium);
+		userPremium.addPrenda(musculosa, guardarropa);
+		userPremium.addPrenda(remera1, guardarropa);
+		userPremium.addPrenda(remera2, guardarropa);
+		userPremium.addPrenda(remeraMangaLarga, guardarropa);
+		userPremium.addPrenda(buzo, guardarropa);
+		userPremium.addPrenda(campera, guardarropa);
 
-		guardarropa.addPrenda(pantalonLargo, userPremium);
-		guardarropa.addPrenda(pantalonCorto, userPremium);
+		userPremium.addPrenda(pantalonLargo, guardarropa);
+		userPremium.addPrenda(pantalonCorto, guardarropa);
 
-		guardarropa.addPrenda(zapatos, userPremium);
-		guardarropa.addPrenda(zapatillas, userPremium);
+		userPremium.addPrenda(zapatos, guardarropa);
+		userPremium.addPrenda(zapatillas, guardarropa);
 
-		guardarropa.addPrenda(reloj, userPremium);
-		guardarropa.addPrenda(bufanda, userPremium);
+		userPremium.addPrenda(reloj, guardarropa);
+		userPremium.addPrenda(bufanda, guardarropa);
 
 		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(
 				new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Temperatura(30, "C"))),

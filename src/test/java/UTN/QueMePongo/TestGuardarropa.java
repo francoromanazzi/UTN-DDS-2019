@@ -33,15 +33,23 @@ public class TestGuardarropa {
 		userPremium.setPrivilegio(privilegiosPremium);
 	}
 
+	@Before
+	public void asignoLosGuardarropas() {
+		userGratuito.setPrivilegio(privilegiosGratuito);
+		userPremium.setPrivilegio(privilegiosPremium);
+	}
+
 	@Test
 	public void agregoPrendaYVerificoQueElGuardarropaLaTenga() {
-		guardarropa.addPrenda(remera, userPremium);
+		userPremium.addGuardarropa(guardarropa);
+		userPremium.addPrenda(remera, guardarropa);
 		assertTrue(guardarropa.tienePrenda(remera));
 	}
 
 	@Test
 	public void removerPrendaYVerificoQueElGuardarropaYaNoLaTenga() {
-		guardarropa.addPrenda(remera, userPremium);
+		userPremium.addGuardarropa(guardarropa);
+		userPremium.addPrenda(remera, guardarropa);
 		assertTrue(guardarropa.tienePrenda(remera));
 		guardarropa.removePrenda(remera);
 		assertFalse(guardarropa.tienePrenda(remera));
@@ -49,7 +57,8 @@ public class TestGuardarropa {
 	
 	@Test(expected = CapacidadExcedidaGuardarropaException.class)
 	public void guardarropaSuperaElLimiteQueTieneDePrendasPosiblesParaUsuarioGratuito() {
-		guardarropa.addPrenda(remera, userGratuito);
-		guardarropa.addPrenda(remera2, userGratuito);
+		userGratuito.addGuardarropa(guardarropa);
+		userGratuito.addPrenda(remera, guardarropa);
+		userGratuito.addPrenda(remera2, guardarropa);
 	}
 }

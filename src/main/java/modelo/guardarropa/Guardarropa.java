@@ -1,7 +1,6 @@
 package modelo.guardarropa;
 
 import com.google.common.collect.Lists;
-import excepciones.CapacidadExcedidaGuardarropaException;
 import excepciones.PronosticoNoDisponibleException;
 import excepciones.SinSugerenciasPosiblesException;
 import modelo.atuendo.Atuendo;
@@ -13,7 +12,6 @@ import modelo.pronosticos_del_clima.Clima;
 import modelo.pronosticos_del_clima.Pronostico;
 import modelo.pronosticos_del_clima.ServicioDelClima;
 import modelo.sugerencia.Sugerencia;
-import modelo.usuario.Usuario;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -46,8 +44,8 @@ public class Guardarropa {
 		return this.prendas.size();
 	}
 
-	public void addPrenda(Prenda prenda, Usuario usuarioDuenio) throws CapacidadExcedidaGuardarropaException {
-		usuarioDuenio.addPrenda(this.prendas, prenda);
+	public void addPrenda(Prenda prenda) {
+		this.prendas.add(prenda);
 	}
 
 	public void removePrenda(Prenda prenda) {

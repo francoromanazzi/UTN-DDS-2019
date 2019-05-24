@@ -14,7 +14,7 @@ public class Premium implements PrivilegiosUsuario {
 	}
 
 	@Override
-	public void addPrenda(List<Prenda> prendasPrevias, Prenda prendaNueva) throws CapacidadExcedidaGuardarropaException {
-		prendasPrevias.add(prendaNueva);
+	public void addPrenda(Prenda prendaNueva, Guardarropa guardarropa) throws CapacidadExcedidaGuardarropaException {
+		guardarropa.addPrenda(prendaNueva);
 	}
 }

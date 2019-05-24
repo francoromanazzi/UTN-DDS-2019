@@ -23,10 +23,10 @@ public class Gratuito implements PrivilegiosUsuario {
 	}
 
 	@Override
-	public void addPrenda(List<Prenda> prendasPrevias, Prenda prendaNueva) throws CapacidadExcedidaGuardarropaException {
-		if(prendasPrevias.size() >= this.capacidadGuardarropa)
+	public void addPrenda(Prenda prendaNueva, Guardarropa guardarropa) throws CapacidadExcedidaGuardarropaException {
+		if(guardarropa.cantidadPrendas() >= this.capacidadGuardarropa)
 			throw new CapacidadExcedidaGuardarropaException();
 
-		prendasPrevias.add(prendaNueva);
+		guardarropa.addPrenda(prendaNueva);
 	}
 }
