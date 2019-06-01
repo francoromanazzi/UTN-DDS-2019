@@ -7,7 +7,7 @@ import java.util.List;
 public class Atuendo {
 	private final Prenda parteInferior, calzado;
 	private final List<Prenda> partesSuperiores, accesorios;
-	// TODO: Guardar acá la imágen
+	
 
 	public Atuendo(List<Prenda> partesSuperiores, Prenda parteInferior, Prenda calzado, List<Prenda> accesorios) {
 		this.partesSuperiores = partesSuperiores;

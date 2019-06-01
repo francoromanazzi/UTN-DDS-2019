@@ -82,7 +82,7 @@ public class Guardarropa {
 		Collection<NivelDeAbrigo> formasDeAbrigarme = clima.formasDeAbrigarme();
 
 		for(final int i : IntStream.rangeClosed(min, max).boxed().collect(Collectors.toList())) {
-			if(i == 0) ret.add(new ArrayList<>(Collections.emptyList())); // Ya que es opcional
+			if(i == 0) ret.add(Collections.emptyList()); // Ya que es opcional
 
 			formasDeAbrigarme.forEach(nivelDeAbrigo -> {
 				List<Prenda> prendasDeEsteNivelDeAbrigo = prendas.stream().filter(prenda -> prenda.getTipo().getNivelDeAbrigo() == nivelDeAbrigo).collect(Collectors.toList());

@@ -43,6 +43,7 @@ public class ServicioDelClima {
 	public Pronostico obtenerPronostico(LocalDateTime fecha) throws PronosticoNoDisponibleException {
 		// Reviso si ya lo tenía cacheado
 		// Si no, le pregunto a mis meteorologos hasta que alguno me lo pueda dar
+		//TODO convertir esto a un map filter findFirst
 		for (int i = 0; obtenerPronosticosRazonables(fecha).isEmpty() && i < meteorologos.size(); i++) {
 			try {
 				List<Pronostico> pronosticosNuevos = meteorologos.get(i).obtenerPronosticos();

@@ -21,6 +21,8 @@ public class Prenda {
 	public Prenda(Tipo tipo, Material material, Color colorPrincipal, Optional<Color> colorSecundario, Optional<File> archivoImagen)
 			throws TipoNoPuedeSerNuloException, MaterialNoPuedeSerNuloException, ColorPrincipalNoPuedeSerNuloException, ColorSecundarioNoPuedeSerNuloException,
 			MaterialNoTieneSentidoParaEseTipoException, ColoresIgualesException, ImagenNoPuedeSerNulaException, ImagenNoPudoSerLeidaException, ExtensionDeImagenErroneaException {
+		
+		//TODO desconfiado en el afuera
 		if (tipo != null) this.tipo = tipo;
 		else throw new TipoNoPuedeSerNuloException();
 

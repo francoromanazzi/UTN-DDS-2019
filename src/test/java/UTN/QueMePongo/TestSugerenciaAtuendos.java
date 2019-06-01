@@ -89,6 +89,8 @@ public class TestSugerenciaAtuendos {
 
 		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Temperatura(2, "C"))))));
 
+		//TODO en vez de pedir las sugerencias y que se generen en el momento 
+		// generar el evento que va a triggerear la ejecuci{on de generaci{on de sugerencias
 		List<Sugerencia> sugerencias = guardarropa.obtenerSugerencias(eventoCorto);
 
 		// Todas las sugerencias deberían tener la campera

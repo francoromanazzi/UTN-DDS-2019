@@ -20,6 +20,7 @@ public class Clima {
 		Collection<NivelDeAbrigo> ret;
 		double celsius = temperatura.toCelsius();
 
+		//TODO comportamiento en el enum en vez de acá
 		if(celsius < 5)
 			ret = EnumSet.of(NivelDeAbrigo.MUCHO);
 		else if(celsius < 15)
