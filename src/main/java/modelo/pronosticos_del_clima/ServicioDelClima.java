@@ -2,6 +2,8 @@ package modelo.pronosticos_del_clima;
 
 import excepciones.PronosticoNoDisponibleException;
 import excepciones.ProveedorDeClimaSeCayoException;
+import modelo.pronosticos_del_clima.clima.Clima;
+import modelo.pronosticos_del_clima.clima.temperatura.Celsius;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -77,9 +79,9 @@ public class ServicioDelClima {
 			pronosticos.add(obtenerPronostico(fecha));
 		}
 
-		double celsuisPromedio = pronosticos.stream().mapToDouble(pronostico -> pronostico.getClima().getTemperatura().toCelsius()).sum() / (double) pronosticos.size();
+		double celsuisPromedio = pronosticos.stream().mapToDouble(pronostico -> pronostico.getClima().getTemperatura().toCelsius().getValor()).sum() / (double) pronosticos.size();
 
-		Clima climaPromedio = new Clima(new Temperatura(celsuisPromedio, "C"));
+		Clima climaPromedio = new Clima(new Celsius(celsuisPromedio));
 		return new Pronostico(fechaInicio, fechaFin, climaPromedio);
 	}
 

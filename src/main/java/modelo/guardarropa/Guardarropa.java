@@ -8,9 +8,9 @@ import modelo.evento.Evento;
 import modelo.prenda.Categoria;
 import modelo.prenda.NivelDeAbrigo;
 import modelo.prenda.Prenda;
-import modelo.pronosticos_del_clima.Clima;
 import modelo.pronosticos_del_clima.Pronostico;
 import modelo.pronosticos_del_clima.ServicioDelClima;
+import modelo.pronosticos_del_clima.clima.Clima;
 import modelo.sugerencia.Sugerencia;
 
 import java.util.*;

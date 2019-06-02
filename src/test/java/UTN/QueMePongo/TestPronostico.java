@@ -7,6 +7,7 @@ import excepciones.ProveedorDeClimaSeCayoException;
 import modelo.pronosticos_del_clima.Meteorologo;
 import modelo.pronosticos_del_clima.Pronostico;
 import modelo.pronosticos_del_clima.ServicioDelClima;
+import modelo.pronosticos_del_clima.clima.temperatura.Fahrenheit;
 import modelo.pronosticos_del_clima.proveedores.AccuWeather;
 import modelo.pronosticos_del_clima.proveedores.AccuWeatherJSON;
 import modelo.pronosticos_del_clima.proveedores.DarkSky;
@@ -79,7 +80,7 @@ public class TestPronostico {
 
 		assertTrue(pronostico.intervaloContieneAFecha(fechaTarget));
 		assertEquals(57, pronostico.getClima().getTemperatura().getValor(), 0.001);
-		assertEquals("F", pronostico.getClima().getTemperatura().getUnidad());
+		assertEquals(Fahrenheit.class, pronostico.getClima().getTemperatura().getClass());
 	}
 
 	@Test(expected = PronosticoNoDisponibleException.class)
@@ -102,7 +103,7 @@ public class TestPronostico {
 
 		assertTrue(pronostico.intervaloContieneAFecha(fechaTarget));
 		assertEquals(57, pronostico.getClima().getTemperatura().getValor(), 0.001);
-		assertEquals("F", pronostico.getClima().getTemperatura().getUnidad());
+		assertEquals(Fahrenheit.class, pronostico.getClima().getTemperatura().getClass());
 	}
 
 	@Test
@@ -117,7 +118,7 @@ public class TestPronostico {
 
 		assertTrue(pronostico.intervaloContieneAFecha(fechaTarget));
 		assertEquals(57, pronostico.getClima().getTemperatura().getValor(), 0.001);
-		assertEquals("F", pronostico.getClima().getTemperatura().getUnidad());
+		assertEquals(Fahrenheit.class, pronostico.getClima().getTemperatura().getClass());
 	}
 
 	@Ignore // Poner el @Ignore para cuando no se quiera pegarle a accuweather
@@ -132,7 +133,7 @@ public class TestPronostico {
 		System.out.println(pronostico.getFechaInicio());
 		System.out.println(pronostico.getFechaFin());
 		System.out.println(pronostico.getClima().getTemperatura().getValor());
-		System.out.println(pronostico.getClima().getTemperatura().getUnidad());
+		System.out.println(pronostico.getClima().getTemperatura().getClass());
 		System.out.println(pronostico.getClima().getTemperatura().toCelsius());
 	}
 
@@ -148,7 +149,7 @@ public class TestPronostico {
 		System.out.println(pronostico.getFechaFin());
 		System.out.println(pronostico.getFechaFin());
 		System.out.println(pronostico.getClima().getTemperatura().getValor());
-		System.out.println(pronostico.getClima().getTemperatura().getUnidad());
+		System.out.println(pronostico.getClima().getTemperatura().getClass());
 		System.out.println(pronostico.getClima().getTemperatura().toCelsius());
 	}
 }

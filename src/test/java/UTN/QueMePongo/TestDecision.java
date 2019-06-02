@@ -7,10 +7,10 @@ import modelo.prenda.Color;
 import modelo.prenda.Material;
 import modelo.prenda.Prenda;
 import modelo.prenda.Tipo;
-import modelo.pronosticos_del_clima.Clima;
 import modelo.pronosticos_del_clima.Pronostico;
 import modelo.pronosticos_del_clima.ServicioDelClima;
-import modelo.pronosticos_del_clima.Temperatura;
+import modelo.pronosticos_del_clima.clima.Clima;
+import modelo.pronosticos_del_clima.clima.temperatura.Celsius;
 import modelo.sugerencia.CalificacionSugerencia;
 import modelo.sugerencia.EstadoSugerencia;
 import modelo.sugerencia.Sugerencia;
@@ -43,7 +43,7 @@ public class TestDecision {
 
 	@Before
 	public void asignarPronosticosDelSevicioDelClima() {
-		ServicioDelClima.getInstance().setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Temperatura(25, "C"))))));
+		ServicioDelClima.getInstance().setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Celsius(25))))));
 
 	}
 

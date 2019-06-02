@@ -1,6 +1,7 @@
-package modelo.pronosticos_del_clima;
+package modelo.pronosticos_del_clima.clima;
 
 import modelo.prenda.NivelDeAbrigo;
+import modelo.pronosticos_del_clima.clima.temperatura.Temperatura;
 
 import java.util.Collection;
 import java.util.EnumSet;
@@ -18,9 +19,9 @@ public class Clima {
 
 	public Collection<NivelDeAbrigo> formasDeAbrigarme() {
 		Collection<NivelDeAbrigo> ret;
-		double celsius = temperatura.toCelsius();
+		double celsius = temperatura.toCelsius().getValor();
 
-		//TODO comportamiento en el enum en vez de acá
+		//TODO comportamiento en el enum en vez de aca
 		if(celsius < 5)
 			ret = EnumSet.of(NivelDeAbrigo.MUCHO);
 		else if(celsius < 15)

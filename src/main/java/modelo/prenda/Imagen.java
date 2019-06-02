@@ -1,15 +1,14 @@
 package modelo.prenda;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
+import excepciones.ExtensionDeImagenErroneaException;
+import excepciones.ImagenNoPudoSerLeidaException;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
-import javax.imageio.ImageIO;
-
-import excepciones.ExtensionDeImagenErroneaException;
-import excepciones.ImagenNoPudoSerLeidaException;
 
 public class Imagen {
 	public static final int HEIGHT = 500, WIDTH = 500;

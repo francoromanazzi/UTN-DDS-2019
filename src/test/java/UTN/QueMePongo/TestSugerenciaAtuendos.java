@@ -9,10 +9,10 @@ import modelo.prenda.Color;
 import modelo.prenda.Material;
 import modelo.prenda.Prenda;
 import modelo.prenda.Tipo;
-import modelo.pronosticos_del_clima.Clima;
 import modelo.pronosticos_del_clima.Pronostico;
 import modelo.pronosticos_del_clima.ServicioDelClima;
-import modelo.pronosticos_del_clima.Temperatura;
+import modelo.pronosticos_del_clima.clima.Clima;
+import modelo.pronosticos_del_clima.clima.temperatura.Celsius;
 import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Premium;
 import modelo.usuario.Usuario;
@@ -87,7 +87,7 @@ public class TestSugerenciaAtuendos {
 		userPremium.addPrenda(reloj, guardarropa);
 		userPremium.addPrenda(bufanda, guardarropa);
 
-		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Temperatura(2, "C"))))));
+		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Celsius(2))))));
 
 		//TODO en vez de pedir las sugerencias y que se generen en el momento 
 		// generar el evento que va a triggerear la ejecuci{on de generaci{on de sugerencias
@@ -127,7 +127,7 @@ public class TestSugerenciaAtuendos {
 		userPremium.addPrenda(reloj, guardarropa);
 		userPremium.addPrenda(bufanda, guardarropa);
 
-		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Temperatura(34, "C"))))));
+		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Celsius(34))))));
 
 		List<Sugerencia> sugerencias = guardarropa.obtenerSugerencias(eventoCorto);
 
@@ -160,7 +160,7 @@ public class TestSugerenciaAtuendos {
 
 		userPremium.addPrenda(pantalonLargo, guardarropa);
 
-		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Temperatura(18, "C"))))));
+		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Celsius(18))))));
 
 		guardarropa.obtenerSugerencias(eventoCorto); // Le falta calzado => falla
 	}
@@ -192,7 +192,7 @@ public class TestSugerenciaAtuendos {
 		userPremium.addPrenda(gorro, guardarropa);
 
 		// 1. Si hace frío => tanto gorro como gorra (pero por separado)
-		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Temperatura(2, "C"))))));
+		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Celsius(2))))));
 		List<Sugerencia> sugerencias = guardarropa.obtenerSugerencias(eventoCorto);
 
 		// No debería tener gorro y gorra al mismo tiempo
@@ -205,7 +205,7 @@ public class TestSugerenciaAtuendos {
 		limpiarPronosticosDelServicioDelClima(); // Reset
 
 		// 2. Si hace calor => solamente gorra
-		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Temperatura(34, "C"))))));
+		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Celsius(34))))));
 		sugerencias = guardarropa.obtenerSugerencias(eventoCorto);
 
 		// No debería tener gorro
@@ -229,9 +229,9 @@ public class TestSugerenciaAtuendos {
 		userPremium.addPrenda(zapatos, guardarropa);
 
 		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(
-				new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Temperatura(10, "C"))),
-				new Pronostico(fecha.plusMinutes(30), fecha.plusMinutes(90), new Clima(new Temperatura(10.7, "C"))),
-				new Pronostico(fecha.plusMinutes(90), fecha.plusMinutes(150), new Clima(new Temperatura(10.4, "C")))
+				new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Celsius(10))),
+				new Pronostico(fecha.plusMinutes(30), fecha.plusMinutes(90), new Clima(new Celsius(10.7))),
+				new Pronostico(fecha.plusMinutes(90), fecha.plusMinutes(150), new Clima(new Celsius(10.4)))
 				)));
 
 		guardarropa.obtenerSugerencias(eventoLargo); // No están todos los pronosticos disponibles => falla
@@ -256,11 +256,11 @@ public class TestSugerenciaAtuendos {
 		userPremium.addPrenda(bufanda, guardarropa);
 
 		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(
-				new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Temperatura(30, "C"))),
-				new Pronostico(fecha.plusMinutes(30), fecha.plusMinutes(90), new Clima(new Temperatura(-3, "C"))),
-				new Pronostico(fecha.plusMinutes(90), fecha.plusMinutes(150), new Clima(new Temperatura(-5, "C"))),
-				new Pronostico(fecha.plusMinutes(150), fecha.plusMinutes(210), new Clima(new Temperatura(-4, "C"))),
-				new Pronostico(fecha.plusMinutes(210), fecha.plusMinutes(270), new Clima(new Temperatura(-3, "C")))
+				new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Celsius(30))),
+				new Pronostico(fecha.plusMinutes(30), fecha.plusMinutes(90), new Clima(new Celsius(-3))),
+				new Pronostico(fecha.plusMinutes(90), fecha.plusMinutes(150), new Clima(new Celsius(-5))),
+				new Pronostico(fecha.plusMinutes(150), fecha.plusMinutes(210), new Clima(new Celsius(-4))),
+				new Pronostico(fecha.plusMinutes(210), fecha.plusMinutes(270), new Clima(new Celsius(-3)))
 		))); // En un intervalo hace calor, pero en el resto hace frío => sugerencias abrigadas
 
 		List<Sugerencia> sugerencias = guardarropa.obtenerSugerencias(eventoLargo);

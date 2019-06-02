@@ -6,6 +6,7 @@ import excepciones.parametros_nulos.FechaInicioNoPuedeSerNulaException;
 import modelo.evento.EventoAlAireLibre;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.time.LocalDateTime;
 import java.time.Month;
 

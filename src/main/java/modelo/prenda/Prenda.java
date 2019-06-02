@@ -6,7 +6,6 @@ import excepciones.ImagenNoPudoSerLeidaException;
 import excepciones.MaterialNoTieneSentidoParaEseTipoException;
 import excepciones.parametros_nulos.*;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Optional;
 
