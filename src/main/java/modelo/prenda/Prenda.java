@@ -5,6 +5,7 @@ import excepciones.ExtensionDeImagenErroneaException;
 import excepciones.ImagenNoPudoSerLeidaException;
 import excepciones.MaterialNoTieneSentidoParaEseTipoException;
 import excepciones.parametros_nulos.*;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Optional;
@@ -19,8 +20,7 @@ public class Prenda {
 	public Prenda(Tipo tipo, Material material, Color colorPrincipal, Optional<Color> colorSecundario, Optional<File> archivoImagen)
 			throws TipoNoPuedeSerNuloException, MaterialNoPuedeSerNuloException, ColorPrincipalNoPuedeSerNuloException, ColorSecundarioNoPuedeSerNuloException,
 			MaterialNoTieneSentidoParaEseTipoException, ColoresIgualesException, ImagenNoPuedeSerNulaException, ImagenNoPudoSerLeidaException, ExtensionDeImagenErroneaException {
-		
-		//TODO desconfiado en el afuera
+
 		if (tipo != null) this.tipo = tipo;
 		else throw new TipoNoPuedeSerNuloException();
 
@@ -33,11 +33,8 @@ public class Prenda {
 		if (colorSecundario != null) this.colorSecundario = colorSecundario;
 		else throw new ColorSecundarioNoPuedeSerNuloException();
 
-		try {
-			imagen =  Optional.of(new Imagen(archivoImagen.get()));
-		}catch(Exception e) {
-			imagen = Optional.empty();
-		}
+		if (archivoImagen != null) imagen = archivoImagen.map(Imagen::new);
+		else throw new ImagenNoPuedeSerNulaException();
 
 		validarColoresDistintos();
 		validarMaterialTieneSentido();
