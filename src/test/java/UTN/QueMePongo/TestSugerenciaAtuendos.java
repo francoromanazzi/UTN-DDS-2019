@@ -3,7 +3,6 @@ package UTN.QueMePongo;
 import excepciones.PronosticoNoDisponibleException;
 import excepciones.SinSugerenciasPosiblesException;
 import modelo.evento.Evento;
-import modelo.evento.EventoEnInterior;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Color;
 import modelo.prenda.Material;
@@ -51,8 +50,8 @@ public class TestSugerenciaAtuendos {
 
 	private final ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
 	private final LocalDateTime fecha = LocalDateTime.now();
-	private final Evento eventoCorto = new EventoEnInterior(fecha, fecha.plusMinutes(15));
-	private final Evento eventoLargo = new EventoEnInterior(fecha, fecha.plusHours(4));
+	private final Evento eventoCorto = new Evento(fecha, fecha.plusMinutes(15));
+	private final Evento eventoLargo = new Evento(fecha, fecha.plusHours(4));
 
 	@Before
 	public void asignarPrivilegios() {

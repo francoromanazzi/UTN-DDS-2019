@@ -1,7 +1,6 @@
 package UTN.QueMePongo;
 
 import modelo.evento.Evento;
-import modelo.evento.EventoEnInterior;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Color;
 import modelo.prenda.Material;
@@ -30,7 +29,7 @@ public class TestDecision {
 	private final Usuario usuario = new Usuario();
 	private final Guardarropa guardarropa = new Guardarropa();
 	private final LocalDateTime fecha = LocalDateTime.now();
-	private final Evento eventoCorto = new EventoEnInterior(fecha, fecha.plusMinutes(15));
+	private final Evento eventoCorto = new Evento(fecha, fecha.plusMinutes(15));
 
 	@Before
 	public void agregarGuardarropaAUsuario() {
@@ -58,7 +57,7 @@ public class TestDecision {
 		sugerencia.aceptar(usuario);
 		sugerencia.calificar(CalificacionSugerencia.CUATRO_ESTRELLAS, usuario);
 		sugerencia.calificar(CalificacionSugerencia.UNA_ESTRELLA, usuario);
-		usuario.deshacer();
+		usuario.deshacerUltimaDecision();
 
 		assertEquals(sugerencia.getEstado(), EstadoSugerencia.CALIFICADO);
 		assertEquals(sugerencia.getCalificacion(), CalificacionSugerencia.CUATRO_ESTRELLAS);
