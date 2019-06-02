@@ -10,6 +10,7 @@ import modelo.sugerencia.decision.Decision;
 import modelo.sugerencia.decision.DecisionVacia;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Usuario {
@@ -17,6 +18,7 @@ public class Usuario {
 	private Decision ultimaDecision = new DecisionVacia();
 	private PrivilegiosUsuario privilegio = new Gratuito(10);
 	private final Map<Evento, List<Sugerencia>> sugerenciasGeneradasParaEventos = new HashMap<>();
+	private final List<Evento> eventosAgendados = new ArrayList<>();
 
 	public List<Guardarropa> getGuardarropas() {
 		return guardarropas;
@@ -62,22 +64,30 @@ public class Usuario {
 		ultimaDecision = new DecisionVacia();
 	}
 
-	public void agendarEvento(Evento evento, Guardarropa guardarropaAUtilizar) {
+	public void agendarEvento(Evento evento, Guardarropa guardarropaAUtilizar) throws EventoYaFueAgendadoException {
+		if(eventosAgendados.contains(evento))
+			throw new EventoYaFueAgendadoException();
+
+		eventosAgendados.add(evento);
+
 		Timer timer = new Timer();
 		TimerTask generarSugerencias = new GenerarSugerencias(evento, guardarropaAUtilizar, sugerenciasGeneradasParaEventos);
-		Date fechaDeEjecucion = Timestamp.valueOf(evento.getFechaInicio().minusHours(2)); // Generar sugerencias dos horas antes del inicio del evento
-		timer.schedule(generarSugerencias, fechaDeEjecucion);
+
+		LocalDateTime fechaDeEjecucion = evento.getFechaInicio().minusHours(2);
+
+		if(!fechaDeEjecucion.isAfter(LocalDateTime.now())) {
+			timer.schedule(generarSugerencias, 0);
+		} else {
+			timer.schedule(generarSugerencias, Timestamp.valueOf(fechaDeEjecucion));
+		}
 	}
 
-	public List<Sugerencia> obtenerSugerencias(Evento evento) throws EventoNoEstaProximoException, SinSugerenciasPosiblesException {
+	public List<Sugerencia> obtenerSugerencias(Evento evento) throws EventoNoFueAgendadoException, EventoNoEstaProximoException, SinSugerenciasPosiblesException, PronosticoNoDisponibleException {
+		if(!eventosAgendados.contains(evento))
+			throw new EventoNoFueAgendadoException();
 		if(!sugerenciasGeneradasParaEventos.containsKey(evento))
 			throw new EventoNoEstaProximoException();
 
-		List<Sugerencia> sugerencias = sugerenciasGeneradasParaEventos.get(evento);
-
-		if(sugerencias.isEmpty())
-			throw new SinSugerenciasPosiblesException();
-
-		return sugerencias;
+		return sugerenciasGeneradasParaEventos.get(evento);
 	}
 }
