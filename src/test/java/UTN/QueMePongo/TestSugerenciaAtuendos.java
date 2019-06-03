@@ -1,6 +1,7 @@
 package UTN.QueMePongo;
 
 import excepciones.*;
+import modelo.cron_jobs.GenerarSugerencias;
 import modelo.evento.Evento;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Color;
@@ -88,9 +89,7 @@ public class TestSugerenciaAtuendos {
 
 		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(ahora.minusMinutes(30), ahora.plusMinutes(30), new Clima(new Celsius(2))))));
 
-		//TODO en vez de pedir las sugerencias y que se generen en el momento 
-		// generar el evento que va a triggerear la ejecuci{on de generaci{on de sugerencias
-		List<Sugerencia> sugerencias = guardarropa.obtenerSugerencias(eventoCorto);
+		List<Sugerencia> sugerencias = new GenerarSugerencias(eventoCorto, guardarropa, null).generarSugerencias();
 
 		// Todas las sugerencias deberían tener la campera
 		assertTrue(sugerencias.stream().allMatch(sugerencia -> sugerencia.getAtuendo().getPartesSuperiores().contains(campera)));
@@ -128,7 +127,7 @@ public class TestSugerenciaAtuendos {
 
 		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(ahora.minusMinutes(30), ahora.plusMinutes(30), new Clima(new Celsius(34))))));
 
-		List<Sugerencia> sugerencias = guardarropa.obtenerSugerencias(eventoCorto);
+		List<Sugerencia> sugerencias = new GenerarSugerencias(eventoCorto, guardarropa, null).generarSugerencias();
 
 		// Todas las sugerencias deberían tener pantalon corto
 		assertTrue(sugerencias.stream().allMatch(sugerencia -> sugerencia.getAtuendo().getParteInferior() == pantalonCorto));
@@ -161,7 +160,7 @@ public class TestSugerenciaAtuendos {
 
 		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(ahora.minusMinutes(30), ahora.plusMinutes(30), new Clima(new Celsius(18))))));
 
-		guardarropa.obtenerSugerencias(eventoCorto); // Le falta calzado => falla
+		new GenerarSugerencias(eventoCorto, guardarropa, null).generarSugerencias(); // Le falta calzado => falla
 	}
 
 	@Test(expected = PronosticoNoDisponibleException.class)
@@ -174,12 +173,13 @@ public class TestSugerenciaAtuendos {
 
 		userPremium.addPrenda(zapatos, guardarropa);
 
-		guardarropa.obtenerSugerencias(eventoCorto); // No hay pronostico disponible => falla
+		new GenerarSugerencias(eventoCorto, guardarropa, null).generarSugerencias(); // No hay pronostico disponible => falla
 	}
 
 	@Test
 	public void gorraYGorroSonExcluyentes() {
 		userPremium.addPrenda(remera1, guardarropa);
+		userPremium.addPrenda(buzo, guardarropa);
 		userPremium.addPrenda(campera, guardarropa);
 
 		userPremium.addPrenda(pantalonLargo, guardarropa);
@@ -191,8 +191,8 @@ public class TestSugerenciaAtuendos {
 		userPremium.addPrenda(gorro, guardarropa);
 
 		// 1. Si hace frío => tanto gorro como gorra (pero por separado)
-		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(ahora.minusMinutes(30), ahora.plusMinutes(30), new Clima(new Celsius(2))))));
-		List<Sugerencia> sugerencias = guardarropa.obtenerSugerencias(eventoCorto);
+		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(ahora.minusMinutes(30), ahora.plusMinutes(30), new Clima(new Celsius(8))))));
+		List<Sugerencia> sugerencias = new GenerarSugerencias(eventoCorto, guardarropa, null).generarSugerencias();
 
 		// No debería tener gorro y gorra al mismo tiempo
 		assertFalse(sugerencias.stream().anyMatch(sugerencia -> sugerencia.getAtuendo().getAccesorios().contains(gorra) && sugerencia.getAtuendo().getAccesorios().contains(gorro)));
@@ -205,7 +205,7 @@ public class TestSugerenciaAtuendos {
 
 		// 2. Si hace calor => solamente gorra
 		servicioDelClima.setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(ahora.minusMinutes(30), ahora.plusMinutes(30), new Clima(new Celsius(34))))));
-		sugerencias = guardarropa.obtenerSugerencias(eventoCorto);
+		sugerencias = new GenerarSugerencias(eventoCorto, guardarropa, null).generarSugerencias();
 
 		// No debería tener gorro
 		assertTrue(sugerencias.stream().noneMatch(sugerencia -> sugerencia.getAtuendo().getAccesorios().contains(gorro)));
@@ -233,7 +233,7 @@ public class TestSugerenciaAtuendos {
 				new Pronostico(ahora.plusMinutes(90), ahora.plusMinutes(150), new Clima(new Celsius(10.4)))
 		)));
 
-		guardarropa.obtenerSugerencias(eventoLargo); // No están todos los pronosticos disponibles => falla
+		new GenerarSugerencias(eventoLargo, guardarropa, null).generarSugerencias(); // No están todos los pronosticos disponibles => falla
 	}
 
 	@Test
@@ -262,7 +262,8 @@ public class TestSugerenciaAtuendos {
 				new Pronostico(ahora.plusMinutes(210), ahora.plusMinutes(270), new Clima(new Celsius(-3)))
 		))); // En un intervalo hace calor, pero en el resto hace frío => sugerencias abrigadas
 
-		List<Sugerencia> sugerencias = guardarropa.obtenerSugerencias(eventoLargo);
+
+		List<Sugerencia> sugerencias = new GenerarSugerencias(eventoLargo, guardarropa, null).generarSugerencias();
 
 		// Todas las sugerencias deberían tener la campera
 		assertTrue(sugerencias.stream().allMatch(sugerencia -> sugerencia.getAtuendo().getPartesSuperiores().contains(campera)));

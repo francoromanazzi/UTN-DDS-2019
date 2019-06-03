@@ -1,5 +1,6 @@
 package UTN.QueMePongo;
 
+import modelo.cron_jobs.GenerarSugerencias;
 import modelo.evento.Evento;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Color;
@@ -53,7 +54,7 @@ public class TestDecision {
 
 	@Test
 	public void usuarioDeberiaPoderDeshacerUltimaAccion() {
-		Sugerencia sugerencia = guardarropa.obtenerSugerencias(eventoCorto).get(0);
+		Sugerencia sugerencia = new GenerarSugerencias(eventoCorto, guardarropa, null).generarSugerencias().get(0);
 		sugerencia.aceptar(usuario);
 		sugerencia.calificar(CalificacionSugerencia.CUATRO_ESTRELLAS, usuario);
 		sugerencia.calificar(CalificacionSugerencia.UNA_ESTRELLA, usuario);
