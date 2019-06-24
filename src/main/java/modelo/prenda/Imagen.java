@@ -40,11 +40,12 @@ public class Imagen {
 		} catch (IOException e) {
 			throw new ImagenNoPudoSerLeidaException();
 		}
-		int type = imagenOriginal.getType() == 0? BufferedImage.TYPE_INT_ARGB : imagenOriginal.getType();
-		return resize(imagenOriginal, type);
+		
+		return resize(imagenOriginal);
 	}
 	
-	private BufferedImage resize(BufferedImage originalImage, int type){
+	private BufferedImage resize(BufferedImage originalImage){
+		int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
 		Image tmp = originalImage.getScaledInstance(WIDTH, HEIGHT, Image.SCALE_SMOOTH);
 		BufferedImage resizedImage = new BufferedImage(WIDTH, HEIGHT, type);
 		Graphics2D g = resizedImage.createGraphics();
