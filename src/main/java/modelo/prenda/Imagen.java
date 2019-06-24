@@ -25,6 +25,7 @@ public class Imagen {
 	public void escribirEnArchivo(String url) throws IOException {
 		String separador = Pattern.quote(".");
 		String[] parts = url.split(separador);
+		System.out.println(parts[parts.length - 1]);
 		ImageIO.write(this.imagen, parts[parts.length - 1], new File(url));
 	}
 
@@ -39,15 +40,17 @@ public class Imagen {
 		} catch (IOException e) {
 			throw new ImagenNoPudoSerLeidaException();
 		}
-		return resize(imagenOriginal);
+		int type = imagenOriginal.getType() == 0? BufferedImage.TYPE_INT_ARGB : imagenOriginal.getType();
+		return resize(imagenOriginal, type);
 	}
-
-	private BufferedImage resize(BufferedImage img) {
-		Image tmp = img.getScaledInstance(WIDTH, HEIGHT, Image.SCALE_SMOOTH);
-		BufferedImage resized = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2d = resized.createGraphics();
-		g2d.drawImage(tmp, 0, 0, null);
-		g2d.dispose();
-		return resized;
+	
+	private BufferedImage resize(BufferedImage originalImage, int type){
+		Image tmp = originalImage.getScaledInstance(WIDTH, HEIGHT, Image.SCALE_SMOOTH);
+		BufferedImage resizedImage = new BufferedImage(WIDTH, HEIGHT, type);
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(tmp, 0, 0, WIDTH, HEIGHT, null);
+		g.dispose();
+			
+		return resizedImage;
 	}
 }
