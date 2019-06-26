@@ -13,6 +13,7 @@ import modelo.pronosticos_del_clima.clima.Clima;
 import modelo.pronosticos_del_clima.clima.temperatura.Celsius;
 import modelo.sugerencia.CalificacionSugerencia;
 import modelo.sugerencia.EstadoSugerencia;
+import modelo.sugerencia.SensibilidadTemperatura;
 import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Usuario;
 import org.junit.After;
@@ -22,9 +23,11 @@ import org.junit.Test;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TestDecision {
 	private final Usuario usuario = new Usuario();
@@ -56,11 +59,12 @@ public class TestDecision {
 	public void usuarioDeberiaPoderDeshacerUltimaAccion() {
 		Sugerencia sugerencia = new GenerarSugerencias(eventoCorto, guardarropa, null).generarSugerencias().get(0);
 		sugerencia.aceptar(usuario);
-		sugerencia.calificar(CalificacionSugerencia.CUATRO_ESTRELLAS, usuario);
-		sugerencia.calificar(CalificacionSugerencia.UNA_ESTRELLA, usuario);
+		sugerencia.calificar(new CalificacionSugerencia(SensibilidadTemperatura.NORMAL, new HashMap<>()), usuario);
+		sugerencia.calificar(new CalificacionSugerencia(SensibilidadTemperatura.NORMAL, new HashMap<>()), usuario);
 		usuario.deshacerUltimaDecision();
 
 		assertEquals(sugerencia.getEstado(), EstadoSugerencia.CALIFICADO);
-		assertEquals(sugerencia.getCalificacion(), CalificacionSugerencia.CUATRO_ESTRELLAS);
+		assertEquals(sugerencia.getCalificacion().getSensibilidadGlobal(), SensibilidadTemperatura.NORMAL);
+		assertTrue(sugerencia.getCalificacion().getSensibilidadPorPartesDelCuerpo().isEmpty());
 	}
 }
