@@ -1,4 +1,4 @@
-package modelo.cron_jobs;
+package cron_jobs;
 
 import excepciones.PronosticoNoDisponibleException;
 import excepciones.SinSugerenciasPosiblesException;

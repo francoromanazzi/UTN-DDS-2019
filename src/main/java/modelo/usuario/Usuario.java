@@ -1,7 +1,7 @@
 package modelo.usuario;
 
 import excepciones.*;
-import modelo.cron_jobs.GenerarSugerencias;
+import cron_jobs.GenerarSugerencias;
 import modelo.evento.Evento;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Prenda;
