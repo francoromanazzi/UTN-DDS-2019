@@ -16,11 +16,11 @@ import java.util.*;
 public class Usuario {
 	private String nombre;
 	private String mail;
-	private final List<Guardarropa> guardarropas = new ArrayList<>();
 	private Decision ultimaDecision = new DecisionVacia();
 	private PrivilegiosUsuario privilegio = new Gratuito(10);
 	private final Map<Evento, List<Sugerencia>> sugerenciasGeneradasParaEventos = new HashMap<>();
 	private final List<Evento> eventosAgendados = new ArrayList<>();
+	private final List<Sugerencia> historialSugerencias = new ArrayList<>();
 	
 	public Usuario(String nombre, String mail) {
 		this.mail = mail;
@@ -33,10 +33,6 @@ public class Usuario {
 
 	public void setMail(String mail) {
 		this.mail = mail;
-	}
-	
-	public List<Guardarropa> getGuardarropas() {
-		return guardarropas;
 	}
 
 	public Decision getUltimaDecision() {
@@ -55,21 +51,25 @@ public class Usuario {
 		this.privilegio = privilegio;
 	}
 
+	public List<Sugerencia> getHistorialSugerencias() {
+		return historialSugerencias;
+	}
+
 	public void addGuardarropa(Guardarropa guardarropa) throws GuardarropaConMayorPrendasQueCapMaxException {
-		privilegio.addGuardarropa(this.guardarropas, guardarropa);
+		privilegio.addGuardarropa(guardarropa, this);
 	}
 
 	public void removeGuardarropa(Guardarropa guardarropa) {
-		this.guardarropas.remove(guardarropa);
+		guardarropa.removeUsuario(this);
 	}
 
-	public boolean tieneGuardarropa(Guardarropa g) {
-		return this.guardarropas.contains(g);
+	public boolean tieneGuardarropa(Guardarropa guardarropa) {
+		return guardarropa.tieneUsuario(this);
 	}
 
-	public void addPrenda(Prenda prendaNueva, Guardarropa guardarropa) throws UsuarioNoEsDuenioDelGuardarropaException, CapacidadExcedidaGuardarropaException {
+	public void addPrenda(Prenda prendaNueva, Guardarropa guardarropa) throws UsuarioNoEsPropietarioDelGuardarropaException, CapacidadExcedidaGuardarropaException {
 		if (!tieneGuardarropa(guardarropa))
-			throw new UsuarioNoEsDuenioDelGuardarropaException();
+			throw new UsuarioNoEsPropietarioDelGuardarropaException();
 
 		privilegio.addPrenda(prendaNueva, guardarropa);
 	}
@@ -79,14 +79,14 @@ public class Usuario {
 		ultimaDecision = new DecisionVacia();
 	}
 
-	public void agendarEvento(Evento evento, Guardarropa guardarropaAUtilizar) throws EventoYaFueAgendadoException {
+	public void agendarEvento(Evento evento, Guardarropa guardarropaAUtilizar) throws EventoYaFueAgendadoException, UsuarioNoEsPropietarioDelGuardarropaException {
 		if (eventosAgendados.contains(evento))
 			throw new EventoYaFueAgendadoException();
 
 		eventosAgendados.add(evento);
 
 		Timer timer = new Timer();
-		TimerTask generarSugerencias = new GenerarSugerencias(evento, guardarropaAUtilizar, sugerenciasGeneradasParaEventos);
+		TimerTask generarSugerencias = new GenerarSugerencias(evento, guardarropaAUtilizar, sugerenciasGeneradasParaEventos, historialSugerencias);
 
 		LocalDateTime fechaDeEjecucion = evento.getFechaInicio().minusHours(2);
 

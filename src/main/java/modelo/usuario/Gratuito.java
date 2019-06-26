@@ -15,16 +15,21 @@ public class Gratuito implements PrivilegiosUsuario {
 	}
 
 	@Override
-	public void addGuardarropa(List<Guardarropa> guardarropasPrevios, Guardarropa guardarropaNuevo) throws GuardarropaConMayorPrendasQueCapMaxException {
-		if (guardarropaNuevo.cantidadPrendas() > this.capacidadGuardarropa)
+	public void addGuardarropa(Guardarropa guardarropa, Usuario usuarioNuevo) throws GuardarropaConMayorPrendasQueCapMaxException {
+		if (guardarropa.cantidadPrendas() > this.capacidadGuardarropa)
 			throw new GuardarropaConMayorPrendasQueCapMaxException();
 
-		guardarropasPrevios.add(guardarropaNuevo);
+		guardarropa.addUsuario(usuarioNuevo);
+	}
+
+	@Override
+	public boolean admiteAddPrenda(Prenda prendaNueva, Guardarropa guardarropa) {
+		return guardarropa.cantidadPrendas() < this.capacidadGuardarropa;
 	}
 
 	@Override
 	public void addPrenda(Prenda prendaNueva, Guardarropa guardarropa) throws CapacidadExcedidaGuardarropaException {
-		if (guardarropa.cantidadPrendas() >= this.capacidadGuardarropa)
+		if (!admiteAddPrenda(prendaNueva, guardarropa))
 			throw new CapacidadExcedidaGuardarropaException();
 
 		guardarropa.addPrenda(prendaNueva);

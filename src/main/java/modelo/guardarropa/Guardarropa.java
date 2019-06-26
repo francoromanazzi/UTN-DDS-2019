@@ -12,14 +12,22 @@ import modelo.prenda.Tipo;
 import modelo.pronosticos_del_clima.Pronostico;
 import modelo.pronosticos_del_clima.ServicioDelClima;
 import modelo.pronosticos_del_clima.clima.Clima;
+import modelo.sugerencia.EstadoSugerencia;
 import modelo.sugerencia.Sugerencia;
+import modelo.usuario.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Guardarropa {
 	private final List<Prenda> prendas = new ArrayList<>();
+	private final List<Usuario> usuariosPropietarios = new ArrayList<>();
+
+	public List<Usuario> getUsuariosPropietarios() {
+		return usuariosPropietarios;
+	}
 
 	public List<Prenda> getPrendasSuperiores() {
 		return getPrendasDeCategoria(Categoria.SUPERIOR);
@@ -57,7 +65,29 @@ public class Guardarropa {
 		return this.prendas.contains(prenda);
 	}
 
-	public List<Sugerencia> generarSugerencias(Evento evento) throws PronosticoNoDisponibleException, SinSugerenciasPosiblesException {
+	public void addUsuario(Usuario usuario) {
+		this.usuariosPropietarios.add(usuario);
+	}
+
+	public void removeUsuario(Usuario usuario) {
+		this.usuariosPropietarios.remove(usuario);
+	}
+
+	public boolean tieneUsuario(Usuario usuario) {
+		return this.usuariosPropietarios.contains(usuario);
+	}
+
+	public List<Sugerencia> generarSugerencias(Evento evento, List<Sugerencia> historialSugerencias) throws PronosticoNoDisponibleException, SinSugerenciasPosiblesException {
+		Predicate<Prenda> prendaEnUso = prenda ->
+				usuariosPropietarios.stream().anyMatch(user ->
+						user.getHistorialSugerencias().stream().anyMatch(sug ->
+								sug.getEstado() == EstadoSugerencia.ACEPTADO && sug.getAtuendo().obtenerTodasLasPrendas().contains(prenda)
+						)
+				);
+
+		Predicate<Sugerencia> sinPrendasEnUsoPorOtroUsuario = sugerencia ->
+				sugerencia.getAtuendo().obtenerTodasLasPrendas().stream().noneMatch(prendaEnUso);
+
 		Pronostico pronostico = ServicioDelClima.getInstance().obtenerPronosticoPromedioEntre2Fechas(evento.getFechaInicio(), evento.getFechaFin());
 		Clima clima = pronostico.getClima();
 
@@ -75,6 +105,7 @@ public class Guardarropa {
 				.cartesianProduct(prendasSuperiores, prendasInferiores, calzados, accesorios)
 				.stream()
 				.map(result -> new Sugerencia(new Atuendo(result.get(0), result.get(1).get(0), result.get(2).get(0), result.get(3))))
+				.filter(sinPrendasEnUsoPorOtroUsuario)
 				.collect(Collectors.toList());
 
 		if (ret.isEmpty()) throw new SinSugerenciasPosiblesException();

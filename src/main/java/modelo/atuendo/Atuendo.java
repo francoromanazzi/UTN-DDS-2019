@@ -2,12 +2,15 @@ package modelo.atuendo;
 
 import modelo.prenda.Prenda;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Atuendo {
 	private final Prenda parteInferior, calzado;
 	private final List<Prenda> partesSuperiores, accesorios;
-
 
 	public Atuendo(List<Prenda> partesSuperiores, Prenda parteInferior, Prenda calzado, List<Prenda> accesorios) {
 		this.partesSuperiores = partesSuperiores;
@@ -30,6 +33,11 @@ public class Atuendo {
 
 	public List<Prenda> getAccesorios() {
 		return accesorios;
+	}
+
+	public List<Prenda> obtenerTodasLasPrendas() {
+		return Stream.of(partesSuperiores, Collections.singletonList(parteInferior), Collections.singletonList(calzado), accesorios)
+				.flatMap(Collection::stream).collect(Collectors.toList());
 	}
 
 	@Override
