@@ -57,7 +57,7 @@ public class TestDecision {
 
 	@Test
 	public void usuarioDeberiaPoderDeshacerUltimaAccion() {
-		Sugerencia sugerencia = new GenerarSugerencias(eventoCorto, guardarropa, null).generarSugerencias().get(0);
+		Sugerencia sugerencia = guardarropa.generarSugerencias(eventoCorto).get(0);
 		sugerencia.aceptar(usuario);
 		sugerencia.calificar(new CalificacionSugerencia(SensibilidadTemperatura.NORMAL, new HashMap<>()), usuario);
 		sugerencia.calificar(new CalificacionSugerencia(SensibilidadTemperatura.NORMAL, new HashMap<>()), usuario);
