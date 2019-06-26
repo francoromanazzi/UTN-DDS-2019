@@ -14,12 +14,27 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class Usuario {
+	private String nombre;
+	private String mail;
 	private final List<Guardarropa> guardarropas = new ArrayList<>();
 	private Decision ultimaDecision = new DecisionVacia();
 	private PrivilegiosUsuario privilegio = new Gratuito(10);
 	private final Map<Evento, List<Sugerencia>> sugerenciasGeneradasParaEventos = new HashMap<>();
 	private final List<Evento> eventosAgendados = new ArrayList<>();
+	
+	public Usuario(String nombre, String mail) {
+		this.mail = mail;
+		this.nombre = nombre;
+	}
+	
+	public String getMail() {
+		return mail;
+	}
 
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+	
 	public List<Guardarropa> getGuardarropas() {
 		return guardarropas;
 	}
@@ -89,5 +104,13 @@ public class Usuario {
 			throw new EventoNoEstaProximoException();
 
 		return sugerenciasGeneradasParaEventos.get(evento);
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 }

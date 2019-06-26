@@ -19,8 +19,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class TestUsuario {
-	private final Usuario userGratuito = new Usuario();
-	private final Usuario userPremium = new Usuario();
+	private final Usuario userGratuito = new Usuario("","");
+	private final Usuario userPremium = new Usuario("","");
 	private final PrivilegiosUsuario privilegiosPremium = new Premium();
 	private final PrivilegiosUsuario privilegiosGratuito = new Gratuito(2);
 	private final Guardarropa guardarropa = new Guardarropa();
