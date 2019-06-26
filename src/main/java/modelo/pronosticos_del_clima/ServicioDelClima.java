@@ -7,12 +7,16 @@ import modelo.pronosticos_del_clima.clima.temperatura.Celsius;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ServicioDelClima {
 	private static final ServicioDelClima ourInstance = new ServicioDelClima();
-	private List<Pronostico> pronosticos = new ArrayList<>();
+	private List<Pronostico> pronosticosCache = new ArrayList<>();
 	private List<Meteorologo> meteorologos = new ArrayList<>();
 
 	public static ServicioDelClima getInstance() {
@@ -30,51 +34,55 @@ public class ServicioDelClima {
 		this.meteorologos = meteorologos;
 	}
 
-	public List<Pronostico> getPronosticos() {
-		return pronosticos;
+	public List<Pronostico> getPronosticosCache() {
+		return pronosticosCache;
 	}
 
-	public void setPronosticos(List<Pronostico> pronosticos) {
-		this.pronosticos = pronosticos;
+	public void setPronosticosCache(List<Pronostico> pronosticosCache) {
+		this.pronosticosCache = pronosticosCache;
 	}
 
 	public void agregarMeteorologo(Meteorologo meteorologo) {
 		meteorologos.add(meteorologo);
 	}
 
-	public Pronostico obtenerPronostico(LocalDateTime fecha) throws PronosticoNoDisponibleException {
+	public Pronostico obtenerPronostico(LocalDateTime fecha) throws PronosticoNoDisponibleException, ProveedorDeClimaSeCayoException {
+
+		Consumer<List<Pronostico>> callbackAlGenerarPronostico = pronosticosNuevos -> {
+			// Agrego los pronósticos nuevos a los que ya tenía
+			this.pronosticosCache.addAll(pronosticosNuevos);
+
+			// Saco los pronosticosCache viejos que hay en pronosticosCache
+			this.pronosticosCache = this.pronosticosCache
+					.stream()
+					.filter(pronostico -> !pronostico.getFechaFin().isBefore(LocalDateTime.now()))
+					.collect(Collectors.toList());
+		};
+
 		// Reviso si ya lo tenía cacheado
 		// Si no, le pregunto a mis meteorologos hasta que alguno me lo pueda dar
-		//TODO convertir esto a un map filter findFirst
-		for (int i = 0; obtenerPronosticosRazonables(fecha).isEmpty() && i < meteorologos.size(); i++) {
-			try {
-				List<Pronostico> pronosticosNuevos = meteorologos.get(i).obtenerPronosticos();
+		Stream<Pronostico> pronosticosCacheados = this.pronosticosCache.stream();
+		Stream<Pronostico> pronosticosNuevos = this.meteorologos.stream()
+				.flatMap(meteorologo -> {
+					try {
+						return meteorologo.obtenerPronosticos(Optional.of(callbackAlGenerarPronostico)).stream();
+					} catch (ProveedorDeClimaSeCayoException e) {
+						return Stream.empty();
+					}
+				});
 
-				// Agrego los pronósticos nuevos a los que ya tenía
-				pronosticos.addAll(pronosticosNuevos);
+		Stream<Pronostico> pronosticos = Stream.concat(pronosticosCacheados, pronosticosNuevos);
 
-				// Saco los pronosticos viejos que hay en pronosticos
-				pronosticos = pronosticos.stream().filter(pronostico -> !pronostico.getFechaFin().isBefore(LocalDateTime.now())).collect(Collectors.toList());
-			} catch (ProveedorDeClimaSeCayoException e) {
-				System.out.println("El proveedor " + meteorologos.get(i).getClass() + " se cayo");
-			}
-		}
-
-		if (obtenerPronosticosRazonables(fecha).isEmpty()) {
-			throw new PronosticoNoDisponibleException();
-		}
-
-		return obtenerPronosticosRazonables(fecha)
-				.stream()
-				.reduce(obtenerPronosticosRazonables(fecha).get(0), (prono1, prono2) ->
-						prono1.minutosHastaValorRepresentativo(fecha) <= prono2.minutosHastaValorRepresentativo(fecha)
-								? prono1 : prono2);
+		return pronosticos
+				.filter(pronostico -> pronostico.intervaloContieneAFecha(fecha))
+				.min(Comparator.comparingLong(p -> p.minutosHastaValorRepresentativo(fecha)))
+				.orElseThrow(PronosticoNoDisponibleException::new);
 	}
 
 	public Pronostico obtenerPronosticoPromedioEntre2Fechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) throws PronosticoNoDisponibleException {
 		List<Pronostico> pronosticos = new ArrayList<>();
 
-		// Obtengo los pronosticos cada media hora, entre las 2 fechas
+		// Obtengo los pronosticosCache cada media hora, entre las 2 fechas
 		for (LocalDateTime fecha = fechaInicio; !fecha.isAfter(fechaFin); fecha = fecha.plusMinutes(30)) {
 			pronosticos.add(obtenerPronostico(fecha));
 		}
@@ -83,9 +91,5 @@ public class ServicioDelClima {
 
 		Clima climaPromedio = new Clima(new Celsius(celsuisPromedio));
 		return new Pronostico(fechaInicio, fechaFin, climaPromedio);
-	}
-
-	private List<Pronostico> obtenerPronosticosRazonables(LocalDateTime fecha) {
-		return pronosticos.stream().filter(pronostico -> pronostico.intervaloContieneAFecha(fecha)).collect(Collectors.toList());
 	}
 }

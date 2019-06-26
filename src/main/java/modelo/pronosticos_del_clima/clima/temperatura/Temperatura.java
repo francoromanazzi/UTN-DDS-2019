@@ -12,5 +12,6 @@ public abstract class Temperatura {
 	}
 
 	public abstract Temperatura toCelsius();
+
 	public abstract Temperatura toFahrenheit();
 }

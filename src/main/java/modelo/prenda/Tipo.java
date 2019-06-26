@@ -124,19 +124,16 @@ public enum Tipo {
 		return combinacionesValidas.stream().map(
 				superposicion -> {
 					List<Tipo> tipos = superposicion.getTipos();
-					if(tipos.containsAll(Arrays.asList(Tipo.GORRO, Tipo.GUANTES, Tipo.BUFANDA))) {
+					if (tipos.containsAll(Arrays.asList(Tipo.GORRO, Tipo.GUANTES, Tipo.BUFANDA))) {
 						// 3 accesorios de abrigo
 						return new PrototipoSuperposicion(tipos, new TemperaturaMenosInfinito(), new Celsius(7.5));
-					}
-					else if(tipos.containsAll(Arrays.asList(Tipo.GORRO, Tipo.GUANTES)) || tipos.containsAll(Arrays.asList(Tipo.GORRO, Tipo.BUFANDA)) || tipos.containsAll(Arrays.asList(Tipo.GUANTES, Tipo.BUFANDA))) {
+					} else if (tipos.containsAll(Arrays.asList(Tipo.GORRO, Tipo.GUANTES)) || tipos.containsAll(Arrays.asList(Tipo.GORRO, Tipo.BUFANDA)) || tipos.containsAll(Arrays.asList(Tipo.GUANTES, Tipo.BUFANDA))) {
 						// 2 accesorios de abrigo
 						return new PrototipoSuperposicion(tipos, new TemperaturaMenosInfinito(), new Celsius(9));
-					}
-					else if(tipos.contains(Tipo.GORRO) || tipos.contains(Tipo.GUANTES) || tipos.contains(Tipo.BUFANDA)) {
+					} else if (tipos.contains(Tipo.GORRO) || tipos.contains(Tipo.GUANTES) || tipos.contains(Tipo.BUFANDA)) {
 						// 1 accesorio de abrigo
 						return new PrototipoSuperposicion(tipos, new TemperaturaMenosInfinito(), new Celsius(12));
-					}
-					else
+					} else
 						// 0 accesorios de abrigo
 						return superposicion;
 				}

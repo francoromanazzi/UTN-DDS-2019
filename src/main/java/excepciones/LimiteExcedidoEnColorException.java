@@ -1,5 +1,5 @@
 package excepciones;
 
-public class LimiteExcedidoEnColorException extends RuntimeException{
+public class LimiteExcedidoEnColorException extends RuntimeException {
 
 }

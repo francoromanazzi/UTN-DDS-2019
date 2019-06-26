@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class Usuario {
-	private final List<Guardarropa> guardarropas  = new ArrayList<>();
+	private final List<Guardarropa> guardarropas = new ArrayList<>();
 	private Decision ultimaDecision = new DecisionVacia();
 	private PrivilegiosUsuario privilegio = new Gratuito(10);
 	private final Map<Evento, List<Sugerencia>> sugerenciasGeneradasParaEventos = new HashMap<>();
@@ -47,13 +47,13 @@ public class Usuario {
 	public void removeGuardarropa(Guardarropa guardarropa) {
 		this.guardarropas.remove(guardarropa);
 	}
-	
+
 	public boolean tieneGuardarropa(Guardarropa g) {
 		return this.guardarropas.contains(g);
 	}
 
 	public void addPrenda(Prenda prendaNueva, Guardarropa guardarropa) throws UsuarioNoEsDuenioDelGuardarropaException, CapacidadExcedidaGuardarropaException {
-		if(!tieneGuardarropa(guardarropa))
+		if (!tieneGuardarropa(guardarropa))
 			throw new UsuarioNoEsDuenioDelGuardarropaException();
 
 		privilegio.addPrenda(prendaNueva, guardarropa);
@@ -65,7 +65,7 @@ public class Usuario {
 	}
 
 	public void agendarEvento(Evento evento, Guardarropa guardarropaAUtilizar) throws EventoYaFueAgendadoException {
-		if(eventosAgendados.contains(evento))
+		if (eventosAgendados.contains(evento))
 			throw new EventoYaFueAgendadoException();
 
 		eventosAgendados.add(evento);
@@ -75,7 +75,7 @@ public class Usuario {
 
 		LocalDateTime fechaDeEjecucion = evento.getFechaInicio().minusHours(2);
 
-		if(!fechaDeEjecucion.isAfter(LocalDateTime.now())) {
+		if (!fechaDeEjecucion.isAfter(LocalDateTime.now())) {
 			timer.schedule(generarSugerencias, 0);
 		} else {
 			timer.schedule(generarSugerencias, Timestamp.valueOf(fechaDeEjecucion));
@@ -83,9 +83,9 @@ public class Usuario {
 	}
 
 	public List<Sugerencia> obtenerSugerencias(Evento evento) throws EventoNoFueAgendadoException, EventoNoEstaProximoException, SinSugerenciasPosiblesException, PronosticoNoDisponibleException {
-		if(!eventosAgendados.contains(evento))
+		if (!eventosAgendados.contains(evento))
 			throw new EventoNoFueAgendadoException();
-		if(!sugerenciasGeneradasParaEventos.containsKey(evento))
+		if (!sugerenciasGeneradasParaEventos.containsKey(evento))
 			throw new EventoNoEstaProximoException();
 
 		return sugerenciasGeneradasParaEventos.get(evento);

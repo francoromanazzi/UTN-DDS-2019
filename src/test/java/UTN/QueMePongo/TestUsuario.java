@@ -21,35 +21,35 @@ import static org.junit.Assert.assertTrue;
 public class TestUsuario {
 	private final Usuario userGratuito = new Usuario();
 	private final Usuario userPremium = new Usuario();
-    private final PrivilegiosUsuario privilegiosPremium = new Premium();
+	private final PrivilegiosUsuario privilegiosPremium = new Premium();
 	private final PrivilegiosUsuario privilegiosGratuito = new Gratuito(2);
-    private final Guardarropa guardarropa = new Guardarropa();
+	private final Guardarropa guardarropa = new Guardarropa();
 
-    @Before
+	@Before
 	public void asignarPrivilegios() {
 		userGratuito.setPrivilegio(privilegiosGratuito);
-    	userPremium.setPrivilegio(privilegiosPremium);
+		userPremium.setPrivilegio(privilegiosPremium);
 	}
 
-    @Test
-    public void agregarGuardarropaVacioAUserGratuitoYVerificarQueUsuarioLoTenga(){
+	@Test
+	public void agregarGuardarropaVacioAUserGratuitoYVerificarQueUsuarioLoTenga() {
 		userGratuito.addGuardarropa(guardarropa);
-        assertTrue(userGratuito.tieneGuardarropa(guardarropa));
-    }
+		assertTrue(userGratuito.tieneGuardarropa(guardarropa));
+	}
 
-    @Test
-    public void removerGuardarropaVacioAUserGratuitoYVerificarQueUsuarioYaNoLoTengaMas(){
+	@Test
+	public void removerGuardarropaVacioAUserGratuitoYVerificarQueUsuarioYaNoLoTengaMas() {
 		userGratuito.addGuardarropa(guardarropa);
-        assertTrue(userGratuito.tieneGuardarropa(guardarropa));
+		assertTrue(userGratuito.tieneGuardarropa(guardarropa));
 		userGratuito.removeGuardarropa(guardarropa);
-        assertFalse(userGratuito.tieneGuardarropa(guardarropa));
-    }
-    
-    @Test(expected = GuardarropaConMayorPrendasQueCapMaxException.class)
-    public void agregarAlGuardarropaMasPrendasDeLasQueSoportariaYQueNoSePuedaAgregarAlUsuarioGratuito(){
+		assertFalse(userGratuito.tieneGuardarropa(guardarropa));
+	}
+
+	@Test(expected = GuardarropaConMayorPrendasQueCapMaxException.class)
+	public void agregarAlGuardarropaMasPrendasDeLasQueSoportariaYQueNoSePuedaAgregarAlUsuarioGratuito() {
 		guardarropa.addPrenda(new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(255, 45, 0), Optional.empty(), Optional.empty()));
 		guardarropa.addPrenda(new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 42), Optional.empty(), Optional.empty()));
 		guardarropa.addPrenda(new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(244, 5, 22), Optional.empty(), Optional.empty()));
 		userGratuito.addGuardarropa(guardarropa);
-    }
+	}
 }

@@ -7,7 +7,7 @@ import modelo.prenda.Prenda;
 import java.util.List;
 
 public class Premium implements PrivilegiosUsuario {
-	
+
 	@Override
 	public void addGuardarropa(List<Guardarropa> guardarropasPrevios, Guardarropa guardarropaNuevo) {
 		guardarropasPrevios.add(guardarropaNuevo);

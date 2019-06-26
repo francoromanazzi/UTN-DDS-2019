@@ -1,5 +1,5 @@
 package excepciones;
 
-public class ExtensionDeImagenErroneaException extends RuntimeException{
+public class ExtensionDeImagenErroneaException extends RuntimeException {
 
 }

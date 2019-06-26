@@ -58,7 +58,7 @@ public class GenerarSugerencias extends TimerTask {
 				.map(result -> new Sugerencia(new Atuendo(result.get(0), result.get(1).get(0), result.get(2).get(0), result.get(3))))
 				.collect(Collectors.toList());
 
-		if(ret.isEmpty()) throw new SinSugerenciasPosiblesException();
+		if (ret.isEmpty()) throw new SinSugerenciasPosiblesException();
 
 		return ret;
 	}
@@ -68,7 +68,7 @@ public class GenerarSugerencias extends TimerTask {
 
 		return Tipo.obtenerPrototiposSuperposiciones(categoria).stream()
 				.filter(
-					superposicion -> superposicion.getTemperaturaMinima().getValor() <= celsius && superposicion.getTemperaturaMaxima().getValor() >= celsius
+						superposicion -> superposicion.getTemperaturaMinima().getValor() <= celsius && superposicion.getTemperaturaMaxima().getValor() >= celsius
 				).collect(Collectors.toList());
 	}
 

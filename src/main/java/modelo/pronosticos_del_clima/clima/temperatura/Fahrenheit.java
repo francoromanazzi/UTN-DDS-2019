@@ -8,7 +8,7 @@ public class Fahrenheit extends Temperatura {
 
 	@Override
 	public Temperatura toCelsius() {
-		return new Celsius((this.valor - 32) * 5/9);
+		return new Celsius((this.valor - 32) * 5 / 9);
 	}
 
 	@Override

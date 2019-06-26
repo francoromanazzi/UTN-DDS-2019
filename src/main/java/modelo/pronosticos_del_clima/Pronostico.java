@@ -1,6 +1,7 @@
 package modelo.pronosticos_del_clima;
 
 import modelo.pronosticos_del_clima.clima.Clima;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 

@@ -1,5 +1,5 @@
 package excepciones;
 
-public class CapacidadExcedidaGuardarropaException extends RuntimeException{
+public class CapacidadExcedidaGuardarropaException extends RuntimeException {
 
 }

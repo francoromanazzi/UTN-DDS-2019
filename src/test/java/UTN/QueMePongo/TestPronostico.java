@@ -15,6 +15,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 
@@ -33,9 +34,9 @@ public class TestPronostico {
 
 	@Before
 	public void setupMockito() {
-		Mockito.when(mockProveedorQueFalla.obtenerPronosticos()).thenThrow(new ProveedorDeClimaSeCayoException());
+		Mockito.when(mockProveedorQueFalla.obtenerPronosticos(ArgumentMatchers.any())).thenThrow(new ProveedorDeClimaSeCayoException());
 
-		Mockito.when(mockAccuweather2055.obtenerPronosticos()).thenAnswer(
+		Mockito.when(mockAccuweather2055.obtenerPronosticos(ArgumentMatchers.any())).thenAnswer(
 				(InvocationOnMock invocation) -> {
 					List<AccuWeatherJSON> pronosticosAccuWeather = new Gson().fromJson("[{" +
 							"\"DateTime\":\"2055-11-02T01:00:00-03:00\"," +
@@ -47,7 +48,7 @@ public class TestPronostico {
 				}
 		);
 
-		Mockito.when(mockAccuweather2056.obtenerPronosticos()).thenAnswer(
+		Mockito.when(mockAccuweather2056.obtenerPronosticos(ArgumentMatchers.any())).thenAnswer(
 				(InvocationOnMock invocation) -> {
 					List<AccuWeatherJSON> pronosticosAccuWeather = new Gson().fromJson("[{" +
 							"\"DateTime\":\"2056-05-03T01:00:00-03:00\"," +
@@ -67,7 +68,7 @@ public class TestPronostico {
 
 	@After
 	public void limpiarPronosticosDelServicioDelClima() {
-		ServicioDelClima.getInstance().setPronosticos(new ArrayList<>());
+		ServicioDelClima.getInstance().setPronosticosCache(new ArrayList<>());
 	}
 
 	@Test
@@ -129,7 +130,7 @@ public class TestPronostico {
 		servicioDelClima.agregarMeteorologo(new AccuWeather());
 		Pronostico pronostico = servicioDelClima.obtenerPronostico(LocalDateTime.now());
 
-		System.out.println(servicioDelClima.getPronosticos().size());
+		System.out.println(servicioDelClima.getPronosticosCache().size());
 		System.out.println(pronostico.getFechaInicio());
 		System.out.println(pronostico.getFechaFin());
 		System.out.println(pronostico.getClima().getTemperatura().getValor());
@@ -145,7 +146,7 @@ public class TestPronostico {
 		servicioDelClima.agregarMeteorologo(new DarkSky());
 		Pronostico pronostico = servicioDelClima.obtenerPronostico(LocalDateTime.now());
 
-		System.out.println(servicioDelClima.getPronosticos().size());
+		System.out.println(servicioDelClima.getPronosticosCache().size());
 		System.out.println(pronostico.getFechaFin());
 		System.out.println(pronostico.getFechaFin());
 		System.out.println(pronostico.getClima().getTemperatura().getValor());

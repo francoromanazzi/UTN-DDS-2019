@@ -40,18 +40,18 @@ public class Imagen {
 		} catch (IOException e) {
 			throw new ImagenNoPudoSerLeidaException();
 		}
-		
+
 		return resize(imagenOriginal);
 	}
-	
-	private BufferedImage resize(BufferedImage originalImage){
-		int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+
+	private BufferedImage resize(BufferedImage originalImage) {
+		int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
 		Image tmp = originalImage.getScaledInstance(WIDTH, HEIGHT, Image.SCALE_SMOOTH);
 		BufferedImage resizedImage = new BufferedImage(WIDTH, HEIGHT, type);
 		Graphics2D g = resizedImage.createGraphics();
 		g.drawImage(tmp, 0, 0, WIDTH, HEIGHT, null);
 		g.dispose();
-			
+
 		return resizedImage;
 	}
 }

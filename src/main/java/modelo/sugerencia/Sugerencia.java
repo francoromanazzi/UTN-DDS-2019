@@ -24,7 +24,9 @@ public class Sugerencia {
 		return estado;
 	}
 
-	public void setEstado(EstadoSugerencia estado) { this.estado = estado; }
+	public void setEstado(EstadoSugerencia estado) {
+		this.estado = estado;
+	}
 
 	public CalificacionSugerencia getCalificacion() {
 		return calificacion;
@@ -35,7 +37,7 @@ public class Sugerencia {
 	}
 
 	public void calificar(CalificacionSugerencia calificacion, Usuario usuario) {
-		if(estado == EstadoSugerencia.CALIFICADO)
+		if (estado == EstadoSugerencia.CALIFICADO)
 			usuario.setUltimaDecision(new DecisionRecalificar(this));
 		else
 			usuario.setUltimaDecision(new DecisionCalificar(this));

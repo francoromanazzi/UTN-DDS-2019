@@ -1,5 +1,5 @@
 package excepciones;
 
-public class GuardarropaConMayorPrendasQueCapMaxException extends RuntimeException{
+public class GuardarropaConMayorPrendasQueCapMaxException extends RuntimeException {
 
 }

@@ -3,7 +3,8 @@ package modelo.guardarropa;
 import modelo.prenda.Categoria;
 import modelo.prenda.Prenda;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Guardarropa {

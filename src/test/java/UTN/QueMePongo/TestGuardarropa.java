@@ -54,7 +54,7 @@ public class TestGuardarropa {
 		guardarropa.removePrenda(remera);
 		assertFalse(guardarropa.tienePrenda(remera));
 	}
-	
+
 	@Test(expected = CapacidadExcedidaGuardarropaException.class)
 	public void guardarropaSuperaElLimiteQueTieneDePrendasPosiblesParaUsuarioGratuito() {
 		userGratuito.addGuardarropa(guardarropa);

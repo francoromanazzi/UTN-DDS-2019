@@ -9,14 +9,14 @@ import java.util.List;
 
 public class Gratuito implements PrivilegiosUsuario {
 	private final int capacidadGuardarropa;
-	
+
 	public Gratuito(int capMax) {
 		this.capacidadGuardarropa = capMax;
 	}
-	
+
 	@Override
 	public void addGuardarropa(List<Guardarropa> guardarropasPrevios, Guardarropa guardarropaNuevo) throws GuardarropaConMayorPrendasQueCapMaxException {
-		if(guardarropaNuevo.cantidadPrendas() > this.capacidadGuardarropa)
+		if (guardarropaNuevo.cantidadPrendas() > this.capacidadGuardarropa)
 			throw new GuardarropaConMayorPrendasQueCapMaxException();
 
 		guardarropasPrevios.add(guardarropaNuevo);
@@ -24,7 +24,7 @@ public class Gratuito implements PrivilegiosUsuario {
 
 	@Override
 	public void addPrenda(Prenda prendaNueva, Guardarropa guardarropa) throws CapacidadExcedidaGuardarropaException {
-		if(guardarropa.cantidadPrendas() >= this.capacidadGuardarropa)
+		if (guardarropa.cantidadPrendas() >= this.capacidadGuardarropa)
 			throw new CapacidadExcedidaGuardarropaException();
 
 		guardarropa.addPrenda(prendaNueva);

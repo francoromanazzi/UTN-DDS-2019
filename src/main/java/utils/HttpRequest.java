@@ -14,12 +14,11 @@ public final class HttpRequest {
 
 		try {
 			response = invocationBuilder.get(Response.class);
-		}
-		catch(Exception ex) {
+		} catch (Exception ex) {
 			throw new ProveedorDeClimaSeCayoException();
 		}
 
-		if(response.getStatus() != 200) {
+		if (response.getStatus() != 200) {
 			throw new ProveedorDeClimaSeCayoException();
 		}
 

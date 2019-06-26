@@ -46,13 +46,13 @@ public class TestDecision {
 
 	@Before
 	public void asignarPronosticosDelSevicioDelClima() {
-		ServicioDelClima.getInstance().setPronosticos(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Celsius(25))))));
+		ServicioDelClima.getInstance().setPronosticosCache(new ArrayList<>(Arrays.asList(new Pronostico(fecha.minusMinutes(30), fecha.plusMinutes(30), new Clima(new Celsius(25))))));
 
 	}
 
 	@After
 	public void limpiarPronosticosDelServicioDelClima() {
-		ServicioDelClima.getInstance().setPronosticos(new ArrayList<>());
+		ServicioDelClima.getInstance().setPronosticosCache(new ArrayList<>());
 	}
 
 	@Test

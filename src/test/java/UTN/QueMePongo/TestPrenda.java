@@ -20,12 +20,12 @@ public class TestPrenda {
 
 	@Test(expected = TipoNoPuedeSerNuloException.class)
 	public void exceptionSiPrendaTieneTipoNulo() {
-		new Prenda(null, Material.ALGODON, new Color(0, 0,  0), Optional.empty(), Optional.empty());
+		new Prenda(null, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.empty());
 	}
 
 	@Test(expected = ColorSecundarioNoPuedeSerNuloException.class)
 	public void exceptionSiColorSecundarioTieneTipoNulo() {
-		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0,  0), null, Optional.empty());
+		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), null, Optional.empty());
 	}
 
 	@Test(expected = ImagenNoPuedeSerNulaException.class)

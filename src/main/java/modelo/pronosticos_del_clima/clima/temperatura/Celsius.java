@@ -13,6 +13,6 @@ public class Celsius extends Temperatura {
 
 	@Override
 	public Temperatura toFahrenheit() {
-		return new Fahrenheit(this.valor * 9/5 + 32);
+		return new Fahrenheit(this.valor * 9 / 5 + 32);
 	}
 }
