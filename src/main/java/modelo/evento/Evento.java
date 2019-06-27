@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 public class Evento {
 	private final LocalDateTime fechaInicio, fechaFin;
+	private FrecuenciaEvento frecuencia;
 
 	public Evento(LocalDateTime fechaInicio, LocalDateTime fechaFin) throws FechaFinDebeSerPosteriorAFechaInicioException, FechaInicioNoPuedeSerNulaException, FechaFinNoPuedeSerNulaException {
 		if (fechaInicio == null) throw new FechaInicioNoPuedeSerNulaException();
@@ -24,5 +25,13 @@ public class Evento {
 
 	public LocalDateTime getFechaFin() {
 		return fechaFin;
+	}
+
+	public FrecuenciaEvento getFrecuencia() {
+		return frecuencia;
+	}
+
+	public void setFrecuencia(FrecuenciaEvento frecuencia) {
+		this.frecuencia = frecuencia;
 	}
 }
