@@ -10,13 +10,16 @@ public class Evento {
 	private final LocalDateTime fechaInicio, fechaFin;
 	private FrecuenciaEvento frecuencia;
 
-	public Evento(LocalDateTime fechaInicio, LocalDateTime fechaFin) throws FechaFinDebeSerPosteriorAFechaInicioException, FechaInicioNoPuedeSerNulaException, FechaFinNoPuedeSerNulaException {
+	private final TipoEvento tipoEvento;
+
+	public Evento(LocalDateTime fechaInicio, LocalDateTime fechaFin, TipoEvento tipo) throws FechaFinDebeSerPosteriorAFechaInicioException, FechaInicioNoPuedeSerNulaException, FechaFinNoPuedeSerNulaException {
 		if (fechaInicio == null) throw new FechaInicioNoPuedeSerNulaException();
 		if (fechaFin == null) throw new FechaFinNoPuedeSerNulaException();
 		if (fechaFin.isBefore(fechaInicio)) throw new FechaFinDebeSerPosteriorAFechaInicioException();
 
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
+		this.tipoEvento = tipo;
 	}
 
 	public LocalDateTime getFechaInicio() {
@@ -25,6 +28,10 @@ public class Evento {
 
 	public LocalDateTime getFechaFin() {
 		return fechaFin;
+	}
+
+	public TipoEvento getTipoEvento() {
+		return tipoEvento;
 	}
 
 	public FrecuenciaEvento getFrecuencia() {

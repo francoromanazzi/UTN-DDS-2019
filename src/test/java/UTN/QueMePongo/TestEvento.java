@@ -4,6 +4,7 @@ import excepciones.FechaFinDebeSerPosteriorAFechaInicioException;
 import excepciones.parametros_nulos.FechaFinNoPuedeSerNulaException;
 import excepciones.parametros_nulos.FechaInicioNoPuedeSerNulaException;
 import modelo.evento.Evento;
+import modelo.evento.TipoEvento;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,16 +23,16 @@ public class TestEvento {
 
 	@Test(expected = FechaFinDebeSerPosteriorAFechaInicioException.class)
 	public void fechaInicialDespuesDeLaFechaFin() {
-		new Evento(finFiesta, inicioFiesta);
+		new Evento(finFiesta, inicioFiesta, TipoEvento.INFORMAL);
 	}
 
 	@Test(expected = FechaInicioNoPuedeSerNulaException.class)
 	public void fechaInicialNula() {
-		new Evento(null, finFiesta);
+		new Evento(null, finFiesta, TipoEvento.INFORMAL);
 	}
 
 	@Test(expected = FechaFinNoPuedeSerNulaException.class)
 	public void fechaFinNula() {
-		new Evento(inicioFiesta, null);
+		new Evento(inicioFiesta, null, TipoEvento.INFORMAL);
 	}
 }

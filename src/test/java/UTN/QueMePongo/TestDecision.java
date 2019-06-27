@@ -1,6 +1,7 @@
 package UTN.QueMePongo;
 
 import modelo.evento.Evento;
+import modelo.evento.TipoEvento;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Color;
 import modelo.prenda.Material;
@@ -32,7 +33,7 @@ public class TestDecision {
 	private final Usuario usuario = new Usuario("","");
 	private final Guardarropa guardarropa = new Guardarropa();
 	private final LocalDateTime fecha = LocalDateTime.now();
-	private final Evento eventoCorto = new Evento(fecha, fecha.plusMinutes(15));
+	private final Evento eventoCorto = new Evento(fecha, fecha.plusMinutes(15),TipoEvento.INFORMAL);
 
 	@Before
 	public void agregarGuardarropaAUsuario() {
@@ -56,7 +57,7 @@ public class TestDecision {
 
 	@Test
 	public void usuarioDeberiaPoderDeshacerUltimaAccion() {
-		Sugerencia sugerencia = guardarropa.generarSugerencias(eventoCorto).get(0);
+		Sugerencia sugerencia = guardarropa.generarSugerencias(eventoCorto,new ArrayList<>()).get(0);
 		sugerencia.aceptar(usuario);
 		sugerencia.calificar(new CalificacionSugerencia(SensibilidadTemperatura.NORMAL, new HashMap<>()), usuario);
 		sugerencia.calificar(new CalificacionSugerencia(SensibilidadTemperatura.NORMAL, new HashMap<>()), usuario);
