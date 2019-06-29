@@ -25,7 +25,6 @@ public class Imagen {
 	public void escribirEnArchivo(String url) throws IOException {
 		String separador = Pattern.quote(".");
 		String[] parts = url.split(separador);
-		System.out.println(parts[parts.length - 1]);
 		ImageIO.write(this.imagen, parts[parts.length - 1], new File(url));
 	}
 

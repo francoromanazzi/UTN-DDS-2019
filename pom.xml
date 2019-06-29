@@ -14,6 +14,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+<!-- <repositories>
+		<repository>
+			<id>uqbar.maven.mirror</id>
+			<name>uqbar.maven.mirror</name>
+			<url>http://maven.uqbar.org/releases</url>
+		</repository>
+	</repositories>  -->
+	
     <build>
         <plugins>
             <plugin>
@@ -66,5 +74,16 @@
             <artifactId>javax.mail</artifactId>
             <version>1.6.2</version>
         </dependency>
+        <dependency>
+			<groupId>org.uqbar-project</groupId>
+			<artifactId>arena-jface</artifactId>
+			<version>3.6.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.uqbar-project</groupId>
+			<artifactId>uqbar-domain</artifactId>
+			<version>3.6.3</version>
+		</dependency>
     </dependencies>
 </project>

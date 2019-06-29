@@ -8,7 +8,6 @@ import modelo.prenda.Prenda;
 import modelo.sugerencia.Sugerencia;
 import modelo.sugerencia.decision.Decision;
 import modelo.sugerencia.decision.DecisionVacia;
-
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
