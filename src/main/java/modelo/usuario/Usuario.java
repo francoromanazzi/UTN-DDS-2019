@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class Usuario {
-	private String nombre;
-	private String mail;
+	private final String nombre, mail;
 	private Decision ultimaDecision = new DecisionVacia();
 	private PrivilegiosUsuario privilegio = new Gratuito(10);
 	private final Map<Evento, List<Sugerencia>> sugerenciasGeneradasParaEventos = new HashMap<>();
@@ -25,13 +24,13 @@ public class Usuario {
 		this.mail = mail;
 		this.nombre = nombre;
 	}
+
+	public String getNombre() {
+		return nombre;
+	}
 	
 	public String getMail() {
 		return mail;
-	}
-
-	public void setMail(String mail) {
-		this.mail = mail;
 	}
 
 	public Decision getUltimaDecision() {
@@ -52,6 +51,14 @@ public class Usuario {
 
 	public List<Sugerencia> getHistorialSugerencias() {
 		return historialSugerencias;
+	}
+
+	public List<Evento> getEventosAgendados() {
+		return eventosAgendados;
+	}
+
+	public Map<Evento, List<Sugerencia>> getSugerenciasGeneradasParaEventos() {
+		return sugerenciasGeneradasParaEventos;
 	}
 
 	public void addGuardarropa(Guardarropa guardarropa) throws GuardarropaConMayorPrendasQueCapMaxException {
@@ -103,13 +110,5 @@ public class Usuario {
 			throw new EventoNoEstaProximoException();
 
 		return sugerenciasGeneradasParaEventos.get(evento);
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 }

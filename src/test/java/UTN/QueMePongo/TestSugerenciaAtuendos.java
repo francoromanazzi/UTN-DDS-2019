@@ -50,9 +50,9 @@ public class TestSugerenciaAtuendos {
 
 	private final ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
 	private final LocalDateTime ahora = LocalDateTime.now();
-	private final Evento eventoCorto = new Evento(ahora.plusMinutes(2), ahora.plusMinutes(15), null,TipoEvento.INFORMAL);
-	private final Evento eventoLargo = new Evento(ahora, ahora.plusHours(4),null,TipoEvento.FORMAL);
-	private final Evento eventoDentroDeMuchoTiempo = new Evento(ahora.plusHours(8), ahora.plusHours(9),null,TipoEvento.FORMAL);
+	private final Evento eventoCorto = new Evento("", ahora.plusMinutes(2), ahora.plusMinutes(15), null,TipoEvento.INFORMAL);
+	private final Evento eventoLargo = new Evento("", ahora, ahora.plusHours(4),null,TipoEvento.FORMAL);
+	private final Evento eventoDentroDeMuchoTiempo = new Evento("", ahora.plusHours(8), ahora.plusHours(9),null,TipoEvento.FORMAL);
 
 	@Before
 	public void asignarPrivilegios() {

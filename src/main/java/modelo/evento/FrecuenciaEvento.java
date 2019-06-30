@@ -1,5 +1,5 @@
 package modelo.evento;
 
 public enum FrecuenciaEvento {
-    DIARIO, SEMANAL, MENSUAL, ANUAL
+    UNICA_VEZ, DIARIO, SEMANAL, MENSUAL, ANUAL
 }
