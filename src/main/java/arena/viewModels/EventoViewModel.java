@@ -1,5 +1,7 @@
 package arena.viewModels;
+import org.uqbar.commons.model.annotations.Observable;
 
+@Observable
 public class EventoViewModel {
 	public String nombre;
 	
