@@ -1,5 +1,6 @@
 package presentacion.view_model;
 import modelo.evento.Evento;
+import modelo.evento.EventoUnico;
 import modelo.evento.FrecuenciaEvento;
 import modelo.evento.TipoEvento;
 import modelo.guardarropa.Guardarropa;
@@ -44,8 +45,8 @@ public class EventosViewModel {
 		Guardarropa guardarropa = new Guardarropa();
 		usuario.addGuardarropa(guardarropa);
 
-		Evento evento1 = new Evento("Salir a correr", LocalDateTime.now().plusSeconds(10), LocalDateTime.now().plusMinutes(5), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
-		Evento evento2 = new Evento("Ir a la facultad", LocalDateTime.now().plusSeconds(15), LocalDateTime.now().plusMinutes(5), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
+		Evento evento1 = new Evento("Salir a correr", LocalDateTime.now().plusSeconds(10), LocalDateTime.now().plusMinutes(5), new EventoUnico(), TipoEvento.INFORMAL);
+		Evento evento2 = new Evento("Ir a la facultad", LocalDateTime.now().plusSeconds(15), LocalDateTime.now().plusMinutes(5), new EventoUnico(), TipoEvento.INFORMAL);
 
 		usuario.agendarEvento(evento1, guardarropa);
 		usuario.agendarEvento(evento2, guardarropa);
