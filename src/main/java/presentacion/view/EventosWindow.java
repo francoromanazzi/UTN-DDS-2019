@@ -2,13 +2,9 @@ package presentacion.view;
 
 import java.awt.Color;
 
-import modelo.evento.Evento;
 import modelo.usuario.Usuario;
 import org.uqbar.arena.layout.VerticalLayout;
-import org.uqbar.arena.widgets.Label;
-import org.uqbar.arena.widgets.List;
 import org.uqbar.arena.widgets.Panel;
-import org.uqbar.arena.widgets.TextBox;
 import org.uqbar.arena.widgets.tables.Column;
 import org.uqbar.arena.widgets.tables.Table;
 import org.uqbar.arena.windows.MainWindow;
@@ -25,23 +21,30 @@ public class EventosWindow extends MainWindow<EventosViewModel>{
 	public void createContents(Panel mainPanel) {
 		init(mainPanel);
 
-		Table<EventoObservable> tabla = new Table<>(mainPanel, EventoObservable.class);
+		Table<EventoObservable> tabla = new Table<>(mainPanel, EventoObservable.class).setNumberVisibleRows(15);
 		tabla.bindItemsToProperty("eventos");
 
 		new Column<>(tabla)
 				.setTitle("Fecha")
 				.setFixedSize(200)
-				.bindContentsToProperty("fechaInicio");
+				.bindContentsToProperty("evento.fechaInicio");
 
 		new Column<>(tabla)
 				.setTitle("Título")
-				.setFixedSize(200)
-				.bindContentsToProperty("titulo");
+				.setFixedSize(400)
+				.bindContentsToProperty("evento.titulo");
 
-		new Column<>(tabla)
+		Column<EventoObservable> columnaSugerenciaGenerada = new Column<>(tabla)
 				.setTitle("Sugerencias")
-				.setFixedSize(150)
-				.bindContentsToProperty("sugerenciasFueronGeneradas");
+				.setFixedSize(100);
+
+		columnaSugerenciaGenerada
+				.bindContentsToProperty("sugerenciasFueronGeneradas")
+				.setTransformer(bool -> (boolean) bool ? "SI" : "NO");
+
+		columnaSugerenciaGenerada
+				.bindBackground("sugerenciasFueronGeneradas")
+				.setTransformer(bool -> (boolean) bool ? Color.GREEN : Color.RED);
 	}
 
 	public static void main(String[] args) {

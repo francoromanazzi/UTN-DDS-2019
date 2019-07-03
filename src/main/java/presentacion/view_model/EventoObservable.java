@@ -1,23 +1,27 @@
 package presentacion.view_model;
 
-import excepciones.FechaFinDebeSerPosteriorAFechaInicioException;
-import excepciones.parametros_nulos.FechaFinNoPuedeSerNulaException;
-import excepciones.parametros_nulos.FechaInicioNoPuedeSerNulaException;
 import modelo.evento.Evento;
-import modelo.evento.FrecuenciaEvento;
-import modelo.evento.TipoEvento;
 import org.uqbar.commons.model.annotations.Observable;
 
-import java.time.LocalDateTime;
-
 @Observable
-public class EventoObservable extends Evento {
+public class EventoObservable {
+	private final Evento evento;
+	private boolean sugerenciasFueronGeneradas;
 
-	public EventoObservable(String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFin, FrecuenciaEvento frecuencia, TipoEvento tipo) throws FechaFinDebeSerPosteriorAFechaInicioException, FechaInicioNoPuedeSerNulaException, FechaFinNoPuedeSerNulaException {
-		super(titulo, fechaInicio, fechaFin, frecuencia, tipo);
+	EventoObservable(Evento evento, boolean sugerenciasFueronGeneradas) {
+		this.evento = evento;
+		this.sugerenciasFueronGeneradas = sugerenciasFueronGeneradas;
+	}
+
+	public Evento getEvento() {
+		return evento;
 	}
 
 	public boolean getSugerenciasFueronGeneradas() {
-		return false;
+		return sugerenciasFueronGeneradas;
+	}
+
+	public void setSugerenciasFueronGeneradas(boolean sugerenciasFueronGeneradas) {
+		this.sugerenciasFueronGeneradas = sugerenciasFueronGeneradas;
 	}
 }

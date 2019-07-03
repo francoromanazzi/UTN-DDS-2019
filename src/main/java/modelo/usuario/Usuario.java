@@ -16,8 +16,7 @@ public class Usuario {
 	private final String nombre, mail;
 	private Decision ultimaDecision = new DecisionVacia();
 	private PrivilegiosUsuario privilegio = new Gratuito(10);
-	private final Map<Evento, List<Sugerencia>> sugerenciasGeneradasParaEventos = new HashMap<>();
-	private final List<Evento> eventosAgendados = new ArrayList<>();
+	private final Map<Evento, List<Sugerencia>> sugerenciasParaEventos = new HashMap<>();
 	private final List<Sugerencia> historialSugerencias = new ArrayList<>();
 	
 	public Usuario(String nombre, String mail) {
@@ -53,12 +52,8 @@ public class Usuario {
 		return historialSugerencias;
 	}
 
-	public List<Evento> getEventosAgendados() {
-		return eventosAgendados;
-	}
-
-	public Map<Evento, List<Sugerencia>> getSugerenciasGeneradasParaEventos() {
-		return sugerenciasGeneradasParaEventos;
+	public Map<Evento, List<Sugerencia>> getSugerenciasParaEventos() {
+		return sugerenciasParaEventos;
 	}
 
 	public void addGuardarropa(Guardarropa guardarropa) throws GuardarropaConMayorPrendasQueCapMaxException {
@@ -86,13 +81,13 @@ public class Usuario {
 	}
 
 	public void agendarEvento(Evento evento, Guardarropa guardarropaAUtilizar) throws EventoYaFueAgendadoException, UsuarioNoEsPropietarioDelGuardarropaException {
-		if (eventosAgendados.contains(evento))
+		if (sugerenciasParaEventos.containsKey(evento))
 			throw new EventoYaFueAgendadoException();
 
-		eventosAgendados.add(evento);
+		sugerenciasParaEventos.put(evento, new ArrayList<>());
 
 		Timer timer = new Timer();
-		TimerTask generarSugerencias = new GenerarSugerencias(evento, guardarropaAUtilizar, sugerenciasGeneradasParaEventos, historialSugerencias);
+		TimerTask generarSugerencias = new GenerarSugerencias(evento, guardarropaAUtilizar, sugerenciasParaEventos, historialSugerencias);
 
 		LocalDateTime fechaDeEjecucion = evento.getFechaInicio().minusHours(2);
 
@@ -104,11 +99,11 @@ public class Usuario {
 	}
 
 	public List<Sugerencia> obtenerSugerencias(Evento evento) throws EventoNoFueAgendadoException, EventoNoEstaProximoException, SinSugerenciasPosiblesException, PronosticoNoDisponibleException {
-		if (!eventosAgendados.contains(evento))
+		if (!sugerenciasParaEventos.containsKey(evento))
 			throw new EventoNoFueAgendadoException();
-		if (!sugerenciasGeneradasParaEventos.containsKey(evento))
+		if (sugerenciasParaEventos.get(evento).isEmpty())
 			throw new EventoNoEstaProximoException();
 
-		return sugerenciasGeneradasParaEventos.get(evento);
+		return sugerenciasParaEventos.get(evento);
 	}
 }
