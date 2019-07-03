@@ -24,16 +24,16 @@ public class TestEvento {
 
 	@Test(expected = FechaFinDebeSerPosteriorAFechaInicioException.class)
 	public void fechaInicialDespuesDeLaFechaFin() {
-		new Evento("", finFiesta, inicioFiesta, null, TipoEvento.INFORMAL);
+		new Evento("", finFiesta, inicioFiesta, FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 	}
 
 	@Test(expected = FechaInicioNoPuedeSerNulaException.class)
 	public void fechaInicialNula() {
-		new Evento("", null, finFiesta, null,TipoEvento.INFORMAL);
+		new Evento("", null, finFiesta, FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
 	}
 
 	@Test(expected = FechaFinNoPuedeSerNulaException.class)
 	public void fechaFinNula() {
-		new Evento("", inicioFiesta, null, null,TipoEvento.INFORMAL);
+		new Evento("", inicioFiesta, null, FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
 	}
 }
