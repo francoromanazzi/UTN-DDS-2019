@@ -13,8 +13,10 @@ import presentacion.view_model.EventosViewModel;
 
 // IMPORTANTE: correr con -Djava.system.class.loader=com.uqbar.apo.APOClassLoader
 public class EventosWindow extends MainWindow<EventosViewModel>{
+	private static final long serialVersionUID = -1142663776268286620L;
+
 	private EventosWindow() {
-		super(new EventosViewModel(new Usuario("Pepe", "pepe@gmail.com")));
+		super(new EventosViewModel(new Usuario("Pepe", "pepe@gmail.com","")));
 	}
 
 	@Override

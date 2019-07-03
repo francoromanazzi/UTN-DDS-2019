@@ -28,14 +28,13 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 public class TestSugerenciaAtuendos {
-	private final Usuario userPremium = new Usuario("","");
+	private final Usuario userPremium = new Usuario("","","");
 	private final Guardarropa guardarropa = new Guardarropa();
 
 	private final Prenda musculosa = new Prenda(Tipo.MUSCULOSA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)), Optional.empty());
 	private final Prenda remera1 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)), Optional.empty());
 	private final Prenda remera2 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.POLIESTER, new Color(50, 0, 0), Optional.of(new Color(0, 0, 0)), Optional.empty());
 	private final Prenda remeraMangaLarga = new Prenda(Tipo.REMERA_MANGA_LARGA, Material.POLIESTER, new Color(50, 0, 0), Optional.of(new Color(0, 0, 0)), Optional.empty());
-	private final Prenda camisa = new Prenda(Tipo.CAMISA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)), Optional.empty());
 	private final Prenda buzo = new Prenda(Tipo.BUZO, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.empty());
 	private final Prenda campera = new Prenda(Tipo.CAMPERA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.empty());
 	private final Prenda pantalonLargo = new Prenda(Tipo.PANTALON_LARGO, Material.DENIM, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)), Optional.empty());

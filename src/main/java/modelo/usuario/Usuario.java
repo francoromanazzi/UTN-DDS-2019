@@ -13,19 +13,24 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class Usuario {
-	private final String nombre, mail;
+	private final String nombre, mail, numeroTelefono;
 	private Decision ultimaDecision = new DecisionVacia();
 	private PrivilegiosUsuario privilegio = new Gratuito(10);
 	private final Map<Evento, List<Sugerencia>> sugerenciasParaEventos = new HashMap<>();
 	private final List<Sugerencia> historialSugerencias = new ArrayList<>();
 	
-	public Usuario(String nombre, String mail) {
+	public Usuario(String nombre, String mail, String nro) {
 		this.mail = mail;
 		this.nombre = nombre;
+		this.numeroTelefono = nro;
 	}
 
 	public String getNombre() {
 		return nombre;
+	}
+	
+	public String getNumeroTelefono() {
+		return numeroTelefono;
 	}
 	
 	public String getMail() {

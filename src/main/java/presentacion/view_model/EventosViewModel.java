@@ -19,7 +19,6 @@ import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Premium;
 import modelo.usuario.Usuario;
 import org.uqbar.commons.model.annotations.Observable;
-
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
