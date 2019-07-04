@@ -3,6 +3,7 @@ package modelo.prenda;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import modelo.parte_del_cuerpo.ParteDelCuerpo;
 import modelo.pronosticos_del_clima.clima.temperatura.Celsius;
 import modelo.pronosticos_del_clima.clima.temperatura.TemperaturaMasInfinito;
 import modelo.pronosticos_del_clima.clima.temperatura.TemperaturaMenosInfinito;
@@ -29,13 +30,33 @@ public enum Tipo {
 	BOTAS(Categoria.CALZADO, EnumSet.of(Material.CUERO)),
 	OJOTAS(Categoria.CALZADO, EnumSet.of(Material.GOMA, Material.POLIESTER)),
 
-	GORRA(Categoria.ACCESORIO, EnumSet.of(Material.POLIESTER)),
+	GORRA(Categoria.ACCESORIO, EnumSet.of(Material.POLIESTER)) {
+		@Override
+		public ParteDelCuerpo getParteDelCuerpo() {
+			return ParteDelCuerpo.CABEZA;
+		}
+	},
 	ANTEOJOS(Categoria.ACCESORIO, EnumSet.of(Material.PLASTICO)),
 	RELOJ(Categoria.ACCESORIO, EnumSet.of(Material.PLATA, Material.ORO)),
 	COLGANTE(Categoria.ACCESORIO, EnumSet.of(Material.PLATA, Material.ORO)),
-	GORRO(Categoria.ACCESORIO, EnumSet.of(Material.LANA, Material.POLIESTER)),
-	GUANTES(Categoria.ACCESORIO, EnumSet.of(Material.POLIESTER, Material.LANA)),
-	BUFANDA(Categoria.ACCESORIO, EnumSet.of(Material.LANA));
+	GORRO(Categoria.ACCESORIO, EnumSet.of(Material.LANA, Material.POLIESTER)) {
+		@Override
+		public ParteDelCuerpo getParteDelCuerpo() {
+			return ParteDelCuerpo.CABEZA;
+		}
+	},
+	GUANTES(Categoria.ACCESORIO, EnumSet.of(Material.POLIESTER, Material.LANA)) {
+		@Override
+		public ParteDelCuerpo getParteDelCuerpo() {
+			return ParteDelCuerpo.MANOS;
+		}
+	},
+	BUFANDA(Categoria.ACCESORIO, EnumSet.of(Material.LANA)) {
+		@Override
+		public ParteDelCuerpo getParteDelCuerpo() {
+			return ParteDelCuerpo.CUELLO;
+		}
+	};
 
 	private final Categoria categoria;
 	private final Collection<Material> materialesPosibles;
@@ -106,6 +127,10 @@ public enum Tipo {
 
 	public boolean puedeSerDeMaterial(Material mat) {
 		return materialesPosibles.contains(mat);
+	}
+
+	public ParteDelCuerpo getParteDelCuerpo() {
+		return ParteDelCuerpo.OTRO;
 	}
 
 	private static List<PrototipoSuperposicion> generarPrototiposAccesorios() {
