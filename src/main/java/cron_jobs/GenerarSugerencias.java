@@ -8,7 +8,6 @@ import modelo.notificaciones.NotificadorMail;
 import modelo.notificaciones.NotificadorSMS;
 import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Usuario;
-
 import java.util.List;
 import java.util.Map;
 import java.util.TimerTask;

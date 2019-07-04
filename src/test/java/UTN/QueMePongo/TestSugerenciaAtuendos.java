@@ -2,6 +2,7 @@ package UTN.QueMePongo;
 
 import excepciones.*;
 import modelo.evento.Evento;
+import modelo.evento.FrecuenciaEvento;
 import modelo.evento.TipoEvento;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Color;
@@ -49,9 +50,9 @@ public class TestSugerenciaAtuendos {
 
 	private final ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
 	private final LocalDateTime ahora = LocalDateTime.now();
-	private final Evento eventoCorto = new Evento("", ahora.plusMinutes(2), ahora.plusMinutes(15), null,TipoEvento.INFORMAL);
-	private final Evento eventoLargo = new Evento("", ahora, ahora.plusHours(4),null,TipoEvento.FORMAL);
-	private final Evento eventoDentroDeMuchoTiempo = new Evento("", ahora.plusHours(8), ahora.plusHours(9),null,TipoEvento.FORMAL);
+	private final Evento eventoCorto = new Evento("", ahora.plusSeconds((long) 0.5), ahora.plusMinutes(15), FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
+	private final Evento eventoLargo = new Evento("", ahora, ahora.plusHours(4),FrecuenciaEvento.UNICA_VEZ,TipoEvento.FORMAL);
+	private final Evento eventoDentroDeMuchoTiempo = new Evento("", ahora.plusHours(8), ahora.plusHours(9),FrecuenciaEvento.UNICA_VEZ,TipoEvento.FORMAL);
 
 	@Before
 	public void asignarPrivilegios() {
@@ -301,7 +302,7 @@ public class TestSugerenciaAtuendos {
 		userPremium.agendarEvento(eventoCorto, guardarropa);
 
 		try {
-			Thread.sleep(500);
+			Thread.sleep(600);
 		} catch (InterruptedException e) {
 			System.out.println(e);
 		}

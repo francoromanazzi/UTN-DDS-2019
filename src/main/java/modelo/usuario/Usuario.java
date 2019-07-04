@@ -95,12 +95,11 @@ public class Usuario {
 		TimerTask generarSugerencias = new GenerarSugerencias(evento, guardarropaAUtilizar, sugerenciasParaEventos, historialSugerencias, this);
 
 		LocalDateTime fechaDeEjecucion = evento.getFechaInicio().minusHours(2);
-
-		if (!fechaDeEjecucion.isAfter(LocalDateTime.now())) {
-			timer.schedule(generarSugerencias, 0);
-		} else {
-			timer.schedule(generarSugerencias, Timestamp.valueOf(fechaDeEjecucion));
-		}
+		
+		if (!fechaDeEjecucion.isAfter(LocalDateTime.now())) 
+			timer.schedule(generarSugerencias, 0, evento.getFrecuencia().getPerido());
+		else 
+			timer.schedule(generarSugerencias, Timestamp.valueOf(fechaDeEjecucion), evento.getFrecuencia().getPerido());
 	}
 
 	public List<Sugerencia> obtenerSugerencias(Evento evento) throws EventoNoFueAgendadoException, EventoNoEstaProximoException, SinSugerenciasPosiblesException, PronosticoNoDisponibleException {
