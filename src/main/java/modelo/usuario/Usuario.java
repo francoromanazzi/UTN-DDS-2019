@@ -92,7 +92,7 @@ public class Usuario {
 		sugerenciasParaEventos.put(evento, new ArrayList<>());
 
 		Timer timer = new Timer();
-		TimerTask generarSugerencias = new GenerarSugerencias(evento, guardarropaAUtilizar, sugerenciasParaEventos, historialSugerencias);
+		TimerTask generarSugerencias = new GenerarSugerencias(evento, guardarropaAUtilizar, sugerenciasParaEventos, historialSugerencias, this);
 
 		LocalDateTime fechaDeEjecucion = evento.getFechaInicio().minusHours(2);
 
