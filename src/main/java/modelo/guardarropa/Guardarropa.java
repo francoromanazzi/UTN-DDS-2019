@@ -5,6 +5,7 @@ import excepciones.PronosticoNoDisponibleException;
 import excepciones.SinSugerenciasPosiblesException;
 import modelo.atuendo.Atuendo;
 import modelo.evento.Evento;
+import modelo.parte_del_cuerpo.ParteDelCuerpo;
 import modelo.prenda.Categoria;
 import modelo.prenda.Prenda;
 import modelo.prenda.PrototipoSuperposicion;
@@ -13,11 +14,13 @@ import modelo.pronosticos_del_clima.Pronostico;
 import modelo.pronosticos_del_clima.ServicioDelClima;
 import modelo.pronosticos_del_clima.clima.Clima;
 import modelo.sugerencia.EstadoSugerencia;
+import modelo.sugerencia.SensibilidadTemperatura;
 import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -91,10 +94,17 @@ public class Guardarropa {
 		Pronostico pronostico = ServicioDelClima.getInstance().obtenerPronosticoPromedioEntre2Fechas(evento.getFechaInicio(), evento.getFechaFin());
 		Clima clima = pronostico.getClima();
 
-		List<PrototipoSuperposicion> superposicionesTiposDeSuperiores = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.SUPERIOR, clima);
-		List<PrototipoSuperposicion> superposicionesTiposDeInferiores = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.INFERIOR, clima);
-		List<PrototipoSuperposicion> superposicionesTiposDeCalzados = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.CALZADO, clima);
-		List<PrototipoSuperposicion> superposicionesTiposDeAccesorios = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.ACCESORIO, clima);
+		SensibilidadTemperatura sensibilidadGlobal = SensibilidadTemperatura.obtenerPromedioDeSensibilidad(
+				historialSugerencias
+						.stream()
+						.map(sug -> sug.getCalificacion().getSensibilidadGlobal())
+						.collect(Collectors.toList())
+		);
+
+		List<PrototipoSuperposicion> superposicionesTiposDeSuperiores = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.SUPERIOR, clima, sensibilidadGlobal);
+		List<PrototipoSuperposicion> superposicionesTiposDeInferiores = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.INFERIOR, clima, sensibilidadGlobal);
+		List<PrototipoSuperposicion> superposicionesTiposDeCalzados = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.CALZADO, clima, sensibilidadGlobal);
+		List<PrototipoSuperposicion> superposicionesTiposDeAccesorios = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.ACCESORIO, clima, sensibilidadGlobal);
 
 		List<List<Prenda>> prendasSuperiores = obtenerPrendasQueSatisfacenPrototipo(Categoria.SUPERIOR, superposicionesTiposDeSuperiores);
 		List<List<Prenda>> prendasInferiores = obtenerPrendasQueSatisfacenPrototipo(Categoria.INFERIOR, superposicionesTiposDeInferiores);
@@ -113,8 +123,9 @@ public class Guardarropa {
 		return ret;
 	}
 
-	private List<PrototipoSuperposicion> obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria categoria, Clima clima) {
-		double celsius = clima.getTemperatura().toCelsius().getValor();
+	private List<PrototipoSuperposicion> obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria categoria, Clima clima, SensibilidadTemperatura sensibilidadGlobal) {
+		double modificadorCelsiusSegunSensibilidadGlobal = sensibilidadGlobal == SensibilidadTemperatura.FRIO ? -8 : sensibilidadGlobal == SensibilidadTemperatura.CALOR ? 8 : 0;
+		double celsius = clima.getTemperatura().toCelsius().getValor() + modificadorCelsiusSegunSensibilidadGlobal;
 
 		return Tipo.obtenerPrototiposSuperposiciones(categoria).stream()
 				.filter(
