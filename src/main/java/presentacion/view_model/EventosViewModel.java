@@ -19,6 +19,7 @@ import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Premium;
 import modelo.usuario.Usuario;
 import org.uqbar.commons.model.annotations.Observable;
+import org.uqbar.lacar.ui.model.Action;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,8 +28,17 @@ import java.util.stream.Collectors;
 public class EventosViewModel {
 	private final Usuario usuario;
 	private List<EventoObservable> eventos;
+	private int anioInicio = LocalDateTime.now().getYear();
+	private int mesInicio = LocalDateTime.now().getMonthValue();
+	private int diaInicio = LocalDateTime.now().getDayOfMonth();
+	private int anioFin = LocalDateTime.now().plusDays(1).getYear();
+	private int mesFin = LocalDateTime.now().plusDays(1).getMonthValue();
+	private int diaFin = LocalDateTime.now().plusDays(1).getDayOfMonth();
+	private LocalDateTime fechaInicio;
+	private LocalDateTime fechaFin;
 
 	public EventosViewModel(Usuario usuario) {
+		inicializarFechas();
 		this.usuario = usuario;
 		hardcodearServicioDelClima();
 		hardcodearUsuarioYEventos();
@@ -39,8 +49,12 @@ public class EventosViewModel {
 	public List<EventoObservable> getEventos() {
 		return eventos;
 	}
+	
+	public void setEventos(List<EventoObservable> ev) {
+		eventos = ev;
+	}
 
-	public void setEventos(List<EventoObservable> eventos) {
+	public void setearEventosIniciales(List<EventoObservable> eventos) {
 		this.eventos = eventos.stream().sorted(
 				Comparator.comparing(e -> e.getEvento().getFechaInicio())
 		).collect(Collectors.toList());
@@ -72,9 +86,14 @@ public class EventosViewModel {
 		usuario.agendarEvento(evento2, guardarropa);
 		usuario.agendarEvento(evento3, guardarropa);
 	}
-
+	
+	private void inicializarFechas() {
+		fechaInicio = LocalDateTime.of(anioInicio, mesInicio, diaInicio, 0, 0);
+		fechaFin = LocalDateTime.of(anioFin, mesFin, diaFin, 0, 0);
+	}
+	
 	private void inicializarEventos() {
-		this.setEventos(usuario.getSugerenciasParaEventos().keySet().stream().map(
+		this.setearEventosIniciales(usuario.getSugerenciasParaEventos().keySet().stream().map(
 				evento -> usuario.getSugerenciasParaEventos().getOrDefault(evento, new ArrayList<>()).isEmpty() ?
 						new EventoObservable(evento, false) : new EventoObservable(evento, true)
 		).collect(Collectors.toList()));
@@ -84,5 +103,101 @@ public class EventosViewModel {
 		ObservableMap<Evento, List<Sugerencia>> eventosListaObs = FXCollections.observableMap(usuario.getSugerenciasParaEventos());
 		MapChangeListener<Evento, List<Sugerencia>> listener = change -> inicializarEventos();
 		eventosListaObs.addListener(listener);
+	}
+
+	public LocalDateTime getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public LocalDateTime getFechaFin() {
+		return fechaFin;
+	}
+
+	public int getAnioInicio() {
+		return anioInicio;
+	}
+
+	public void setAnioInicio(int anioInicio) {
+		fechaInicio = LocalDateTime.of(anioInicio, fechaInicio.getMonthValue(), fechaInicio.getDayOfMonth(), 0, 0);
+		this.anioInicio = anioInicio;
+	}
+
+	public int getMesInicio() {
+		return mesInicio;
+	}
+
+	public void setMesInicio(int mesInicio) {
+		if(mesInicio > 0 && mesInicio < 13) {
+			fechaInicio = LocalDateTime.of(fechaInicio.getYear(), mesInicio, fechaInicio.getDayOfMonth(), 0, 0);
+			this.mesInicio = mesInicio;
+		}
+	}
+
+	public int getDiaInicio() {
+		return diaInicio;
+	}
+
+	public void setDiaInicio(int diaInicio) {
+		if(cumpleCondicionDeDiaDeMes(diaInicio, fechaInicio.getMonthValue())) {
+			fechaInicio = LocalDateTime.of(fechaInicio.getYear(), fechaInicio.getMonthValue(), diaInicio, 0, 0);
+			this.diaInicio = diaInicio;
+		}
+	}
+
+	public int getAnioFin() {
+		return anioFin;
+	}
+
+	public void setAnioFin(int anioFin) {
+		fechaFin = LocalDateTime.of(anioFin, fechaFin.getMonthValue(), fechaFin.getDayOfMonth(), 0, 0);
+		this.anioFin = anioFin;
+	}
+
+	public int getMesFin() {
+		return mesFin;
+	}
+
+	public void setMesFin(int mesFin) {
+		if(mesFin > 0 && mesFin < 13) {
+			fechaFin = LocalDateTime.of(fechaFin.getYear(), mesFin, fechaFin.getDayOfMonth(), 0, 0);
+			this.mesFin = mesFin;
+		}
+	}
+
+	public int getDiaFin() {
+		return diaFin;
+	}
+
+	public void setDiaFin(int diaFin) {
+		if(cumpleCondicionDeDiaDeMes(diaFin, fechaFin.getMonthValue())) {
+			fechaFin = LocalDateTime.of(fechaFin.getYear(), fechaFin.getMonthValue(), diaFin, 0, 0);
+			this.diaFin = diaFin;
+		}
+	}
+	
+	private boolean cumpleCondicionDeDiaDeMes(int dia, int mes) {
+		boolean retorno;
+		ArrayList<Integer> meses31 = new ArrayList<Integer>();
+		meses31.add(1);
+		meses31.add(3);
+		meses31.add(5);
+		meses31.add(7);
+		meses31.add(8);
+		meses31.add(10);
+		meses31.add(12);
+		ArrayList<Integer> meses30 = new ArrayList<Integer>();
+		meses31.add(4);
+		meses31.add(6);
+		meses31.add(9);
+		meses31.add(11);
+		ArrayList<Integer> meses29 = new ArrayList<Integer>();
+		meses31.add(2);
+		retorno = meses31.contains(mes) && dia <= 31 && dia < 0;
+		if(!retorno)
+			retorno = meses30.contains(mes) && dia <= 30 && dia < 0;
+		if(!retorno)
+			retorno = meses29.contains(mes) && dia <= 29 && dia < 0;
+
+		return retorno;
 	}
 }
