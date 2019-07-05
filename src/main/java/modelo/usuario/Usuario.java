@@ -2,13 +2,15 @@ package modelo.usuario;
 
 import excepciones.*;
 import cron_jobs.GenerarSugerencias;
+import modelo.alerta_meteorologica.accion_ante_alerta_meteorologica.AccionAnteAlertaMeteorologica;
+import modelo.alerta_meteorologica.AlertaMeteorologica;
 import modelo.evento.Evento;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Prenda;
 import modelo.sugerencia.Sugerencia;
 import modelo.sugerencia.decision.Decision;
 import modelo.sugerencia.decision.DecisionVacia;
-import java.sql.Timestamp;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -19,6 +21,7 @@ public class Usuario {
 	private PrivilegiosUsuario privilegio = new Gratuito(10);
 	private final Map<Evento, List<Sugerencia>> sugerenciasParaEventos = new HashMap<>();
 	private final List<Sugerencia> historialSugerencias = new ArrayList<>();
+	private final List<AccionAnteAlertaMeteorologica> accionesAnteAlertaMeteorologica = new ArrayList<>();
 	
 	public Usuario(String nombre, String mail, String nro) {
 		this.mail = mail;
@@ -112,5 +115,20 @@ public class Usuario {
 			throw new EventoNoEstaProximoException();
 
 		return sugerenciasParaEventos.get(evento);
+	}
+
+	public void agregarAccionAnteAlertaMeteorologica(AccionAnteAlertaMeteorologica accion) {
+		accionesAnteAlertaMeteorologica.add(accion);
+	}
+
+	public void quitarAccionAnteAlertaMeteorologica(AccionAnteAlertaMeteorologica accion) {
+		accionesAnteAlertaMeteorologica.remove(accion);
+	}
+
+	public void recibirAlertaMeteorologica(AlertaMeteorologica alerta) {
+		accionesAnteAlertaMeteorologica.forEach(accion -> {
+			if(alerta == AlertaMeteorologica.LLUVIA) accion.anteLluvia(this);
+			else accion.anteGranizo(this);
+		});
 	}
 }

@@ -16,7 +16,7 @@ public class MailSender {
 	private static String SenderAccountEmail = "utnquemepongo@gmail.com";
 	private static String SenderAccountPassword = "qmp123456";
 	
-	public static void send(String DestinyEmail, String subject, String text) throws AddressException, MessagingException {
+	public static void send(String DestinyEmail, String subject, String text) throws MessagingException {
 		Properties prop = new Properties();
 		prop.put("mail.smtp.auth", "true");
 		prop.put("mail.smtp.starttls.enable", "true");
