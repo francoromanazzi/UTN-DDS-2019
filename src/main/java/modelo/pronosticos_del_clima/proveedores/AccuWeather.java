@@ -3,6 +3,7 @@ package modelo.pronosticos_del_clima.proveedores;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import excepciones.ProveedorDeClimaSeCayoException;
+import modelo.alerta_meteorologica.AlertaMeteorologica;
 import modelo.pronosticos_del_clima.Meteorologo;
 import modelo.pronosticos_del_clima.Pronostico;
 import utils.HttpRequest;
@@ -28,5 +29,10 @@ public class AccuWeather extends Meteorologo {
 		List<Pronostico> ret = pronosticosAccuWeather.stream().map(AccuWeatherJSON::toPronostico).collect(Collectors.toList());
 		callback.ifPresent(cb -> cb.accept(ret));
 		return ret;
+	}
+
+	@Override
+	public List<AlertaMeteorologica> obtenerAlertasMeteorologicas() {
+		return null;
 	}
 }

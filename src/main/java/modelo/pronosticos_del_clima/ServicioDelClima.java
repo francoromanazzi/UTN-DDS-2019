@@ -1,15 +1,15 @@
 package modelo.pronosticos_del_clima;
 
+import cron_jobs.EscucharAlertasMeteorologicas;
+import cron_jobs.GenerarSugerencias;
 import excepciones.PronosticoNoDisponibleException;
 import excepciones.ProveedorDeClimaSeCayoException;
+import modelo.alerta_meteorologica.AlertaMeteorologica;
 import modelo.pronosticos_del_clima.clima.Clima;
 import modelo.pronosticos_del_clima.clima.temperatura.Celsius;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,6 +24,9 @@ public class ServicioDelClima {
 	}
 
 	private ServicioDelClima() {
+		// Escuchar alertas meteorologicas
+		TimerTask escucharAlertas = new EscucharAlertasMeteorologicas();
+		new Timer().schedule(escucharAlertas, 0, 1000L * 60L * 60L /* Cada 1 hora */);
 	}
 
 	public List<Meteorologo> getMeteorologos() {
@@ -91,5 +94,9 @@ public class ServicioDelClima {
 
 		Clima climaPromedio = new Clima(new Celsius(celsuisPromedio));
 		return new Pronostico(fechaInicio, fechaFin, climaPromedio);
+	}
+
+	public List<AlertaMeteorologica> obtenerAlertasMeteorologicas() {
+		return null; // TODO
 	}
 }

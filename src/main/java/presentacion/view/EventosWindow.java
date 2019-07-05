@@ -13,7 +13,7 @@ import org.uqbar.arena.windows.MainWindow;
 import presentacion.view_model.EventoObservable;
 import presentacion.view_model.EventosViewModel;
 
-// IMPORTANTE: correr con -Djava.system.class.loader=com.uqbar.apo.APOClassLoader
+// IMPORTANTE: correr con -Djava.system.class.loader=org.uqbar.apo.APOClassLoader
 public class EventosWindow extends MainWindow<EventosViewModel>{
 	private static final long serialVersionUID = -1142663776268286620L;
 
