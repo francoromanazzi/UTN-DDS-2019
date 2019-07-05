@@ -1,6 +1,7 @@
 package UTN.QueMePongo;
 
 import modelo.evento.Evento;
+import modelo.evento.FrecuenciaEvento;
 import modelo.evento.TipoEvento;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Color;
@@ -33,7 +34,7 @@ public class TestDecision {
 	private final Usuario usuario = new Usuario("","","");
 	private final Guardarropa guardarropa = new Guardarropa();
 	private final LocalDateTime fecha = LocalDateTime.now();
-	private final Evento eventoCorto = new Evento("", fecha, fecha.plusMinutes(15),null,TipoEvento.INFORMAL);
+	private final Evento eventoCorto = new Evento("", fecha, fecha.plusMinutes(15),FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
 
 	@Before
 	public void agregarGuardarropaAUsuario() {

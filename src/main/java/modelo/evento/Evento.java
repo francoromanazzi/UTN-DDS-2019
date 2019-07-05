@@ -1,11 +1,10 @@
 package modelo.evento;
 
 import excepciones.FechaFinDebeSerPosteriorAFechaInicioException;
+import excepciones.FrecuenciaDelEventoNula;
 import excepciones.parametros_nulos.FechaFinNoPuedeSerNulaException;
 import excepciones.parametros_nulos.FechaInicioNoPuedeSerNulaException;
-
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 public class Evento {
 	private final String titulo;
@@ -17,7 +16,8 @@ public class Evento {
 		if (fechaInicio == null) throw new FechaInicioNoPuedeSerNulaException();
 		if (fechaFin == null) throw new FechaFinNoPuedeSerNulaException();
 		if (fechaFin.isBefore(fechaInicio)) throw new FechaFinDebeSerPosteriorAFechaInicioException();
-
+		if(frecuencia == null) throw new FrecuenciaDelEventoNula();
+		
 		this.titulo = titulo;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;

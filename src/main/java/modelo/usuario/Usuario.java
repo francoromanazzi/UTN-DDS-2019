@@ -10,6 +10,7 @@ import modelo.sugerencia.decision.Decision;
 import modelo.sugerencia.decision.DecisionVacia;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class Usuario {
@@ -98,8 +99,10 @@ public class Usuario {
 		
 		if (!fechaDeEjecucion.isAfter(LocalDateTime.now())) 
 			timer.schedule(generarSugerencias, 0, evento.getFrecuencia().getPerido());
-		else 
-			timer.schedule(generarSugerencias, Timestamp.valueOf(fechaDeEjecucion), evento.getFrecuencia().getPerido());
+		else {
+			long delay = LocalDateTime.now().until(fechaDeEjecucion, ChronoUnit.MILLIS);
+			timer.schedule(generarSugerencias, delay, evento.getFrecuencia().getPerido());
+		}	
 	}
 
 	public List<Sugerencia> obtenerSugerencias(Evento evento) throws EventoNoFueAgendadoException, EventoNoEstaProximoException, SinSugerenciasPosiblesException, PronosticoNoDisponibleException {

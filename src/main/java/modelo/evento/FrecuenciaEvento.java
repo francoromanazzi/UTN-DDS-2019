@@ -5,7 +5,8 @@ public enum FrecuenciaEvento {
 	UNICA_VEZ {
 		@Override
 		public long getPerido() {
-			return 0L;
+			return 1L; 
+			//Dejar en 1, Timer.schedule() no permite argumento 0
 		}
 	}, DIARIO {
 		@Override
