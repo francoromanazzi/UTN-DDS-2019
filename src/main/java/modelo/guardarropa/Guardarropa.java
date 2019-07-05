@@ -101,10 +101,15 @@ public class Guardarropa {
 						.collect(Collectors.toList())
 		);
 
-		List<PrototipoSuperposicion> superposicionesTiposDeSuperiores = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.SUPERIOR, clima, sensibilidadGlobal);
-		List<PrototipoSuperposicion> superposicionesTiposDeInferiores = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.INFERIOR, clima, sensibilidadGlobal);
-		List<PrototipoSuperposicion> superposicionesTiposDeCalzados = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.CALZADO, clima, sensibilidadGlobal);
-		List<PrototipoSuperposicion> superposicionesTiposDeAccesorios = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.ACCESORIO, clima, sensibilidadGlobal);
+		List<Map<ParteDelCuerpo, SensibilidadTemperatura>> sensibilidadPorParteDelCuerpo = historialSugerencias
+				.stream()
+				.map(sug -> sug.getCalificacion().getSensibilidadPorPartesDelCuerpo())
+				.collect(Collectors.toList());
+
+		List<PrototipoSuperposicion> superposicionesTiposDeSuperiores = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.SUPERIOR, clima, sensibilidadGlobal, sensibilidadPorParteDelCuerpo);
+		List<PrototipoSuperposicion> superposicionesTiposDeInferiores = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.INFERIOR, clima, sensibilidadGlobal, sensibilidadPorParteDelCuerpo);
+		List<PrototipoSuperposicion> superposicionesTiposDeCalzados = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.CALZADO, clima, sensibilidadGlobal, sensibilidadPorParteDelCuerpo);
+		List<PrototipoSuperposicion> superposicionesTiposDeAccesorios = obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria.ACCESORIO, clima, sensibilidadGlobal, sensibilidadPorParteDelCuerpo);
 
 		List<List<Prenda>> prendasSuperiores = obtenerPrendasQueSatisfacenPrototipo(Categoria.SUPERIOR, superposicionesTiposDeSuperiores);
 		List<List<Prenda>> prendasInferiores = obtenerPrendasQueSatisfacenPrototipo(Categoria.INFERIOR, superposicionesTiposDeInferiores);
@@ -123,14 +128,29 @@ public class Guardarropa {
 		return ret;
 	}
 
-	private List<PrototipoSuperposicion> obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria categoria, Clima clima, SensibilidadTemperatura sensibilidadGlobal) {
+	private List<PrototipoSuperposicion> obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria categoria, Clima clima, SensibilidadTemperatura sensibilidadGlobal, List<Map<ParteDelCuerpo, SensibilidadTemperatura>> sensibilidadPorPartesDelCuerpo) {
 		double modificadorCelsiusSegunSensibilidadGlobal = sensibilidadGlobal == SensibilidadTemperatura.FRIO ? -8 : sensibilidadGlobal == SensibilidadTemperatura.CALOR ? 8 : 0;
 		double celsius = clima.getTemperatura().toCelsius().getValor() + modificadorCelsiusSegunSensibilidadGlobal;
 
 		return Tipo.obtenerPrototiposSuperposiciones(categoria).stream()
 				.filter(
-						superposicion -> superposicion.getTemperaturaMinima().getValor() <= celsius && superposicion.getTemperaturaMaxima().getValor() >= celsius
-				).collect(Collectors.toList());
+						superposicion -> superposicion.getTipos().stream().allMatch(
+								tipo -> {
+									SensibilidadTemperatura sensibilidadEnEsaParte = SensibilidadTemperatura.obtenerPromedioDeSensibilidad(
+									sensibilidadPorPartesDelCuerpo
+											.stream()
+											.filter(sens -> sens.containsKey(tipo.getParteDelCuerpo()))
+											.map(sens -> sens.get(tipo.getParteDelCuerpo()))
+											.collect(Collectors.toList())
+									);
+									double modificadorCelsius = sensibilidadEnEsaParte == SensibilidadTemperatura.FRIO ? -8 : sensibilidadEnEsaParte == SensibilidadTemperatura.CALOR ? 8 : 0;
+
+									return superposicion.getTemperaturaMinima().getValor() <= celsius + modificadorCelsius
+											&& superposicion.getTemperaturaMaxima().getValor() >= celsius + modificadorCelsius;
+								}
+						)
+				)
+				.collect(Collectors.toList());
 	}
 
 	private List<List<Prenda>> obtenerPrendasQueSatisfacenPrototipo(Categoria categoria, List<PrototipoSuperposicion> prototipos) {
