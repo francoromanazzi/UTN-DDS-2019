@@ -11,6 +11,7 @@ import modelo.sugerencia.Sugerencia;
 import modelo.sugerencia.decision.Decision;
 import modelo.sugerencia.decision.DecisionVacia;
 
+import javax.mail.MessagingException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -127,8 +128,16 @@ public class Usuario {
 
 	public void recibirAlertaMeteorologica(AlertaMeteorologica alerta) {
 		accionesAnteAlertaMeteorologica.forEach(accion -> {
-			if(alerta == AlertaMeteorologica.LLUVIA) accion.anteLluvia(this);
-			else accion.anteGranizo(this);
+			try {
+				if(alerta == AlertaMeteorologica.LLUVIA) {
+					accion.anteLluvia(this);
+				}
+				else {
+					accion.anteGranizo(this);
+				}
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
 		});
 	}
 }

@@ -12,6 +12,8 @@ import org.junit.Test;
 import java.time.LocalDateTime;
 import java.time.Month;
 
+import static org.junit.Assert.assertEquals;
+
 public class TestEvento {
 	private LocalDateTime inicioFiesta;
 	private LocalDateTime finFiesta;
@@ -36,4 +38,12 @@ public class TestEvento {
 	public void fechaFinNula() {
 		new Evento("", inicioFiesta, null, FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
 	}
+
+	@Test
+	public void crearEventoSemanal(){
+		Evento eventoSemanal = new Evento("Ir al supermercado",inicioFiesta,inicioFiesta.plusMinutes(60),FrecuenciaEvento.SEMANAL,TipoEvento.INFORMAL);
+		long diaEnMilisegundos = (60l*60l*24l)*1000l;
+		assertEquals(eventoSemanal.getFrecuencia().getPerido(),diaEnMilisegundos * 7l);
+	}
+
 }
