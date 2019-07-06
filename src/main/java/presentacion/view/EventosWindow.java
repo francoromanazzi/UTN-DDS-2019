@@ -4,6 +4,7 @@ import java.awt.Color;
 import modelo.usuario.Usuario;
 import org.uqbar.arena.layout.HorizontalLayout;
 import org.uqbar.arena.layout.VerticalLayout;
+import org.uqbar.arena.widgets.Button;
 import org.uqbar.arena.widgets.Label;
 import org.uqbar.arena.widgets.NumericField;
 import org.uqbar.arena.widgets.Panel;
@@ -51,9 +52,15 @@ public class EventosWindow extends MainWindow<EventosViewModel>{
 		new Label(panelFechaFin).setText("Año");
 		new NumericField(panelFechaFin, false).bindValueToProperty("anioFin");
 		
+		new Button(mainPanel)
+	    	.setCaption("Filtrar eventos")
+	    	.onClick(this.getModelObject().filtrarEventos())
+	    	.setAsDefault()
+	    	.disableOnError();
+		
 		//Tabla
 		Table<EventoObservable> tabla = new Table<>(mainPanel, EventoObservable.class).setNumberVisibleRows(5);
-		tabla.bindItemsToProperty("eventos");
+		tabla.bindItemsToProperty("eventosFiltrados");
 
 		new Column<>(tabla)
 				.setTitle("Fecha")

@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 public class EventosViewModel {
 	private final Usuario usuario;
 	private List<EventoObservable> eventos;
+	private List<EventoObservable> eventosFiltrados;
 	private int anioInicio = LocalDateTime.now().getYear();
 	private int mesInicio = LocalDateTime.now().getMonthValue();
 	private int diaInicio = LocalDateTime.now().getDayOfMonth();
@@ -43,6 +44,7 @@ public class EventosViewModel {
 		hardcodearServicioDelClima();
 		hardcodearUsuarioYEventos();
 		inicializarEventos();
+		eventosFiltrados = eventos;
 		observarGeneracionDeSugerencias();
 	}
 
@@ -103,6 +105,12 @@ public class EventosViewModel {
 		ObservableMap<Evento, List<Sugerencia>> eventosListaObs = FXCollections.observableMap(usuario.getSugerenciasParaEventos());
 		MapChangeListener<Evento, List<Sugerencia>> listener = change -> inicializarEventos();
 		eventosListaObs.addListener(listener);
+	}
+	
+	public Action filtrarEventos() {
+		this.eventosFiltrados = this.eventos.stream().filter(eo -> eo.getEvento().getFechaInicio().isAfter(fechaInicio) &&
+											eo.getEvento().getFechaInicio().isBefore(fechaFin)).collect(Collectors.toList());
+		return null;
 	}
 
 	public LocalDateTime getFechaInicio() {
@@ -199,5 +207,13 @@ public class EventosViewModel {
 			retorno = meses29.contains(mes) && dia <= 29 && dia < 0;
 
 		return retorno;
+	}
+
+	public List<EventoObservable> getEventosFiltrados() {
+		return eventosFiltrados;
+	}
+
+	public void setEventosFiltrados(List<EventoObservable> eventosFiltrados) {
+		this.eventosFiltrados = eventosFiltrados;
 	}
 }
