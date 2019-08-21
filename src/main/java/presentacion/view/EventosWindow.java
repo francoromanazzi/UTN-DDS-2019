@@ -16,7 +16,6 @@ import org.uqbar.lacar.ui.model.Action;
 import presentacion.view_model.ButtonClickAction;
 import presentacion.view_model.EventoObservable;
 import presentacion.view_model.EventosViewModel;
-import scala.Console;
 
 // IMPORTANTE: correr con -Djava.system.class.loader=org.uqbar.apo.APOClassLoader
 public class EventosWindow extends MainWindow<EventosViewModel>{
@@ -37,11 +36,11 @@ public class EventosWindow extends MainWindow<EventosViewModel>{
 		//Seleccionar fechas
 		new Label(panelFechaInicio).setText("Ingrese la fecha de inicio\n ");
 		
-		new Label(panelFechaInicio).setText("Día");
+		new Label(panelFechaInicio).setText("DÃ­a");
 		new NumericField(panelFechaInicio, false).bindValueToProperty("diaInicio");
 		new Label(panelFechaInicio).setText("Mes");
 		new NumericField(panelFechaInicio, false).bindValueToProperty("mesInicio");
-		new Label(panelFechaInicio).setText("Año");
+		new Label(panelFechaInicio).setText("AÃ±o");
 		new NumericField(panelFechaInicio, false).bindValueToProperty("anioInicio");
 		
 		//Bien croto
@@ -49,11 +48,11 @@ public class EventosWindow extends MainWindow<EventosViewModel>{
 		
 		new Label(panelFechaFin).setText("Ingrese la fecha de fin\n ");
 		
-		new Label(panelFechaFin).setText("Día");
+		new Label(panelFechaFin).setText("DÃ­a");
 		new NumericField(panelFechaFin, false).bindValueToProperty("diaFin");
 		new Label(panelFechaFin).setText("Mes");
 		new NumericField(panelFechaFin, false).bindValueToProperty("mesFin");
-		new Label(panelFechaFin).setText("Año");
+		new Label(panelFechaFin).setText("AÃ±o");
 		new NumericField(panelFechaFin, false).bindValueToProperty("anioFin");
 		
 		new Button(mainPanel)
@@ -72,7 +71,7 @@ public class EventosWindow extends MainWindow<EventosViewModel>{
 				.bindContentsToProperty("evento.fechaInicio");
 
 		new Column<>(tabla)
-				.setTitle("Título")
+				.setTitle("TÃ­tulo")
 				.setFixedSize(400)
 				.bindContentsToProperty("evento.titulo");
 
