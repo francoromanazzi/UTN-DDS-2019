@@ -19,7 +19,6 @@ import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Premium;
 import modelo.usuario.Usuario;
 import org.uqbar.commons.model.annotations.Observable;
-import org.uqbar.lacar.ui.model.Action;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,9 +31,9 @@ public class EventosViewModel {
 	private int anioInicio = LocalDateTime.now().getYear();
 	private int mesInicio = LocalDateTime.now().getMonthValue();
 	private int diaInicio = LocalDateTime.now().getDayOfMonth();
-	private int anioFin = LocalDateTime.now().plusDays(1).getYear();
-	private int mesFin = LocalDateTime.now().plusDays(1).getMonthValue();
-	private int diaFin = LocalDateTime.now().plusDays(1).getDayOfMonth();
+	private int anioFin = LocalDateTime.now().plusDays(15).getYear();
+	private int mesFin = LocalDateTime.now().plusDays(15).getMonthValue();
+	private int diaFin = LocalDateTime.now().plusDays(15).getDayOfMonth();
 	private LocalDateTime fechaInicio;
 	private LocalDateTime fechaFin;
 
@@ -83,10 +82,12 @@ public class EventosViewModel {
 		Evento evento1 = new Evento("Ir a comprar", LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(3), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 		Evento evento2 = new Evento("Salir a correr", LocalDateTime.now().plusHours(2).plusSeconds(8), LocalDateTime.now().plusHours(3), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 		Evento evento3 = new Evento("Ir a la facultad", LocalDateTime.now().plusHours(2).plusSeconds(12), LocalDateTime.now().plusHours(3), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
+		Evento evento4 = new Evento("Ir al trabajo", LocalDateTime.now().plusDays(10), LocalDateTime.now().plusDays(10).plusHours(8), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 
 		usuario.agendarEvento(evento1, guardarropa);
 		usuario.agendarEvento(evento2, guardarropa);
 		usuario.agendarEvento(evento3, guardarropa);
+		usuario.agendarEvento(evento4, guardarropa);
 	}
 	
 	private void inicializarFechas() {
@@ -105,12 +106,6 @@ public class EventosViewModel {
 		ObservableMap<Evento, List<Sugerencia>> eventosListaObs = FXCollections.observableMap(usuario.getSugerenciasParaEventos());
 		MapChangeListener<Evento, List<Sugerencia>> listener = change -> inicializarEventos();
 		eventosListaObs.addListener(listener);
-	}
-	
-	public Action filtrarEventos() {
-		this.eventosFiltrados = this.eventos.stream().filter(eo -> eo.getEvento().getFechaInicio().isAfter(fechaInicio) &&
-											eo.getEvento().getFechaInicio().isBefore(fechaFin)).collect(Collectors.toList());
-		return null;
 	}
 
 	public LocalDateTime getFechaInicio() {
@@ -194,17 +189,17 @@ public class EventosViewModel {
 		meses31.add(10);
 		meses31.add(12);
 		ArrayList<Integer> meses30 = new ArrayList<Integer>();
-		meses31.add(4);
-		meses31.add(6);
-		meses31.add(9);
-		meses31.add(11);
+		meses30.add(4);
+		meses30.add(6);
+		meses30.add(9);
+		meses30.add(11);
 		ArrayList<Integer> meses29 = new ArrayList<Integer>();
-		meses31.add(2);
-		retorno = meses31.contains(mes) && dia <= 31 && dia < 0;
+		meses29.add(2);
+		retorno = meses31.contains(mes) && dia <= 31 && dia > 0;
 		if(!retorno)
-			retorno = meses30.contains(mes) && dia <= 30 && dia < 0;
+			retorno = meses30.contains(mes) && dia <= 30 && dia > 0;
 		if(!retorno)
-			retorno = meses29.contains(mes) && dia <= 29 && dia < 0;
+			retorno = meses29.contains(mes) && dia <= 29 && dia > 0;
 
 		return retorno;
 	}

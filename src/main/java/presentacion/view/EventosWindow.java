@@ -11,8 +11,12 @@ import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.widgets.tables.Column;
 import org.uqbar.arena.widgets.tables.Table;
 import org.uqbar.arena.windows.MainWindow;
+import org.uqbar.lacar.ui.model.Action;
+
+import presentacion.view_model.ButtonClickAction;
 import presentacion.view_model.EventoObservable;
 import presentacion.view_model.EventosViewModel;
+import scala.Console;
 
 // IMPORTANTE: correr con -Djava.system.class.loader=org.uqbar.apo.APOClassLoader
 public class EventosWindow extends MainWindow<EventosViewModel>{
@@ -54,7 +58,7 @@ public class EventosWindow extends MainWindow<EventosViewModel>{
 		
 		new Button(mainPanel)
 	    	.setCaption("Filtrar eventos")
-	    	.onClick(this.getModelObject().filtrarEventos())
+	    	.onClick(new ButtonClickAction(this.getModelObject()))
 	    	.setAsDefault()
 	    	.disableOnError();
 		

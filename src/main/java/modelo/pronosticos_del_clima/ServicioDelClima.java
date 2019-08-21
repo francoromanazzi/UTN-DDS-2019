@@ -96,7 +96,11 @@ public class ServicioDelClima {
 		return new Pronostico(fechaInicio, fechaFin, climaPromedio);
 	}
 
+	// TODO : Deshardcodear
 	public List<AlertaMeteorologica> obtenerAlertasMeteorologicas() {
-		return null; // TODO
+		List<AlertaMeteorologica> list = new ArrayList<AlertaMeteorologica>();
+		list.add(AlertaMeteorologica.LLUVIA);
+		list.add(AlertaMeteorologica.GRANIZO);
+		return list;
 	}
 }
