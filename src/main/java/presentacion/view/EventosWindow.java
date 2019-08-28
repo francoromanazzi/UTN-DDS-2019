@@ -34,29 +34,29 @@ public class EventosWindow extends MainWindow<EventosViewModel>{
 		Panel panelFechaFin = new Panel(panelLabels).setLayout(new VerticalLayout());
 		
 		//Seleccionar fechas
-		new Label(panelFechaInicio).setText("Ingrese la fecha de inicio\n ");
+		new Label(panelFechaInicio).setText("Initial date\n ");
 		
-		new Label(panelFechaInicio).setText("Día");
+		new Label(panelFechaInicio).setText("Day");
 		new NumericField(panelFechaInicio, false).bindValueToProperty("diaInicio");
-		new Label(panelFechaInicio).setText("Mes");
+		new Label(panelFechaInicio).setText("Month");
 		new NumericField(panelFechaInicio, false).bindValueToProperty("mesInicio");
-		new Label(panelFechaInicio).setText("Año");
+		new Label(panelFechaInicio).setText("Year");
 		new NumericField(panelFechaInicio, false).bindValueToProperty("anioInicio");
 		
 		//Bien croto
-		new Label(panelSeparador).setText("                                                                           ");
+		new Label(panelSeparador).setText("                                                                                                                 ");
 		
-		new Label(panelFechaFin).setText("Ingrese la fecha de fin\n ");
+		new Label(panelFechaFin).setText("Final date\n ");
 		
-		new Label(panelFechaFin).setText("Día");
+		new Label(panelFechaFin).setText("Day");
 		new NumericField(panelFechaFin, false).bindValueToProperty("diaFin");
-		new Label(panelFechaFin).setText("Mes");
+		new Label(panelFechaFin).setText("Month");
 		new NumericField(panelFechaFin, false).bindValueToProperty("mesFin");
-		new Label(panelFechaFin).setText("Año");
+		new Label(panelFechaFin).setText("Year");
 		new NumericField(panelFechaFin, false).bindValueToProperty("anioFin");
 		
 		new Button(mainPanel)
-	    	.setCaption("Filtrar eventos")
+	    	.setCaption("Filter events")
 	    	.onClick(new ButtonClickAction(this.getModelObject()))
 	    	.setAsDefault()
 	    	.disableOnError();
@@ -66,18 +66,18 @@ public class EventosWindow extends MainWindow<EventosViewModel>{
 		tabla.bindItemsToProperty("eventosFiltrados");
 
 		new Column<>(tabla)
-				.setTitle("Fecha")
+				.setTitle("Date")
 				.setFixedSize(200)
 				.bindContentsToProperty("evento.fechaInicio");
 
 		new Column<>(tabla)
-				.setTitle("Título")
-				.setFixedSize(400)
+				.setTitle("Title")
+				.setFixedSize(300)
 				.bindContentsToProperty("evento.titulo");
 
 		Column<EventoObservable> columnaSugerenciaGenerada = new Column<>(tabla)
-				.setTitle("Sugerencias")
-				.setFixedSize(100);
+				.setTitle("Recommendation?")
+				.setFixedSize(200);
 
 		columnaSugerenciaGenerada
 				.bindContentsToProperty("sugerenciasFueronGeneradas")

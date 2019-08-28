@@ -1,8 +1,8 @@
 package presentacion.view_model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.MapChangeListener;
-import javafx.collections.ObservableMap;
+//import javafx.collections.FXCollections;
+//import javafx.collections.MapChangeListener;
+//import javafx.collections.ObservableMap;
 import modelo.evento.Evento;
 import modelo.evento.FrecuenciaEvento;
 import modelo.evento.TipoEvento;
@@ -44,7 +44,7 @@ public class EventosViewModel {
 		hardcodearUsuarioYEventos();
 		inicializarEventos();
 		eventosFiltrados = eventos;
-		observarGeneracionDeSugerencias();
+		//observarGeneracionDeSugerencias();
 	}
 
 	public List<EventoObservable> getEventos() {
@@ -79,10 +79,10 @@ public class EventosViewModel {
 		usuario.addPrenda(new Prenda(Tipo.PANTALON_CORTO, Material.DENIM, new Color(0, 0, 0), Optional.empty(), Optional.empty()), guardarropa);
 		usuario.addPrenda(new Prenda(Tipo.ZAPATILLAS, Material.CUERO, new Color(0, 0, 0), Optional.empty(), Optional.empty()), guardarropa);
 
-		Evento evento1 = new Evento("Ir a comprar", LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(3), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
-		Evento evento2 = new Evento("Salir a correr", LocalDateTime.now().plusHours(2).plusSeconds(8), LocalDateTime.now().plusHours(3), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
-		Evento evento3 = new Evento("Ir a la facultad", LocalDateTime.now().plusHours(2).plusSeconds(12), LocalDateTime.now().plusHours(3), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
-		Evento evento4 = new Evento("Ir al trabajo", LocalDateTime.now().plusDays(10), LocalDateTime.now().plusDays(10).plusHours(8), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
+		Evento evento1 = new Evento("Go shopping", LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(3), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
+		Evento evento2 = new Evento("Running", LocalDateTime.now().plusHours(2).plusSeconds(8), LocalDateTime.now().plusHours(3), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
+		Evento evento3 = new Evento("Go to University", LocalDateTime.now().plusHours(2).plusSeconds(12), LocalDateTime.now().plusHours(3), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
+		Evento evento4 = new Evento("Go to work", LocalDateTime.now().plusDays(10), LocalDateTime.now().plusDays(10).plusHours(8), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 
 		usuario.agendarEvento(evento1, guardarropa);
 		usuario.agendarEvento(evento2, guardarropa);
@@ -102,11 +102,11 @@ public class EventosViewModel {
 		).collect(Collectors.toList()));
 	}
 
-	private void observarGeneracionDeSugerencias() {
+	/*private void observarGeneracionDeSugerencias() {
 		ObservableMap<Evento, List<Sugerencia>> eventosListaObs = FXCollections.observableMap(usuario.getSugerenciasParaEventos());
 		MapChangeListener<Evento, List<Sugerencia>> listener = change -> inicializarEventos();
 		eventosListaObs.addListener(listener);
-	}
+	}*/
 
 	public LocalDateTime getFechaInicio() {
 		return fechaInicio;
