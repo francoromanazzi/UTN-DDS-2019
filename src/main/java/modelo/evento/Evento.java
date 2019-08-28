@@ -6,12 +6,27 @@ import excepciones.parametros_nulos.FechaFinNoPuedeSerNulaException;
 import excepciones.parametros_nulos.FechaInicioNoPuedeSerNulaException;
 import java.time.LocalDateTime;
 
-public class Evento {
-	private final String titulo;
-	private final LocalDateTime fechaInicio, fechaFin;
-	private final FrecuenciaEvento frecuencia;
-	private final TipoEvento tipoEvento;
+import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="eventos")
+public class Evento {
+	@Id @GeneratedValue
+	private Long Id;
+	private String titulo;
+	private LocalDateTime fechaInicio, fechaFin;
+	@Enumerated(EnumType.STRING)
+	private FrecuenciaEvento frecuencia;
+	@Enumerated(EnumType.STRING)
+	private TipoEvento tipoEvento;
+
+	public Evento() {} //Necesario para Hibernate
+	
 	public Evento(String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFin, FrecuenciaEvento frecuencia ,TipoEvento tipo) throws FechaFinDebeSerPosteriorAFechaInicioException, FechaInicioNoPuedeSerNulaException, FechaFinNoPuedeSerNulaException {
 		if (fechaInicio == null) throw new FechaInicioNoPuedeSerNulaException();
 		if (fechaFin == null) throw new FechaFinNoPuedeSerNulaException();
@@ -25,6 +40,10 @@ public class Evento {
 		this.tipoEvento = tipo;
 	}
 
+	public Long getId() {
+		return this.Id;
+	}
+	
 	public String getTitulo() {
 		return titulo;
 	}

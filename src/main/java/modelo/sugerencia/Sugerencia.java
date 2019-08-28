@@ -1,5 +1,14 @@
 package modelo.sugerencia;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import modelo.atuendo.Atuendo;
 import modelo.sugerencia.decision.DecisionAceptar;
 import modelo.sugerencia.decision.DecisionCalificar;
@@ -7,15 +16,28 @@ import modelo.sugerencia.decision.DecisionRecalificar;
 import modelo.sugerencia.decision.DecisionRechazar;
 import modelo.usuario.Usuario;
 
+@Entity
+@Table(name="sugerencias")
 public class Sugerencia {
-	private final Atuendo atuendo;
+	@Id @GeneratedValue
+	private Long Id;
+	@Transient //Temporal
+	private Atuendo atuendo;
+	@Enumerated(EnumType.STRING)
 	private EstadoSugerencia estado = EstadoSugerencia.NUEVO;
+	@OneToOne
 	private CalificacionSugerencia calificacion;
 
+	public Sugerencia() {}
+	
 	public Sugerencia(Atuendo atuendo) {
 		this.atuendo = atuendo;
 	}
 
+	public Long getId() {
+		return this.Id;
+	}
+	
 	public Atuendo getAtuendo() {
 		return atuendo;
 	}

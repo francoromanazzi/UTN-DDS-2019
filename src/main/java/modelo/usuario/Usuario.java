@@ -12,17 +12,40 @@ import modelo.sugerencia.decision.Decision;
 import modelo.sugerencia.decision.DecisionVacia;
 
 import javax.mail.MessagingException;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+@Entity
+@Table(name="usuarios")
 public class Usuario {
-	private final String nombre, mail, numeroTelefono;
+	@Id @GeneratedValue
+	private Long Id;
+	private String nombre, mail, numeroTelefono;
+	@Transient //Temporal?
 	private Decision ultimaDecision = new DecisionVacia();
+	@Transient
 	private PrivilegiosUsuario privilegio = new Gratuito(10);
+	@OneToMany
+	@JoinColumn(name="usuario_id")
+	private final List<Evento> eventos = new ArrayList<>();
+	@Transient
 	private final Map<Evento, List<Sugerencia>> sugerenciasParaEventos = new HashMap<>();
+	@OneToMany
+	@JoinColumn(name="usuario_id")
 	private final List<Sugerencia> historialSugerencias = new ArrayList<>();
+	@Transient
 	private final List<AccionAnteAlertaMeteorologica> accionesAnteAlertaMeteorologica = new ArrayList<>();
+	
+	public Usuario() {} //Necesario para Hibernate
 	
 	public Usuario(String nombre, String mail, String nro) {
 		this.mail = mail;
@@ -30,6 +53,10 @@ public class Usuario {
 		this.numeroTelefono = nro;
 	}
 
+	public Long getId() {
+		return this.Id;
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -95,6 +122,7 @@ public class Usuario {
 			throw new EventoYaFueAgendadoException();
 
 		sugerenciasParaEventos.put(evento, new ArrayList<>());
+		eventos.add(evento);
 
 		Timer timer = new Timer();
 		TimerTask generarSugerencias = new GenerarSugerencias(evento, guardarropaAUtilizar, sugerenciasParaEventos, historialSugerencias, this);
@@ -109,6 +137,10 @@ public class Usuario {
 		}	
 	}
 
+	public void eliminarEvento(Evento e) {
+		sugerenciasParaEventos.remove(e);
+		eventos.remove(e);
+	}
 	public List<Sugerencia> obtenerSugerencias(Evento evento) throws EventoNoFueAgendadoException, EventoNoEstaProximoException, SinSugerenciasPosiblesException, PronosticoNoDisponibleException {
 		if (!sugerenciasParaEventos.containsKey(evento))
 			throw new EventoNoFueAgendadoException();
