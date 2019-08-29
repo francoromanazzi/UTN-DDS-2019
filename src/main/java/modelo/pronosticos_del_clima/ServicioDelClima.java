@@ -65,7 +65,9 @@ public class ServicioDelClima {
 		// Reviso si ya lo tenía cacheado
 		// Si no, le pregunto a mis meteorologos hasta que alguno me lo pueda dar
 		Stream<Pronostico> pronosticosCacheados = this.pronosticosCache.stream();
-		Stream<Pronostico> pronosticosNuevos = this.meteorologos.stream()
+		Stream<Pronostico> pronosticosNuevos =
+				this.meteorologos
+				.stream()
 				.flatMap(meteorologo -> {
 					try {
 						return meteorologo.obtenerPronosticos(Optional.of(callbackAlGenerarPronostico)).stream();
@@ -90,9 +92,14 @@ public class ServicioDelClima {
 			pronosticos.add(obtenerPronostico(fecha));
 		}
 
-		double celsuisPromedio = pronosticos.stream().mapToDouble(pronostico -> pronostico.getClima().getTemperatura().toCelsius().getValor()).sum() / (double) pronosticos.size();
+		double celsuisPromedio = 
+				pronosticos
+				.stream()
+				.mapToDouble(pronostico -> pronostico.getClima().getTemperatura().toCelsius().getValor())
+				.sum() / (double) pronosticos.size();
 
 		Clima climaPromedio = new Clima(new Celsius(celsuisPromedio));
+		
 		return new Pronostico(fechaInicio, fechaFin, climaPromedio);
 	}
 

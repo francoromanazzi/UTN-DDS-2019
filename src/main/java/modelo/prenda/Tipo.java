@@ -134,19 +134,35 @@ public enum Tipo {
 	}
 
 	private static List<PrototipoSuperposicion> generarPrototiposAccesorios() {
-		EnumSet<Tipo> accesorios = EnumSet.allOf(Tipo.class).stream().filter(tipo -> tipo.getCategoria() == Categoria.ACCESORIO).collect(Collectors.toCollection(() -> EnumSet.noneOf(Tipo.class)));
+		EnumSet<Tipo> accesorios = 
+				EnumSet
+				.allOf(Tipo.class)
+				.stream()
+				.filter(tipo -> tipo.getCategoria() == Categoria.ACCESORIO)
+				.collect(Collectors.toCollection(() -> EnumSet.noneOf(Tipo.class)));
 
 		Set<Set<Tipo>> conjuntoPotencia = Sets.powerSet(accesorios);
 
-		List<PrototipoSuperposicion> combinaciones = conjuntoPotencia.stream().map(set -> new PrototipoSuperposicion(Lists.newArrayList(set), new TemperaturaMenosInfinito(), new TemperaturaMasInfinito())).collect(Collectors.toList());
+		List<PrototipoSuperposicion> combinaciones = 
+				conjuntoPotencia
+				.stream()
+				.map(set -> new PrototipoSuperposicion(Lists.newArrayList(set), new TemperaturaMenosInfinito(), new TemperaturaMasInfinito()))
+				.collect(Collectors.toList());
 
 		// Filtro las prendas validas. Ej: Una gorra y un gorro no pueden ir juntos
-		List<PrototipoSuperposicion> combinacionesValidas = combinaciones.stream().filter(
-				superposicion -> !superposicion.getTipos().containsAll(Arrays.asList(Tipo.GORRA, Tipo.GORRO))
-		).collect(Collectors.toList());
+		List<PrototipoSuperposicion> combinacionesValidas = 
+				combinaciones
+				.stream()
+				.filter(
+						superposicion -> !superposicion
+										.getTipos()
+										.containsAll(Arrays.asList(Tipo.GORRA, Tipo.GORRO))
+				).collect(Collectors.toList());
 
 		// Restrinjo rangos de temperatura válidos para las superposiciones con gorro, guantes y/o bufanda
-		return combinacionesValidas.stream().map(
+		return combinacionesValidas
+				.stream()
+				.map(
 				superposicion -> {
 					List<Tipo> tipos = superposicion.getTipos();
 					if (tipos.containsAll(Arrays.asList(Tipo.GORRO, Tipo.GUANTES, Tipo.BUFANDA))) {
@@ -162,7 +178,8 @@ public enum Tipo {
 						// 0 accesorios de abrigo
 						return superposicion;
 				}
-		).collect(Collectors.toList());
+				
+				).collect(Collectors.toList());
 	}
 
 	public static List<PrototipoSuperposicion> obtenerPrototiposSuperposiciones(Categoria categoria) {

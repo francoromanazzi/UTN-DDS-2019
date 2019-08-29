@@ -30,7 +30,9 @@ public class GenerarSugerencias extends TimerTask {
 
 	@Override
 	public void run() throws PronosticoNoDisponibleException, SinSugerenciasPosiblesException {
-		List<Sugerencia> sugerenciasGeneradas = guardarropaAUtilizar.generarSugerencias(evento, historialSugerencias);
+		List<Sugerencia> sugerenciasGeneradas = 
+				guardarropaAUtilizar.generarSugerencias(evento, historialSugerencias);
+		
 		sugerenciasParaEventos.put(evento, sugerenciasGeneradas);
 		notificarAUsuario();
 	}

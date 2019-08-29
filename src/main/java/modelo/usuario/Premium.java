@@ -22,9 +22,11 @@ public class Premium implements PrivilegiosUsuario {
 	public void addPrenda(Prenda prendaNueva, Guardarropa guardarropa) throws CapacidadExcedidaGuardarropaException {
 		// Si algun usuario del guardarropa era gratuito y no tiene límite para más prendas, excepción
 		// Es decir, el usuario premium se ve limitado por los otros usuarios de ese guardarropa
-		if (guardarropa.getUsuariosPropietarios().stream().anyMatch(usuario ->
-				!usuario.getPrivilegio().admiteAddPrenda(prendaNueva, guardarropa)
-		))
+		if (guardarropa
+			.getUsuariosPropietarios()
+			.stream()
+			.anyMatch(usuario -> !usuario.getPrivilegio().admiteAddPrenda(prendaNueva, guardarropa))
+		)
 			throw new CapacidadExcedidaGuardarropaException();
 
 		guardarropa.addPrenda(prendaNueva);

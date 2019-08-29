@@ -83,14 +83,21 @@ public class Guardarropa {
 	public List<Sugerencia> generarSugerencias(Evento evento, List<Sugerencia> historialSugerencias)
 			throws PronosticoNoDisponibleException, SinSugerenciasPosiblesException {
 
-		Pronostico pronostico = ServicioDelClima.getInstance()
+		Pronostico pronostico = 
+				ServicioDelClima
+				.getInstance()
 				.obtenerPronosticoPromedioEntre2Fechas(evento.getFechaInicio(), evento.getFechaFin());
+		
 		Clima clima = pronostico.getClima();
 
-		SensibilidadTemperatura sensibilidadGlobal = obtenerSensibilidadGlobal(historialSugerencias);
+		SensibilidadTemperatura sensibilidadGlobal = 
+				obtenerSensibilidadGlobal(historialSugerencias);
 
-		List<Map<ParteDelCuerpo, SensibilidadTemperatura>> sensibilidadPorParteDelCuerpo = historialSugerencias.stream()
-				.map(sug -> sug.getCalificacion().getSensibilidadPorPartesDelCuerpo()).collect(Collectors.toList());
+		List<Map<ParteDelCuerpo, SensibilidadTemperatura>> sensibilidadPorParteDelCuerpo = 
+					historialSugerencias
+					.stream()
+					.map(sug -> sug.getCalificacion().getSensibilidadPorPartesDelCuerpo())
+					.collect(Collectors.toList());
 
 		List<PrototipoSuperposicion> superposicionesTiposDeSuperiores = obtenerSuperposicionesDeTiposDeCategoriaPorClima(
 				Categoria.SUPERIOR, clima, sensibilidadGlobal, sensibilidadPorParteDelCuerpo);
@@ -110,7 +117,8 @@ public class Guardarropa {
 		List<List<Prenda>> accesorios = obtenerPrendasQueSatisfacenPrototipo(Categoria.ACCESORIO,
 				superposicionesTiposDeAccesorios);
 
-		List<Sugerencia> ret = ObtenerListaDeSugerenciasDefinitiva(prendasSuperiores, prendasInferiores, calzados, accesorios);
+		List<Sugerencia> ret = 
+				ObtenerListaDeSugerenciasDefinitiva(prendasSuperiores, prendasInferiores, calzados, accesorios);
 
 		if (ret.isEmpty())
 			throw new SinSugerenciasPosiblesException();
@@ -126,58 +134,91 @@ public class Guardarropa {
 				: sensibilidadGlobal == SensibilidadTemperatura.CALOR ? 8 : 0;
 		double celsius = clima.getTemperatura().toCelsius().getValor() + modificadorCelsiusSegunSensibilidadGlobal;
 
-		return Tipo.obtenerPrototiposSuperposiciones(categoria).stream()
+		return Tipo
+				.obtenerPrototiposSuperposiciones(categoria)
+				.stream()
 				.filter(superposicion -> superposicion.getTipos().stream().allMatch(tipo -> {
-					SensibilidadTemperatura sensibilidadEnEsaParte = SensibilidadTemperatura
-							.obtenerPromedioDeSensibilidad(sensibilidadPorPartesDelCuerpo.stream()
-									.filter(sens -> sens.containsKey(tipo.getParteDelCuerpo()))
-									.map(sens -> sens.get(tipo.getParteDelCuerpo())).collect(Collectors.toList()));
+					SensibilidadTemperatura sensibilidadEnEsaParte = 
+							SensibilidadTemperatura
+							.obtenerPromedioDeSensibilidad(sensibilidadPorPartesDelCuerpo
+							.stream()
+							.filter(sens -> sens.containsKey(tipo.getParteDelCuerpo()))
+							.map(sens -> sens.get(tipo.getParteDelCuerpo()))
+							.collect(Collectors.toList()));
+					
 					double modificadorCelsius = sensibilidadEnEsaParte == SensibilidadTemperatura.FRIO ? -8
 							: sensibilidadEnEsaParte == SensibilidadTemperatura.CALOR ? 8 : 0;
 
 					return superposicion.getTemperaturaMinima().getValor() <= celsius + modificadorCelsius
 							&& superposicion.getTemperaturaMaxima().getValor() >= celsius + modificadorCelsius;
+							
 				})).collect(Collectors.toList());
 	}
 
-	private List<List<Prenda>> obtenerPrendasQueSatisfacenPrototipo(Categoria categoria,
-			List<PrototipoSuperposicion> prototipos) {
+	private List<List<Prenda>> obtenerPrendasQueSatisfacenPrototipo(Categoria categoria, List<PrototipoSuperposicion> prototipos) {
+		
 		List<Prenda> prendasDeCategoria = this.getPrendasDeCategoria(categoria);
 
-		List<List<Tipo>> todosLosTipos = prototipos.stream().map(PrototipoSuperposicion::getTipos)
+		List<List<Tipo>> todosLosTipos = 
+				prototipos
+				.stream()
+				.map(PrototipoSuperposicion::getTipos)
 				.collect(Collectors.toList());
 
-		return todosLosTipos.stream().flatMap(tipos -> {
-			List<List<Prenda>> prendas = tipos.stream().map(tipo -> prendasDeCategoria.stream()
-					.filter(prenda -> prenda.getTipo() == tipo).collect(Collectors.toList()))
-					.collect(Collectors.toList());
-			List<List<Prenda>> prendasCartesiano = Lists.cartesianProduct(prendas);
-			return prendasCartesiano.stream();
-		}).collect(Collectors.toList());
+		return todosLosTipos
+				.stream()
+				.flatMap(tipos -> {
+					
+					List<List<Prenda>> prendas = 
+							tipos
+							.stream().map(tipo -> prendasDeCategoria.stream()
+									.filter(prenda -> prenda.getTipo() == tipo)
+									.collect(Collectors.toList()))
+							.collect(Collectors.toList());
+					
+					List<List<Prenda>> prendasCartesiano = Lists.cartesianProduct(prendas);
+					
+					return prendasCartesiano.stream();
+			
+				}).collect(Collectors.toList());
 	}
 
 	private SensibilidadTemperatura obtenerSensibilidadGlobal(List<Sugerencia> historialSugerencias) {
-		SensibilidadTemperatura sensibilidadGlobal = SensibilidadTemperatura
-				.obtenerPromedioDeSensibilidad(historialSugerencias.stream()
-						.map(sug -> sug.getCalificacion().getSensibilidadGlobal()).collect(Collectors.toList()));
+		SensibilidadTemperatura sensibilidadGlobal = 
+				SensibilidadTemperatura
+				.obtenerPromedioDeSensibilidad(
+						historialSugerencias
+						.stream()
+						.map(sug -> sug.getCalificacion().getSensibilidadGlobal())
+						.collect(Collectors.toList())
+				);
 
 		return sensibilidadGlobal;
 	}
 
 	private List<Sugerencia> ObtenerListaDeSugerenciasDefinitiva(List<List<Prenda>> prendasSuperiores, List<List<Prenda>> prendasInferiores, List<List<Prenda>> calzados, List<List<Prenda>> accesorios) {
-		Predicate<Prenda> prendaEnUso = prenda -> usuariosPropietarios.stream()
-				.anyMatch(user -> user.getHistorialSugerencias().stream()
+		
+		Predicate<Prenda> prendaEnUso = 
+				prenda -> usuariosPropietarios.stream()
+					.anyMatch(user -> user.getHistorialSugerencias().stream()
 						.anyMatch(sug -> sug.getEstado() == EstadoSugerencia.ACEPTADO
 								&& sug.getAtuendo().obtenerTodasLasPrendas().contains(prenda)));
 
-		Predicate<Sugerencia> sinPrendasEnUsoPorOtroUsuario = sugerencia -> sugerencia.getAtuendo()
-				.obtenerTodasLasPrendas().stream().noneMatch(prendaEnUso);
+		Predicate<Sugerencia> sinPrendasEnUsoPorOtroUsuario = 
+				sugerencia -> sugerencia
+								.getAtuendo()
+								.obtenerTodasLasPrendas()
+								.stream()
+								.noneMatch(prendaEnUso);
 
-		List<Sugerencia> ret = Lists.cartesianProduct(prendasSuperiores, prendasInferiores, calzados, accesorios)
+		List<Sugerencia> ret = 
+				Lists
+				.cartesianProduct(prendasSuperiores, prendasInferiores, calzados, accesorios)
 				.stream()
 				.map(result -> new Sugerencia(
 						new Atuendo(result.get(0), result.get(1).get(0), result.get(2).get(0), result.get(3))))
 				.filter(sinPrendasEnUsoPorOtroUsuario).collect(Collectors.toList());
+		
 		return ret;
 	}
 }
