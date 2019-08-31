@@ -96,8 +96,8 @@ public class EventosViewModel {
 	}
 	
 	private void inicializarEventos() {
-		this.setearEventosIniciales(usuario.getSugerenciasParaEventos().keySet().stream().map(
-				evento -> usuario.getSugerenciasParaEventos().getOrDefault(evento, new ArrayList<>()).isEmpty() ?
+		this.setearEventosIniciales(usuario.getEventos().stream().map(
+				evento -> evento.getSugerencias().isEmpty() ?
 						new EventoObservable(evento, false) : new EventoObservable(evento, true)
 		).collect(Collectors.toList()));
 	}

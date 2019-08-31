@@ -184,11 +184,14 @@ public class Guardarropa {
 	}
 
 	private SensibilidadTemperatura obtenerSensibilidadGlobal(List<Sugerencia> historialSugerencias) {
+		if(historialSugerencias.isEmpty())
+			return SensibilidadTemperatura.NORMAL;
 		SensibilidadTemperatura sensibilidadGlobal = 
 				SensibilidadTemperatura
 				.obtenerPromedioDeSensibilidad(
 						historialSugerencias
 						.stream()
+						.filter(sug -> sug.getCalificacion() != null)
 						.map(sug -> sug.getCalificacion().getSensibilidadGlobal())
 						.collect(Collectors.toList())
 				);

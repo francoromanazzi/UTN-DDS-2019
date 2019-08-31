@@ -32,21 +32,19 @@ public class Usuario {
 	private String nombre, mail, numeroTelefono;
 	@Transient //Temporal?
 	private Decision ultimaDecision = new DecisionVacia();
-	@Transient
+	@Transient //Persistirla dsp de resolver la herencia en PrivilegiosUsuario
 	private PrivilegiosUsuario privilegio = new Gratuito(10);
 	@OneToMany
 	@JoinColumn(name="usuario_id")
 	private final List<Evento> eventos = new ArrayList<>();
-	@Transient
-	private final Map<Evento, List<Sugerencia>> sugerenciasParaEventos = new HashMap<>();
 	@OneToMany
 	@JoinColumn(name="usuario_id")
 	private final List<Sugerencia> historialSugerencias = new ArrayList<>();
-	@Transient
+	@Transient //Persistir?
 	private final List<AccionAnteAlertaMeteorologica> accionesAnteAlertaMeteorologica = new ArrayList<>();
 	
-	public Usuario() {} //Necesario para Hibernate
-	
+	public Usuario() {}
+
 	public Usuario(String nombre, String mail, String nro) {
 		this.mail = mail;
 		this.nombre = nombre;
@@ -55,6 +53,10 @@ public class Usuario {
 
 	public Long getId() {
 		return this.Id;
+	}
+	
+	public List<Evento> getEventos() {
+		return eventos;
 	}
 	
 	public String getNombre() {
@@ -89,10 +91,10 @@ public class Usuario {
 		return historialSugerencias;
 	}
 
-	public Map<Evento, List<Sugerencia>> getSugerenciasParaEventos() {
-		return sugerenciasParaEventos;
+	public void addToHistorialSugerencias(List<Sugerencia> s) {
+		historialSugerencias.addAll(s);
 	}
-
+	
 	public void addGuardarropa(Guardarropa guardarropa) throws GuardarropaConMayorPrendasQueCapMaxException {
 		privilegio.addGuardarropa(guardarropa, this);
 	}
@@ -118,14 +120,13 @@ public class Usuario {
 	}
 
 	public void agendarEvento(Evento evento, Guardarropa guardarropaAUtilizar) throws EventoYaFueAgendadoException, UsuarioNoEsPropietarioDelGuardarropaException {
-		if (sugerenciasParaEventos.containsKey(evento))
+		if (eventos.contains(evento))
 			throw new EventoYaFueAgendadoException();
-
-		sugerenciasParaEventos.put(evento, new ArrayList<>());
+		
 		eventos.add(evento);
 
 		Timer timer = new Timer();
-		TimerTask generarSugerencias = new GenerarSugerencias(evento, guardarropaAUtilizar, sugerenciasParaEventos, historialSugerencias, this);
+		TimerTask generarSugerencias = new GenerarSugerencias(evento, guardarropaAUtilizar, historialSugerencias, this);
 
 		LocalDateTime fechaDeEjecucion = evento.getFechaInicio().minusHours(2);
 		
@@ -138,16 +139,16 @@ public class Usuario {
 	}
 
 	public void eliminarEvento(Evento e) {
-		sugerenciasParaEventos.remove(e);
 		eventos.remove(e);
 	}
+	
 	public List<Sugerencia> obtenerSugerencias(Evento evento) throws EventoNoFueAgendadoException, EventoNoEstaProximoException, SinSugerenciasPosiblesException, PronosticoNoDisponibleException {
-		if (!sugerenciasParaEventos.containsKey(evento))
+		if (!eventos.contains(evento))
 			throw new EventoNoFueAgendadoException();
-		if (sugerenciasParaEventos.get(evento).isEmpty())
+		if (evento.getSugerencias().isEmpty())
 			throw new EventoNoEstaProximoException();
 
-		return sugerenciasParaEventos.get(evento);
+		return evento.getSugerencias();
 	}
 
 	public void agregarAccionAnteAlertaMeteorologica(AccionAnteAlertaMeteorologica accion) {

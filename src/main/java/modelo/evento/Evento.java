@@ -4,9 +4,15 @@ import excepciones.FechaFinDebeSerPosteriorAFechaInicioException;
 import excepciones.FrecuenciaDelEventoNula;
 import excepciones.parametros_nulos.FechaFinNoPuedeSerNulaException;
 import excepciones.parametros_nulos.FechaInicioNoPuedeSerNulaException;
+import modelo.sugerencia.Sugerencia;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -24,6 +30,11 @@ public class Evento {
 	private FrecuenciaEvento frecuencia;
 	@Enumerated(EnumType.STRING)
 	private TipoEvento tipoEvento;
+	@OneToMany
+	@JoinColumn(name="evento_id")
+	private final List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
+
+	
 
 	public Evento() {} //Necesario para Hibernate
 	
@@ -62,5 +73,17 @@ public class Evento {
 
 	public TipoEvento getTipoEvento() {
 		return tipoEvento;
+	}
+	
+	public List<Sugerencia> getSugerencias() {
+		return sugerencias;
+	}
+	
+	public void addSugerencia(Sugerencia sugerencia) {
+		sugerencias.add(sugerencia);
+	}
+	
+	public void addSugerencias(List<Sugerencia> sugerencias) {
+		sugerencias.addAll(sugerencias);
 	}
 }

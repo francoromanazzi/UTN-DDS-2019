@@ -17,13 +17,11 @@ public class GenerarSugerencias extends TimerTask {
 	private final Evento evento;
 	private final Usuario usuario;
 	private final Guardarropa guardarropaAUtilizar;
-	private final Map<Evento, List<Sugerencia>> sugerenciasParaEventos;
 	private final List<Sugerencia> historialSugerencias;
 
-	public GenerarSugerencias(Evento evento, Guardarropa guardarropaAUtilizar, Map<Evento, List<Sugerencia>> sugerenciasParaEventos, List<Sugerencia> historialSugerencias, Usuario user) {
+	public GenerarSugerencias(Evento evento, Guardarropa guardarropaAUtilizar, List<Sugerencia> historialSugerencias, Usuario user) {
 		this.evento = evento;
 		this.guardarropaAUtilizar = guardarropaAUtilizar;
-		this.sugerenciasParaEventos = sugerenciasParaEventos;
 		this.historialSugerencias = historialSugerencias;
 		this.usuario = user;
 	}
@@ -33,7 +31,8 @@ public class GenerarSugerencias extends TimerTask {
 		List<Sugerencia> sugerenciasGeneradas = 
 				guardarropaAUtilizar.generarSugerencias(evento, historialSugerencias);
 		
-		sugerenciasParaEventos.put(evento, sugerenciasGeneradas);
+		evento.addSugerencias(sugerenciasGeneradas);
+		usuario.addToHistorialSugerencias(sugerenciasGeneradas);
 		notificarAUsuario();
 	}
 

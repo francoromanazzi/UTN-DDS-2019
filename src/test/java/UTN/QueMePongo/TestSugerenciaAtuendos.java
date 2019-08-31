@@ -50,7 +50,7 @@ public class TestSugerenciaAtuendos {
 
 	private final ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
 	private final LocalDateTime ahora = LocalDateTime.now();
-	private final Evento eventoCorto = new Evento("", ahora.plusSeconds((long) 0.5), ahora.plusMinutes(15), FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
+	private final Evento eventoCorto = new Evento("", ahora.minusMinutes((long) 15), ahora.plusMinutes(15), FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
 	private final Evento eventoLargo = new Evento("", ahora, ahora.plusHours(4),FrecuenciaEvento.UNICA_VEZ,TipoEvento.FORMAL);
 	private final Evento eventoDentroDeMuchoTiempo = new Evento("", ahora.plusHours(8), ahora.plusHours(9),FrecuenciaEvento.UNICA_VEZ,TipoEvento.FORMAL);
 
@@ -300,12 +300,6 @@ public class TestSugerenciaAtuendos {
 		servicioDelClima.setPronosticosCache(new ArrayList<>(Arrays.asList(new Pronostico(ahora.minusMinutes(30), ahora.plusMinutes(30), new Clima(new Celsius(34))))));
 
 		userPremium.agendarEvento(eventoCorto, guardarropa);
-
-		try {
-			Thread.sleep(600);
-		} catch (InterruptedException e) {
-			System.out.println(e);
-		}
 
 		List<Sugerencia> sugerencias = userPremium.obtenerSugerencias(eventoCorto);
 		assertTrue(sugerencias.size() > 0);
