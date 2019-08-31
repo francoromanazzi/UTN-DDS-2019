@@ -115,13 +115,20 @@ public class EventosViewModel {
 	public LocalDateTime getFechaFin() {
 		return fechaFin;
 	}
+	
+	public void setFechaInicio(LocalDateTime fi) {
+		fechaInicio = fi;
+	}
+
+	public void setFechaFin(LocalDateTime ff) {
+		fechaFin = ff;
+	}
 
 	public int getAnioInicio() {
 		return anioInicio;
 	}
 
 	public void setAnioInicio(int anioInicio) {
-		fechaInicio = LocalDateTime.of(anioInicio, fechaInicio.getMonthValue(), fechaInicio.getDayOfMonth(), 0, 0);
 		this.anioInicio = anioInicio;
 	}
 
@@ -130,10 +137,8 @@ public class EventosViewModel {
 	}
 
 	public void setMesInicio(int mesInicio) {
-		if(mesInicio > 0 && mesInicio < 13) {
-			fechaInicio = LocalDateTime.of(fechaInicio.getYear(), mesInicio, fechaInicio.getDayOfMonth(), 0, 0);
+		if(mesInicio > 0 && mesInicio < 13) 
 			this.mesInicio = mesInicio;
-		}
 	}
 
 	public int getDiaInicio() {
@@ -141,10 +146,8 @@ public class EventosViewModel {
 	}
 
 	public void setDiaInicio(int diaInicio) {
-		if(cumpleCondicionDeDiaDeMes(diaInicio, fechaInicio.getMonthValue())) {
-			fechaInicio = LocalDateTime.of(fechaInicio.getYear(), fechaInicio.getMonthValue(), diaInicio, 0, 0);
+		if(cumpleCondicionDeDiaDeMes(diaInicio, fechaInicio.getMonthValue()))
 			this.diaInicio = diaInicio;
-		}
 	}
 
 	public int getAnioFin() {
@@ -152,7 +155,6 @@ public class EventosViewModel {
 	}
 
 	public void setAnioFin(int anioFin) {
-		fechaFin = LocalDateTime.of(anioFin, fechaFin.getMonthValue(), fechaFin.getDayOfMonth(), 0, 0);
 		this.anioFin = anioFin;
 	}
 
@@ -161,10 +163,8 @@ public class EventosViewModel {
 	}
 
 	public void setMesFin(int mesFin) {
-		if(mesFin > 0 && mesFin < 13) {
-			fechaFin = LocalDateTime.of(fechaFin.getYear(), mesFin, fechaFin.getDayOfMonth(), 0, 0);
+		if(mesFin > 0 && mesFin < 13) 
 			this.mesFin = mesFin;
-		}
 	}
 
 	public int getDiaFin() {
@@ -172,10 +172,8 @@ public class EventosViewModel {
 	}
 
 	public void setDiaFin(int diaFin) {
-		if(cumpleCondicionDeDiaDeMes(diaFin, fechaFin.getMonthValue())) {
-			fechaFin = LocalDateTime.of(fechaFin.getYear(), fechaFin.getMonthValue(), diaFin, 0, 0);
+		if(cumpleCondicionDeDiaDeMes(diaFin, fechaFin.getMonthValue())) 
 			this.diaFin = diaFin;
-		}
 	}
 	
 	private boolean cumpleCondicionDeDiaDeMes(int dia, int mes) {
