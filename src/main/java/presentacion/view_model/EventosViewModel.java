@@ -81,7 +81,7 @@ public class EventosViewModel {
 
 		Evento evento1 = new Evento("Go shopping", LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(3), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 		Evento evento2 = new Evento("Running", LocalDateTime.now().plusHours(2).plusSeconds(8), LocalDateTime.now().plusHours(3), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
-		Evento evento3 = new Evento("Go to University", LocalDateTime.now().plusHours(2).plusSeconds(12), LocalDateTime.now().plusHours(3), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
+		Evento evento3 = new Evento("Go to University", LocalDateTime.now().plusDays(24).plusHours(2).plusSeconds(12), LocalDateTime.now().plusDays(24).plusHours(3), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 		Evento evento4 = new Evento("Go to work", LocalDateTime.now().plusDays(10), LocalDateTime.now().plusDays(10).plusHours(8), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 
 		usuario.agendarEvento(evento1, guardarropa);

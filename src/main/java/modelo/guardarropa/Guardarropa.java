@@ -96,6 +96,7 @@ public class Guardarropa {
 		List<Map<ParteDelCuerpo, SensibilidadTemperatura>> sensibilidadPorParteDelCuerpo = 
 					historialSugerencias
 					.stream()
+					.filter(sug -> sug.getCalificacion() != null && sug.getCalificacion().getSensibilidadPorPartesDelCuerpo() != null)
 					.map(sug -> sug.getCalificacion().getSensibilidadPorPartesDelCuerpo())
 					.collect(Collectors.toList());
 

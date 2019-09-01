@@ -29,7 +29,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 public class TestSugerenciaAtuendos {
-	private final Usuario userPremium = new Usuario("","","");
+	private final Usuario userPremium = new Usuario("Federico","fede_123@gmail.com","1564568766");
 	private final Guardarropa guardarropa = new Guardarropa();
 
 	private final Prenda musculosa = new Prenda(Tipo.MUSCULOSA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)), Optional.empty());
@@ -50,7 +50,7 @@ public class TestSugerenciaAtuendos {
 
 	private final ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
 	private final LocalDateTime ahora = LocalDateTime.now();
-	private final Evento eventoCorto = new Evento("", ahora.minusMinutes((long) 15), ahora.plusMinutes(15), FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
+	private final Evento eventoCorto = new Evento("", ahora.plusMinutes(1), ahora.plusMinutes(21), FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
 	private final Evento eventoLargo = new Evento("", ahora, ahora.plusHours(4),FrecuenciaEvento.UNICA_VEZ,TipoEvento.FORMAL);
 	private final Evento eventoDentroDeMuchoTiempo = new Evento("", ahora.plusHours(8), ahora.plusHours(9),FrecuenciaEvento.UNICA_VEZ,TipoEvento.FORMAL);
 
