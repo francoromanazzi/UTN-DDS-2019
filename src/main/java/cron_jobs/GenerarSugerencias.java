@@ -31,13 +31,14 @@ public class GenerarSugerencias extends TimerTask {
 		List<Sugerencia> sugerenciasGeneradas = 
 				guardarropaAUtilizar.generarSugerencias(evento, historialSugerencias);
 		
+		
 		evento.addSugerencias(sugerenciasGeneradas);
 		usuario.addToHistorialSugerencias(sugerenciasGeneradas);
 		notificarAUsuario();
 	}
 
 	private void notificarAUsuario() {
-		String texto = "Hola" + usuario.getNombre() + "!\n" + "Tus sugerencias ya están listas!";
+		String texto = "Hola " + usuario.getNombre() + "!\n" + "Tus sugerencias ya estan listas!";
 
 		// TODO hacer chequeada a esta excepcion
 		try {

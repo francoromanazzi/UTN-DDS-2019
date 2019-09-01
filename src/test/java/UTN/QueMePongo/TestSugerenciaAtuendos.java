@@ -50,7 +50,7 @@ public class TestSugerenciaAtuendos {
 
 	private final ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
 	private final LocalDateTime ahora = LocalDateTime.now();
-	private final Evento eventoCorto = new Evento("", ahora.plusMinutes(1), ahora.plusMinutes(21), FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
+	private final Evento eventoCorto = new Evento("", ahora.plusSeconds(1), ahora.plusSeconds(1).plusMinutes(21), FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
 	private final Evento eventoLargo = new Evento("", ahora, ahora.plusHours(4),FrecuenciaEvento.UNICA_VEZ,TipoEvento.FORMAL);
 	private final Evento eventoDentroDeMuchoTiempo = new Evento("", ahora.plusHours(8), ahora.plusHours(9),FrecuenciaEvento.UNICA_VEZ,TipoEvento.FORMAL);
 
@@ -63,7 +63,7 @@ public class TestSugerenciaAtuendos {
 	public void agregarGuardarropaAUsuario() {
 		userPremium.addGuardarropa(guardarropa);
 	}
-
+	
 	@Test
 	public void deberiaSugerirRopaAbrigadaSiHaceFrio() {
 		userPremium.addPrenda(musculosa, guardarropa);
@@ -307,7 +307,7 @@ public class TestSugerenciaAtuendos {
 		userPremium.agendarEvento(eventoCorto, guardarropa);
 
 		try {
-			Thread.sleep(5);
+			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

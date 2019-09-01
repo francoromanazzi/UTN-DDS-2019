@@ -76,14 +76,14 @@ public class Evento {
 	}
 	
 	public List<Sugerencia> getSugerencias() {
-		return sugerencias;
+		return this.sugerencias;
 	}
 	
 	public void addSugerencia(Sugerencia sugerencia) {
-		sugerencias.add(sugerencia);
+		this.sugerencias.add(sugerencia);
 	}
 	
 	public void addSugerencias(List<Sugerencia> sugerencias) {
-		sugerencias.addAll(sugerencias);
+		this.sugerencias.addAll(sugerencias);
 	}
 }

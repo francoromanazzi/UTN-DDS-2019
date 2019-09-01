@@ -88,6 +88,12 @@ public class EventosViewModel {
 		usuario.agendarEvento(evento2, guardarropa);
 		usuario.agendarEvento(evento3, guardarropa);
 		usuario.agendarEvento(evento4, guardarropa);
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void inicializarFechas() {
