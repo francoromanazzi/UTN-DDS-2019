@@ -38,7 +38,7 @@ public class Usuario {
 	@JoinColumn(name="usuario_id")
 	private final List<Evento> eventos = new ArrayList<>();
 	@OneToMany
-	@JoinColumn(name="usuario_id")
+	@JoinColumn(name="usuario_id") // Agregar @OrderColumn
 	private final List<Sugerencia> historialSugerencias = new ArrayList<>();
 	@Transient //Persistir?
 	private final List<AccionAnteAlertaMeteorologica> accionesAnteAlertaMeteorologica = new ArrayList<>();
@@ -172,5 +172,11 @@ public class Usuario {
 				e.printStackTrace();
 			}
 		});
+	}
+	
+	// Usamos esto ?
+	public void controlarTamanioHistorialSugerencias() {
+		if(this.historialSugerencias.size() > 50)
+			this.historialSugerencias.subList(0, 10).clear(); // Saco las primeras 10 sugerencias.
 	}
 }

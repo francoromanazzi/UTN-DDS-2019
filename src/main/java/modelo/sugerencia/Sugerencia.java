@@ -1,5 +1,6 @@
 package modelo.sugerencia;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -19,13 +20,18 @@ import modelo.usuario.Usuario;
 @Entity
 @Table(name="sugerencias")
 public class Sugerencia {
+	
 	@Id @GeneratedValue
 	private Long Id;
+	
 	@Transient //Temporal
 	private Atuendo atuendo;
+	
 	@Enumerated(EnumType.STRING)
 	private EstadoSugerencia estado = EstadoSugerencia.NUEVO;
-	@OneToOne
+	
+	//@OneToOne
+	@Embedded
 	private CalificacionSugerencia calificacion;
 
 	public Sugerencia() {}
