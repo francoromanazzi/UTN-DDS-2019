@@ -13,8 +13,6 @@ import java.util.List;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.OrderColumn;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -38,7 +36,7 @@ public class Evento {
 
 	
 
-	public Evento() {} //Necesario para Hibernate
+	public Evento() {} 
 	
 	public Evento(String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFin, FrecuenciaEvento frecuencia ,TipoEvento tipo) throws FechaFinDebeSerPosteriorAFechaInicioException, FechaInicioNoPuedeSerNulaException, FechaFinNoPuedeSerNulaException {
 		if (fechaInicio == null) throw new FechaInicioNoPuedeSerNulaException();

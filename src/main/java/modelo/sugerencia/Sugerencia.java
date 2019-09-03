@@ -1,6 +1,5 @@
 package modelo.sugerencia;
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -30,8 +29,7 @@ public class Sugerencia {
 	@Enumerated(EnumType.STRING)
 	private EstadoSugerencia estado = EstadoSugerencia.NUEVO;
 	
-	//@OneToOne
-	@Embedded
+	@OneToOne
 	private CalificacionSugerencia calificacion;
 
 	public Sugerencia() {}
@@ -57,7 +55,7 @@ public class Sugerencia {
 	}
 
 	public CalificacionSugerencia getCalificacion() {
-		return calificacion;
+		return this.calificacion;
 	}
 
 	public void setCalificacion(CalificacionSugerencia calificacion) {

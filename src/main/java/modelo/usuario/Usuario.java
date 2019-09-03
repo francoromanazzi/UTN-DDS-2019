@@ -30,7 +30,7 @@ public class Usuario {
 	@Id @GeneratedValue
 	private Long Id;
 	private String nombre, mail, numeroTelefono;
-	@Transient //Temporal?
+	@Transient //Persistir?
 	private Decision ultimaDecision = new DecisionVacia();
 	@Transient //Persistirla dsp de resolver la herencia en PrivilegiosUsuario
 	private PrivilegiosUsuario privilegio = new Gratuito(10);
@@ -38,7 +38,7 @@ public class Usuario {
 	@JoinColumn(name="usuario_id")
 	private final List<Evento> eventos = new ArrayList<>();
 	@OneToMany
-	@JoinColumn(name="usuario_id") // Agregar @OrderColumn
+	@JoinColumn(name="usuario_id")
 	private final List<Sugerencia> historialSugerencias = new ArrayList<>();
 	@Transient //Persistir?
 	private final List<AccionAnteAlertaMeteorologica> accionesAnteAlertaMeteorologica = new ArrayList<>();

@@ -60,8 +60,8 @@ public class TestDecision {
 	public void usuarioDeberiaPoderDeshacerUltimaAccion() {
 		Sugerencia sugerencia = guardarropa.generarSugerencias(eventoCorto,new ArrayList<>()).get(0);
 		sugerencia.aceptar(usuario);
-		sugerencia.calificar(new CalificacionSugerencia(SensibilidadTemperatura.NORMAL, new HashMap<>()), usuario);
-		sugerencia.calificar(new CalificacionSugerencia(SensibilidadTemperatura.NORMAL, new HashMap<>()), usuario);
+		sugerencia.calificar(new CalificacionSugerencia(SensibilidadTemperatura.NORMAL), usuario);
+		sugerencia.calificar(new CalificacionSugerencia(SensibilidadTemperatura.NORMAL), usuario);
 		usuario.deshacerUltimaDecision();
 
 		assertEquals(sugerencia.getEstado(), EstadoSugerencia.CALIFICADO);

@@ -14,6 +14,7 @@ import modelo.pronosticos_del_clima.Pronostico;
 import modelo.pronosticos_del_clima.ServicioDelClima;
 import modelo.pronosticos_del_clima.clima.Clima;
 import modelo.sugerencia.EstadoSugerencia;
+import modelo.sugerencia.SensibilidadParteDelCuerpo;
 import modelo.sugerencia.SensibilidadTemperatura;
 import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Usuario;
@@ -93,12 +94,13 @@ public class Guardarropa {
 		SensibilidadTemperatura sensibilidadGlobal = 
 				obtenerSensibilidadGlobal(historialSugerencias);
 
-		List<Map<ParteDelCuerpo, SensibilidadTemperatura>> sensibilidadPorParteDelCuerpo = 
+		List<SensibilidadParteDelCuerpo> sensibilidadPorParteDelCuerpo = 
 					historialSugerencias
 					.stream()
 					.filter(sug -> sug.getCalificacion() != null && sug.getCalificacion().getSensibilidadPorPartesDelCuerpo() != null)
 					.map(sug -> sug.getCalificacion().getSensibilidadPorPartesDelCuerpo())
-					.collect(Collectors.toList());
+					.flatMap(List::stream)
+			        .collect(Collectors.toList());
 
 		List<PrototipoSuperposicion> superposicionesTiposDeSuperiores = obtenerSuperposicionesDeTiposDeCategoriaPorClima(
 				Categoria.SUPERIOR, clima, sensibilidadGlobal, sensibilidadPorParteDelCuerpo);
@@ -129,7 +131,7 @@ public class Guardarropa {
 
 	private List<PrototipoSuperposicion> obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria categoria,
 			Clima clima, SensibilidadTemperatura sensibilidadGlobal,
-			List<Map<ParteDelCuerpo, SensibilidadTemperatura>> sensibilidadPorPartesDelCuerpo) {
+			List<SensibilidadParteDelCuerpo> sensibilidadPorParteDelCuerpo) {
 		
 		double modificadorCelsiusSegunSensibilidadGlobal = sensibilidadGlobal == SensibilidadTemperatura.FRIO ? -8
 				: sensibilidadGlobal == SensibilidadTemperatura.CALOR ? 8 : 0;
@@ -141,10 +143,10 @@ public class Guardarropa {
 				.filter(superposicion -> superposicion.getTipos().stream().allMatch(tipo -> {
 					SensibilidadTemperatura sensibilidadEnEsaParte = 
 							SensibilidadTemperatura
-							.obtenerPromedioDeSensibilidad(sensibilidadPorPartesDelCuerpo
+							.obtenerPromedioDeSensibilidad(sensibilidadPorParteDelCuerpo
 							.stream()
-							.filter(sens -> sens.containsKey(tipo.getParteDelCuerpo()))
-							.map(sens -> sens.get(tipo.getParteDelCuerpo()))
+							.filter(sens -> sens.getParteDelCuerpo() == tipo.getParteDelCuerpo())
+							.map(sens -> sens.getSensibilidad())
 							.collect(Collectors.toList()));
 					
 					double modificadorCelsius = sensibilidadEnEsaParte == SensibilidadTemperatura.FRIO ? -8
