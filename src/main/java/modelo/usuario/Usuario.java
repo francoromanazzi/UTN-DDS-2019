@@ -176,7 +176,13 @@ public class Usuario {
 	
 	// Usamos esto ?
 	public void controlarTamanioHistorialSugerencias() {
-		if(this.historialSugerencias.size() > 50)
-			this.historialSugerencias.subList(0, 10).clear(); // Saco las primeras 10 sugerencias.
+		int cantidadMaxima = 50;
+		int cantidadDeSugerencias = this.historialSugerencias.size();
+		
+		if(cantidadDeSugerencias > cantidadMaxima) {
+			int excedente = cantidadMaxima - cantidadDeSugerencias;
+			this.historialSugerencias.subList(0, excedente).clear(); // Saco el excedente de sugerencias.
+		}
+			
 	}
 }
