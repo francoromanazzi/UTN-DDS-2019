@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -176,7 +177,13 @@ public class Usuario {
 	
 	// Usamos esto ?
 	public void controlarTamanioHistorialSugerencias() {
-		if(this.historialSugerencias.size() > 50)
-			this.historialSugerencias.subList(0, 10).clear(); // Saco las primeras 10 sugerencias.
+		int cantidadMaxima = 50;
+		int cantidadDeSugerencias = this.historialSugerencias.size();
+		
+		if(cantidadDeSugerencias > cantidadMaxima) {
+			int excedente = cantidadMaxima - cantidadDeSugerencias;
+			this.historialSugerencias.subList(0, excedente).clear(); // Saco el excedente de sugerencias.
+		}
+			
 	}
 }
