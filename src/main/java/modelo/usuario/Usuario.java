@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -38,7 +39,8 @@ public class Usuario {
 	@JoinColumn(name="usuario_id")
 	private final List<Evento> eventos = new ArrayList<>();
 	@OneToMany
-	@JoinColumn(name="usuario_id") // Agregar @OrderColumn
+	@JoinColumn(name="usuario_id")
+	@OrderColumn
 	private final List<Sugerencia> historialSugerencias = new ArrayList<>();
 	@Transient //Persistir?
 	private final List<AccionAnteAlertaMeteorologica> accionesAnteAlertaMeteorologica = new ArrayList<>();
