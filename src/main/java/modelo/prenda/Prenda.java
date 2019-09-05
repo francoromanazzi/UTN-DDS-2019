@@ -6,14 +6,24 @@ import excepciones.ImagenNoPudoSerLeidaException;
 import excepciones.MaterialNoTieneSentidoParaEseTipoException;
 import excepciones.parametros_nulos.*;
 
+import javax.persistence.*;
 import java.io.File;
 import java.util.Optional;
 
+@Entity
 public class Prenda {
+	@Id
+	@GeneratedValue
+	private long id;
+	@Enumerated(EnumType.STRING)
 	private final Tipo tipo;
+	@Enumerated(EnumType.STRING)
 	private final Material material;
+	@ManyToOne
 	private final Color colorPrincipal;
+	@Transient
 	private final Optional<Color> colorSecundario;
+	@Transient
 	private Optional<Imagen> imagen;
 
 	public Prenda(Tipo tipo, Material material, Color colorPrincipal, Optional<Color> colorSecundario, Optional<File> archivoImagen)

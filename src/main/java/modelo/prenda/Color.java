@@ -2,11 +2,17 @@ package modelo.prenda;
 
 import excepciones.LimiteExcedidoEnColorException;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Objects;
 import java.util.stream.Stream;
-
+@Entity
 public class Color {
-	private final int rojo, verde, azul;
+    @Id
+    @GeneratedValue
+	private long id;
+    private final int rojo, verde, azul;
 
 	public Color(int rojo, int verde, int azul) {
 		// Validar colores entre 0 y 255 y que no sean nulos
