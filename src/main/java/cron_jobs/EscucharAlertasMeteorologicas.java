@@ -12,7 +12,7 @@ public class EscucharAlertasMeteorologicas extends TimerTask {
 	@Override
 	public void run() {
 		List<AlertaMeteorologica> alertas = ServicioDelClima.getInstance().obtenerAlertasMeteorologicas();
-		List<Usuario> usuarios = RepositorioUsuarios.getInstance().getUsuarios();
+		List<Usuario> usuarios = RepositorioUsuarios.getInstance().getUsuarios(); // Esto habria que sacarlo y usar hibernate para obtener a todos los usuarios
 		alertas.forEach(alerta -> usuarios.forEach(user -> user.recibirAlertaMeteorologica(alerta)));
 	}
 }
