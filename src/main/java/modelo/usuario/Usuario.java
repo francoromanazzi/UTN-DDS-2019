@@ -16,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
@@ -33,7 +34,8 @@ public class Usuario {
 	private String nombre, mail, numeroTelefono;
 	@Transient //Persistir?
 	private Decision ultimaDecision = new DecisionVacia();
-	@Transient //Persistirla dsp de resolver la herencia en PrivilegiosUsuario
+	@ManyToOne //Persistirla dsp de resolver la herencia en PrivilegiosUsuario
+	@JoinColumn(name="usuario_id") //No se si esta bien
 	private PrivilegiosUsuario privilegio = new Gratuito(10);
 	@OneToMany
 	@JoinColumn(name="usuario_id")
@@ -177,7 +179,7 @@ public class Usuario {
 	
 	// Usamos esto ?
 	public void controlarTamanioHistorialSugerencias() {
-		int cantidadMaxima = 50;
+		int cantidadMaxima = 50; // Se puede cambiar
 		int cantidadDeSugerencias = this.historialSugerencias.size();
 		
 		if(cantidadDeSugerencias > cantidadMaxima) {

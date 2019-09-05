@@ -7,7 +7,14 @@ import modelo.prenda.Prenda;
 
 import java.util.List;
 
-public class Gratuito implements PrivilegiosUsuario {
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue(value = "G")
+public class Gratuito extends PrivilegiosUsuario {
+	
 	private final int capacidadGuardarropa;
 
 	public Gratuito(int capMax) {

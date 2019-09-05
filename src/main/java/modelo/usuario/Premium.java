@@ -6,7 +6,12 @@ import modelo.prenda.Prenda;
 
 import java.util.List;
 
-public class Premium implements PrivilegiosUsuario {
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue(value = "P")
+public class Premium extends PrivilegiosUsuario {
 
 	@Override
 	public void addGuardarropa(Guardarropa guardarropa, Usuario nuevoUsuario) {
