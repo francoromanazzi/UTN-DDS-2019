@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "calificacion_sugerencia")
+@Table(name = "calificaciones_sugerencia")
 public class CalificacionSugerencia {
 	@Id @GeneratedValue
 	private Long Id;

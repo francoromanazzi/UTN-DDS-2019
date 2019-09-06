@@ -19,10 +19,10 @@ import javax.persistence.Table;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "discriminador")
-@Table(name = "privilegio_usuario")
+@Table(name = "privilegios_usuario")
 public abstract class PrivilegioUsuario {
 	@Id	@GeneratedValue
-	public long id;
+	public long Id;
 	
 	public PrivilegioUsuario() {}
 	

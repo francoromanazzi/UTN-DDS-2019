@@ -20,7 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="evento")
+@Table(name="eventos")
 public class Evento {
 	@Id @GeneratedValue
 	private Long Id;

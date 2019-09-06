@@ -22,7 +22,7 @@ public class EventosWindow extends MainWindow<EventosViewModel>{
 	private static final long serialVersionUID = -1142663776268286620L;
 
 	private EventosWindow() {
-		super(new EventosViewModel(new Usuario("Pepe", "pepe@gmail.com","123456789")));
+		super(new EventosViewModel(new Usuario("Pepe", "pepe@gmail.com","123456789","","")));
 	}
 
 	@Override

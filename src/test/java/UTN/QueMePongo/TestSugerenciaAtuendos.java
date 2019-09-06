@@ -29,7 +29,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 public class TestSugerenciaAtuendos {
-	private final Usuario userPremium = new Usuario("Federico","fede_123@gmail.com","1564568766");
+	private final Usuario userPremium = new Usuario("Federico","fede_123@gmail.com","1564568766","","");
 	private final Guardarropa guardarropa = new Guardarropa();
 
 	private final Prenda musculosa = new Prenda(Tipo.MUSCULOSA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)), Optional.empty());
