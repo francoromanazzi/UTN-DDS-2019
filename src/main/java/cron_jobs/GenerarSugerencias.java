@@ -35,7 +35,8 @@ public class GenerarSugerencias extends TimerTask {
 		evento.addSugerencias(sugerenciasGeneradas);
 		usuario.addToHistorialSugerencias(sugerenciasGeneradas);
 		usuario.controlarTamanioHistorialSugerencias(); // Lo usamos ?
-		notificarAUsuario();
+		if(usuario.getEventos().contains(evento))
+			notificarAUsuario();
 	}
 
 	private void notificarAUsuario() {

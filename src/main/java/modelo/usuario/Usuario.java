@@ -143,8 +143,6 @@ public class Usuario {
 
 	public void eliminarEvento(Evento e) {
 		eventos.remove(e);
-		// Hay un bug? Falta sacar del timer la generacion de sugerencias
-		// Habria que, de alguna forma, obtener el TimeTask correspondiente y cancelarlo (cancel()).
 	}
 	
 	public List<Sugerencia> obtenerSugerencias(Evento evento) throws EventoNoFueAgendadoException, EventoNoEstaProximoException, SinSugerenciasPosiblesException, PronosticoNoDisponibleException {
