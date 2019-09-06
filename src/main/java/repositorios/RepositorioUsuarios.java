@@ -5,16 +5,33 @@ import modelo.usuario.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepositorioUsuarios {
-	private static final RepositorioUsuarios ourInstance = new RepositorioUsuarios();
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
-	public static RepositorioUsuarios getInstance() {
+public class RepositorioUsuarios {
+	private static RepositorioUsuarios ourInstance;
+	
+	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+	private List<Usuario> usuarios;
+
+	public static synchronized RepositorioUsuarios getInstance() {
+		if(ourInstance == null)
+			ourInstance = new RepositorioUsuarios();
+		
 		return ourInstance;
 	}
 
-	private RepositorioUsuarios() {}
+	@SuppressWarnings("unchecked")
+	private RepositorioUsuarios() {
+		EntityManager manager = emf.createEntityManager();
+
+		this.usuarios = (List<Usuario>)manager.createQuery("FROM Usuario").getResultList();
+		
+		manager.close();
+	}
 
 	public List<Usuario> getUsuarios() {
-		return new ArrayList<>();
+		return usuarios;
 	}
 }

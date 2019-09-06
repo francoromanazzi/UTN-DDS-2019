@@ -21,8 +21,7 @@ public class EscucharAlertasMeteorologicas extends TimerTask {
 		EntityManager manager = emf.createEntityManager();
 		
 		List<AlertaMeteorologica> alertas = ServicioDelClima.getInstance().obtenerAlertasMeteorologicas();
-		List<Usuario> usuarios = (List<Usuario>)manager.createQuery("FROM Usuario").getResultList();
-				//RepositorioUsuarios.getInstance().getUsuarios(); Esto habria que sacarlo y usar hibernate para obtener a todos los usuarios
+		List<Usuario> usuarios = RepositorioUsuarios.getInstance().getUsuarios();
 		
 		alertas.forEach(alerta -> usuarios.forEach(user -> user.recibirAlertaMeteorologica(alerta)));
 		
