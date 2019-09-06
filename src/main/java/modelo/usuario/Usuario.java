@@ -27,6 +27,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Entity
+@Table(name = "usuario")
 public class Usuario {
 	@Id @GeneratedValue
 	private Long Id;
@@ -34,7 +35,7 @@ public class Usuario {
 	@Transient //Persistir?
 	private Decision ultimaDecision = new DecisionVacia();
 	@ManyToOne //Persistirla dsp de resolver la herencia en PrivilegiosUsuario
-	private PrivilegiosUsuario privilegio = new Gratuito(10);
+	private PrivilegioUsuario privilegio = new Gratuito(10);
 	@OneToMany
 	@JoinColumn(name="usuario_id")
 	private final List<Evento> eventos = new ArrayList<>();
@@ -80,11 +81,11 @@ public class Usuario {
 		this.ultimaDecision = ultimaDecision;
 	}
 
-	public PrivilegiosUsuario getPrivilegio() {
+	public PrivilegioUsuario getPrivilegio() {
 		return privilegio;
 	}
 
-	public void setPrivilegio(PrivilegiosUsuario privilegio) {
+	public void setPrivilegio(PrivilegioUsuario privilegio) {
 		this.privilegio = privilegio;
 	}
 

@@ -13,7 +13,7 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue(value = "G")
-public class Gratuito extends PrivilegiosUsuario {
+public class Gratuito extends PrivilegioUsuario {
 	
 	private final int capacidadGuardarropa;
 

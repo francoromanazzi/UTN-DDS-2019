@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.Optional;
 
 @Entity
+@Table(name = "prenda")
 public class Prenda {
 	@Id
 	@GeneratedValue

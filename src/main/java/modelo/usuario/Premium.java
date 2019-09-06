@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue(value = "P")
-public class Premium extends PrivilegiosUsuario {
+public class Premium extends PrivilegioUsuario {
 
 	@Override
 	public void addGuardarropa(Guardarropa guardarropa, Usuario nuevoUsuario) {

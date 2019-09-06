@@ -5,9 +5,12 @@ import excepciones.LimiteExcedidoEnColorException;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
 import java.util.Objects;
 import java.util.stream.Stream;
 @Entity
+@Table(name = "color")
 public class Color {
     @Id
     @GeneratedValue

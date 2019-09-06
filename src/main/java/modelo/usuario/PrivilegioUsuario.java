@@ -13,16 +13,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "discriminador")
-public abstract class PrivilegiosUsuario {
+@Table(name = "privilegio_usuario")
+public abstract class PrivilegioUsuario {
 	@Id	@GeneratedValue
 	public long id;
 	
-	public PrivilegiosUsuario() {}
+	public PrivilegioUsuario() {}
 	
 	public abstract void addGuardarropa(Guardarropa guardarropaNuevo, Usuario usuarioNuevo) throws GuardarropaConMayorPrendasQueCapMaxException;
 
