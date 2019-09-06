@@ -11,16 +11,16 @@ import java.io.File;
 import java.util.Optional;
 
 @Entity
-@Table(name = "prenda")
+@Table(name = "prendas")
 public class Prenda {
 	@Id
 	@GeneratedValue
-	private long id;
+	private long Id;
 	@Enumerated(EnumType.STRING)
 	private final Tipo tipo;
 	@Enumerated(EnumType.STRING)
 	private final Material material;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private final Color colorPrincipal;
 	@Transient
 	private final Optional<Color> colorSecundario;
@@ -82,6 +82,10 @@ public class Prenda {
 
 	public Optional<Imagen> getImagen() {
 		return imagen;
+	}
+	
+	public Long getId() {
+		return this.Id;
 	}
 
 	@Override

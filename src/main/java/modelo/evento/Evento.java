@@ -13,9 +13,11 @@ import java.util.List;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 
@@ -30,7 +32,7 @@ public class Evento {
 	private FrecuenciaEvento frecuencia;
 	@Enumerated(EnumType.STRING)
 	private TipoEvento tipoEvento;
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="evento_id")
 	private final List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
 

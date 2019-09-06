@@ -2,9 +2,12 @@ package modelo.sugerencia;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -20,7 +23,7 @@ public class CalificacionSugerencia {
 	@Enumerated(EnumType.STRING)
 	private SensibilidadTemperatura sensibilidadGlobal;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "calificacion_sugerencia_id")
 	private final List<SensibilidadParteDelCuerpo> sensibilidadPorPartesDelCuerpo = new ArrayList<>();
 

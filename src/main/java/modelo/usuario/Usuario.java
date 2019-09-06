@@ -12,7 +12,9 @@ import modelo.sugerencia.decision.Decision;
 import modelo.sugerencia.decision.DecisionVacia;
 
 import javax.mail.MessagingException;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -33,12 +35,12 @@ public class Usuario {
 	private String nombre, mail, numeroTelefono, username, password;
 	@Transient //Persistir?
 	private Decision ultimaDecision = new DecisionVacia();
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private PrivilegioUsuario privilegio = new Gratuito(10);
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="usuario_id")
 	private final List<Evento> eventos = new ArrayList<>();
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="usuario_id")
 	private final List<Sugerencia> historialSugerencias = new ArrayList<>();
 	@Transient //Persistir?
