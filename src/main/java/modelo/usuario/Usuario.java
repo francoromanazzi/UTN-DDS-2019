@@ -35,7 +35,6 @@ public class Usuario {
 	@Transient //Persistir?
 	private Decision ultimaDecision = new DecisionVacia();
 	@ManyToOne //Persistirla dsp de resolver la herencia en PrivilegiosUsuario
-	@JoinColumn(name="usuario_id") //No se si esta bien
 	private PrivilegiosUsuario privilegio = new Gratuito(10);
 	@OneToMany
 	@JoinColumn(name="usuario_id")
