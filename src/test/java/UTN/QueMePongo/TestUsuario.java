@@ -8,7 +8,8 @@ import modelo.prenda.Prenda;
 import modelo.prenda.Tipo;
 import modelo.usuario.Gratuito;
 import modelo.usuario.Premium;
-import modelo.usuario.PrivilegiosUsuario;
+import modelo.usuario.PrivilegioUsuario;
+import modelo.usuario.PrivilegioUsuario;
 import modelo.usuario.Usuario;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,8 +22,8 @@ import static org.junit.Assert.assertTrue;
 public class TestUsuario {
 	private final Usuario userGratuito = new Usuario("","","");
 	private final Usuario userPremium = new Usuario("","","");
-	private final PrivilegiosUsuario privilegiosPremium = new Premium();
-	private final PrivilegiosUsuario privilegiosGratuito = new Gratuito(2);
+	private final PrivilegioUsuario privilegiosPremium = new Premium();
+	private final PrivilegioUsuario privilegiosGratuito = new Gratuito(2);
 	private final Guardarropa guardarropa = new Guardarropa();
 
 	@Before
