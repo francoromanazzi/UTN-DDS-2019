@@ -25,5 +25,7 @@ public class EscucharAlertasMeteorologicas extends TimerTask {
 				//RepositorioUsuarios.getInstance().getUsuarios(); Esto habria que sacarlo y usar hibernate para obtener a todos los usuarios
 		
 		alertas.forEach(alerta -> usuarios.forEach(user -> user.recibirAlertaMeteorologica(alerta)));
+		
+		manager.close();
 	}
 }
