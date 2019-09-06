@@ -27,7 +27,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Entity
-@Table(name="usuarios")
 public class Usuario {
 	@Id @GeneratedValue
 	private Long Id;

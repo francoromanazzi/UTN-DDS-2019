@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import modelo.parte_del_cuerpo.ParteDelCuerpo;
 
 @Entity
-@Table(name = "sensibilidades_por_parte_del_cuerpo")
+@Table(name = "sensibilidad_por_parte_del_cuerpo")
 public class SensibilidadParteDelCuerpo {
 	@Id @GeneratedValue
 	private Long Id;

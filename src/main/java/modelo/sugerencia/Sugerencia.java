@@ -17,7 +17,7 @@ import modelo.sugerencia.decision.DecisionRechazar;
 import modelo.usuario.Usuario;
 
 @Entity
-@Table(name="sugerencias")
+@Table(name="sugerencia")
 public class Sugerencia {
 	
 	@Id @GeneratedValue
