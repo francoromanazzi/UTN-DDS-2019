@@ -1,8 +1,10 @@
 package modelo.sugerencia;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -17,7 +19,7 @@ import modelo.sugerencia.decision.DecisionRechazar;
 import modelo.usuario.Usuario;
 
 @Entity
-@Table(name="sugerencia")
+@Table(name="sugerencias")
 public class Sugerencia {
 	
 	@Id @GeneratedValue
@@ -29,7 +31,7 @@ public class Sugerencia {
 	@Enumerated(EnumType.STRING)
 	private EstadoSugerencia estado = EstadoSugerencia.NUEVO;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private CalificacionSugerencia calificacion;
 
 	public Sugerencia() {}

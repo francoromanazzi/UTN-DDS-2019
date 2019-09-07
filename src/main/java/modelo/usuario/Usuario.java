@@ -12,13 +12,14 @@ import modelo.sugerencia.decision.Decision;
 import modelo.sugerencia.decision.DecisionVacia;
 
 import javax.mail.MessagingException;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -27,19 +28,19 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuarios")
 public class Usuario {
 	@Id @GeneratedValue
 	private Long Id;
-	private String nombre, mail, numeroTelefono;
+	private String nombre, mail, numeroTelefono, username, password;
 	@Transient //Persistir?
 	private Decision ultimaDecision = new DecisionVacia();
-	@ManyToOne //Persistirla dsp de resolver la herencia en PrivilegiosUsuario
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private PrivilegioUsuario privilegio = new Gratuito(10);
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="usuario_id")
 	private final List<Evento> eventos = new ArrayList<>();
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="usuario_id")
 	private final List<Sugerencia> historialSugerencias = new ArrayList<>();
 	@Transient //Persistir?
@@ -47,10 +48,12 @@ public class Usuario {
 	
 	public Usuario() {}
 
-	public Usuario(String nombre, String mail, String nro) {
+	public Usuario(String nombre, String mail, String nro, String username, String password) {
 		this.mail = mail;
 		this.nombre = nombre;
 		this.numeroTelefono = nro;
+		this.username = username;
+		this.password = password;
 	}
 
 	public Long getId() {
@@ -186,5 +189,21 @@ public class Usuario {
 			this.historialSugerencias.subList(0, excedente).clear(); // Saco el excedente de sugerencias.
 		}
 			
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

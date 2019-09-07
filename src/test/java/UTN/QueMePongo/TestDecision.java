@@ -31,7 +31,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TestDecision {
-	private final Usuario usuario = new Usuario("","","");
+	private final Usuario usuario = new Usuario("","","","","");
 	private final Guardarropa guardarropa = new Guardarropa();
 	private final LocalDateTime fecha = LocalDateTime.now();
 	private final Evento eventoCorto = new Evento("", fecha, fecha.plusMinutes(15),FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
