@@ -19,14 +19,22 @@ import modelo.sugerencia.SensibilidadTemperatura;
 import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Usuario;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
+@Entity
+@Table(name = "guardarropas")
 public class Guardarropa {
+	@Id
+	@GeneratedValue
+	private long id;
+	@OneToMany
+	@JoinColumn(name="Guardarropa_id")
 	private final List<Prenda> prendas = new ArrayList<>();
+	@ManyToMany
 	private final List<Usuario> usuariosPropietarios = new ArrayList<>();
 
 	public List<Usuario> getUsuariosPropietarios() {
