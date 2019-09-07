@@ -8,6 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
+
+import javax.transaction.Transactional;
+import java.beans.Transient;
 import java.util.List;
 import java.util.Optional;
 import static org.junit.Assert.assertEquals;
@@ -22,14 +25,13 @@ public class TestPersistenciaPrenda extends AbstractPersistenceTest implements W
     @Test
     public void persistirPrenda(){
         entityManager().persist(buzoRojo);
-        this.commitTransaction();
 
         List<Prenda> prendas = entityManager().
                 createQuery("from Prenda", Prenda.class).
                 getResultList();
 
-        assertEquals(prendas.get(0).getTipo(),Tipo.BUZO); //OJO: El primero tal vez no siempre es el que quiero
-        //TODO: eliminar prenda persistida
+        assertEquals(prendas.get(0).getTipo(),Tipo.BUZO);
+
     }
 
 }

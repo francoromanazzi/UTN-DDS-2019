@@ -37,6 +37,8 @@ public class Guardarropa {
 	@ManyToMany
 	private final List<Usuario> usuariosPropietarios = new ArrayList<>();
 
+	public Guardarropa(){}
+
 	public List<Usuario> getUsuariosPropietarios() {
 		return usuariosPropietarios;
 	}
