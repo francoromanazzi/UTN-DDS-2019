@@ -30,14 +30,23 @@ import java.util.stream.Collectors;
 public class Guardarropa {
 	@Id
 	@GeneratedValue
-	private long id;
+	private long Id;
 	@OneToMany
-	@JoinColumn(name="Guardarropa_id")
+	@JoinColumn(name="guardarropa_id")
 	private final List<Prenda> prendas = new ArrayList<>();
 	@ManyToMany
+	@JoinTable(
+		joinColumns = { @JoinColumn(name = "guardarropa_id") }, 
+		inverseJoinColumns = { @JoinColumn(name = "usuario_id") }
+	)
 	private final List<Usuario> usuariosPropietarios = new ArrayList<>();
 
 	public Guardarropa(){}
+
+	
+	public long getId() {
+		return Id;
+	}
 
 	public List<Usuario> getUsuariosPropietarios() {
 		return usuariosPropietarios;

@@ -22,6 +22,7 @@ public class TestPersistenciaPrenda extends AbstractPersistenceTest implements W
         Color rojo = new Color(100,0,0);
         buzoRojo = new Prenda(Tipo.BUZO, Material.ALGODON,rojo, Optional.empty(), Optional.empty());
     }
+    
     @Test
     public void persistirPrenda(){
         entityManager().persist(buzoRojo);
@@ -30,8 +31,6 @@ public class TestPersistenciaPrenda extends AbstractPersistenceTest implements W
                 createQuery("from Prenda", Prenda.class).
                 getResultList();
 
-        assertEquals(prendas.get(0).getTipo(),Tipo.BUZO);
-
+        assertEquals(prendas.get(0).getTipo(), Tipo.BUZO);
     }
-
 }

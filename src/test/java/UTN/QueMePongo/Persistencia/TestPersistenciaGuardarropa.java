@@ -21,7 +21,7 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
     private Guardarropa guardarropa;
     private Prenda prenda1;
     private Prenda prenda2;
-    private Usuario user;
+    
     @Before
     public void crearGuardarropa(){
         prenda1 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON,new Color(100,100,100), Optional.empty(), Optional.empty());
@@ -29,11 +29,10 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
         guardarropa = new Guardarropa();
         guardarropa.addPrenda(prenda1);
         guardarropa.addPrenda(prenda2);
-        user = new Usuario("Matias","elMati@gmail.com","1145322466","mati22","1234");
     }
+    
     @Test
     public void persistirGuardarropa(){
-        UsuarioService.persistir(user);
         entityManager().persist(prenda1);
         entityManager().persist(prenda2);
         entityManager().persist(guardarropa);
@@ -42,7 +41,7 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
                 createQuery("from Guardarropa", Guardarropa.class).
                 getResultList();
 
-        assertEquals(guardarropas.get(0).cantidadPrendas(),2);
+        assertEquals(guardarropas.get(0).cantidadPrendas(), 2);
         
     }
 }
