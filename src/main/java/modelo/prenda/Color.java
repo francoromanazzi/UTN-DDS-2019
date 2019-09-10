@@ -15,7 +15,9 @@ public class Color {
     @Id
     @GeneratedValue
 	private long Id;
-    private final int rojo, verde, azul;
+    private int rojo, verde, azul;
+
+    public Color(){}
 
 	public Color(int rojo, int verde, int azul) {
 		if (Stream.of(rojo, verde, azul).map(color -> Objects.requireNonNull(color, "El color es obligatorio"))

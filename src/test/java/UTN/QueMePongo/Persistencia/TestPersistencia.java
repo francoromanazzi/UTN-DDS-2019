@@ -1,4 +1,4 @@
-package UTN.QueMePongo;
+package UTN.QueMePongo.Persistencia;
 
 import static org.junit.Assert.*;
 
@@ -46,8 +46,7 @@ public class TestPersistencia{
 	    
 	    UsuarioService.eliminar(userDB);
 	    
-	    Query query = Session.getEntityManager().createQuery("from Evento");
-		List<Evento> eventos = (List<Evento>) query.getResultList();
+	    List<Evento> eventos = Session.getEntityManager().createQuery("from Evento").getResultList();
 		
 		assertEquals(eventos.size(), 0);
 	}

@@ -17,15 +17,17 @@ public class Prenda {
 	@GeneratedValue
 	private long Id;
 	@Enumerated(EnumType.STRING)
-	private final Tipo tipo;
+	private Tipo tipo;
 	@Enumerated(EnumType.STRING)
-	private final Material material;
+	private Material material;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private final Color colorPrincipal;
+	private Color colorPrincipal;
 	@Transient
-	private final Optional<Color> colorSecundario;
+	private Optional<Color> colorSecundario;
 	@Transient
 	private Optional<Imagen> imagen;
+
+	public Prenda(){}
 
 	public Prenda(Tipo tipo, Material material, Color colorPrincipal, Optional<Color> colorSecundario, Optional<File> archivoImagen)
 			throws TipoNoPuedeSerNuloException, MaterialNoPuedeSerNuloException, ColorPrincipalNoPuedeSerNuloException, ColorSecundarioNoPuedeSerNuloException,

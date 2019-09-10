@@ -19,15 +19,34 @@ import modelo.sugerencia.SensibilidadTemperatura;
 import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Usuario;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
+@Entity
+@Table(name = "guardarropas")
 public class Guardarropa {
+	@Id
+	@GeneratedValue
+	private long Id;
+	@OneToMany
+	@JoinColumn(name="guardarropa_id")
 	private final List<Prenda> prendas = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(
+		joinColumns = { @JoinColumn(name = "guardarropa_id") }, 
+		inverseJoinColumns = { @JoinColumn(name = "usuario_id") }
+	)
 	private final List<Usuario> usuariosPropietarios = new ArrayList<>();
+
+	public Guardarropa(){}
+
+	
+	public long getId() {
+		return Id;
+	}
 
 	public List<Usuario> getUsuariosPropietarios() {
 		return usuariosPropietarios;
