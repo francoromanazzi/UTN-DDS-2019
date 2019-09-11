@@ -8,9 +8,40 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "atuendos")
 public class Atuendo {
-	private final Prenda parteInferior, calzado;
-	private final List<Prenda> partesSuperiores, accesorios;
+	@Id @GeneratedValue
+	private Long Id;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Prenda parteInferior; 
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Prenda calzado;
+	@ManyToMany(cascade = CascadeType.ALL) //Pone prenda_superior_id y accesorio_id en una misma tabla intermedia...
+	@JoinTable(
+		joinColumns = { @JoinColumn(name = "atuendo_id") }, 
+		inverseJoinColumns = { @JoinColumn(name = "prenda_superior_id") }
+	)
+	private final List<Prenda> partesSuperiores;
+	@ManyToMany(cascade = CascadeType.ALL) //Pone prenda_superior_id y accesorio_id en una misma tabla intermedia...
+	@JoinTable(
+		joinColumns = { @JoinColumn(name = "atuendo_id") }, 
+		inverseJoinColumns = { @JoinColumn(name = "accesorio_id") }
+	)
+	private final List<Prenda> accesorios;
 
 	public Atuendo(List<Prenda> partesSuperiores, Prenda parteInferior, Prenda calzado, List<Prenda> accesorios) {
 		this.partesSuperiores = partesSuperiores;
@@ -19,6 +50,10 @@ public class Atuendo {
 		this.accesorios = accesorios;
 	}
 
+	public Long getId() {
+		return this.Id;
+	}
+	
 	public List<Prenda> getPartesSuperiores() {
 		return partesSuperiores;
 	}

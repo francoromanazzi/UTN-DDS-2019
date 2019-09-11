@@ -16,6 +16,7 @@
     	<class>modelo.sugerencia.Sugerencia</class>
     	<class>modelo.sugerencia.CalificacionSugerencia</class>  
     	<class>modelo.sugerencia.SensibilidadParteDelCuerpo</class>
+    	<class>modelo.atuendo.Atuendo</class>
     	
     	
         <properties>
