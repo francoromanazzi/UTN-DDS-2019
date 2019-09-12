@@ -156,8 +156,9 @@ public class Guardarropa {
 			Clima clima, SensibilidadTemperatura sensibilidadGlobal,
 			List<SensibilidadParteDelCuerpo> sensibilidadPorParteDelCuerpo) {
 		
-		double modificadorCelsiusSegunSensibilidadGlobal = sensibilidadGlobal == SensibilidadTemperatura.FRIO ? -8
-				: sensibilidadGlobal == SensibilidadTemperatura.CALOR ? 8 : 0;
+		double modificadorCelsiusSegunSensibilidadGlobal = 
+				sensibilidadGlobal.getModificadorCelcius();
+				
 		double celsius = clima.getTemperatura().toCelsius().getValor() + modificadorCelsiusSegunSensibilidadGlobal;
 
 		return Tipo
@@ -167,13 +168,12 @@ public class Guardarropa {
 					SensibilidadTemperatura sensibilidadEnEsaParte = 
 							SensibilidadTemperatura
 							.obtenerPromedioDeSensibilidad(sensibilidadPorParteDelCuerpo
-							.stream()
-							.filter(sens -> sens.getParteDelCuerpo() == tipo.getParteDelCuerpo())
-							.map(sens -> sens.getSensibilidad())
-							.collect(Collectors.toList()));
+									.stream()
+									.filter(sens -> sens.getParteDelCuerpo() == tipo.getParteDelCuerpo())
+									.map(sens -> sens.getSensibilidad())
+									.collect(Collectors.toList()));
 					
-					double modificadorCelsius = sensibilidadEnEsaParte == SensibilidadTemperatura.FRIO ? -8
-							: sensibilidadEnEsaParte == SensibilidadTemperatura.CALOR ? 8 : 0;
+					double modificadorCelsius = sensibilidadEnEsaParte.getModificadorCelcius();
 
 					return superposicion.getTemperaturaMinima().getValor() <= celsius + modificadorCelsius
 							&& superposicion.getTemperaturaMaxima().getValor() >= celsius + modificadorCelsius;

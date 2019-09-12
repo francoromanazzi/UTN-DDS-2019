@@ -3,7 +3,17 @@ package modelo.sugerencia;
 import java.util.List;
 
 public enum SensibilidadTemperatura {
-	FRIO, NORMAL, CALOR;
+	FRIO(-8), NORMAL(0), CALOR(8);
+	
+	private double modificadorCelcius;
+	
+	private SensibilidadTemperatura(double modificadorCelcius) {
+		this.modificadorCelcius = modificadorCelcius;
+	}
+	
+	public double getModificadorCelcius() {
+		return this.modificadorCelcius;
+	}
 
 	public static SensibilidadTemperatura obtenerPromedioDeSensibilidad(List<SensibilidadTemperatura> sensibilidades) {
 		long cantFrio = sensibilidades.stream().filter(sens -> sens == FRIO).count();
