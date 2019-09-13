@@ -5,7 +5,6 @@ import excepciones.PronosticoNoDisponibleException;
 import excepciones.SinSugerenciasPosiblesException;
 import modelo.atuendo.Atuendo;
 import modelo.evento.Evento;
-import modelo.parte_del_cuerpo.ParteDelCuerpo;
 import modelo.prenda.Categoria;
 import modelo.prenda.Prenda;
 import modelo.prenda.PrototipoSuperposicion;
@@ -22,19 +21,18 @@ import modelo.usuario.Usuario;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
 @Entity
 @Table(name = "guardarropas")
 public class Guardarropa {
 	@Id
 	@GeneratedValue
 	private long Id;
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="guardarropa_id")
 	private final List<Prenda> prendas = new ArrayList<>();
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
 		joinColumns = { @JoinColumn(name = "guardarropa_id") }, 
 		inverseJoinColumns = { @JoinColumn(name = "usuario_id") }
@@ -100,6 +98,10 @@ public class Guardarropa {
 		return this.usuariosPropietarios.contains(usuario);
 	}
 
+	public List<Prenda> getPrendas() {
+		return this.prendas;
+	}
+	
 	public List<Sugerencia> generarSugerencias(Evento evento, List<Sugerencia> historialSugerencias)
 			throws PronosticoNoDisponibleException, SinSugerenciasPosiblesException {
 

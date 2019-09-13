@@ -1,10 +1,12 @@
 package servicios;
 
+import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import modelo.guardarropa.Guardarropa;
 import modelo.usuario.Usuario;
 
 public class UsuarioService{
@@ -67,5 +69,23 @@ public class UsuarioService{
 	@SuppressWarnings("unchecked")
 	public static List<Usuario> GetAllUsuarios() {
 		return (List<Usuario>) Session.getEntityManager().createQuery("FROM Usuario").getResultList();
+	}
+	
+	public static List<Guardarropa> GetGuardarropasDeUsuarioPorId(Long id) {
+		/*guardarropas = Session.getEntityManager().createQuery("SELECT g FROM Guardarropa g JOIN FETCH " +
+													 		  "g.usuariosPropietarios u WHERE u.Id = :idUsuario",
+												  Guardarropa.class).
+												  setParameter("idUsuario", id).getResultList();*/
+		
+		List<Guardarropa> guardarropas = new ArrayList<Guardarropa>(); 
+		guardarropas = Session.getEntityManager().
+				createQuery("from Guardarropa", Guardarropa.class).
+				getResultList();
+		
+		guardarropas = (List<Guardarropa>) guardarropas.stream().filter(
+			g -> g.getUsuariosPropietarios().stream().anyMatch(u -> u.getId() == id)
+		).collect(Collectors.toList());
+		
+		return guardarropas;
 	}
 }
