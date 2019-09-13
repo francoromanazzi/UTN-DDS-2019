@@ -18,24 +18,28 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 
 public class TestPersistenciaGuardarropa extends AbstractPersistenceTest implements WithGlobalEntityManager {
-    private Guardarropa guardarropa;
+    private Guardarropa guardarropa1;
+    private Guardarropa guardarropa2;
     private Prenda prenda1;
     private Prenda prenda2;
-    
+    private Usuario user;
+
     @Before
     public void crearGuardarropa(){
         prenda1 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON,new Color(100,100,100), Optional.empty(), Optional.empty());
         prenda2 = new Prenda(Tipo.BOTAS, Material.CUERO,new Color(0,0,0), Optional.empty(), Optional.empty());
-        guardarropa = new Guardarropa();
-        guardarropa.addPrenda(prenda1);
-        guardarropa.addPrenda(prenda2);
+        guardarropa1 = new Guardarropa();
+        guardarropa2 = new Guardarropa();
+        user = new Usuario("matias","mati@gmail.com","1145734639","mati543","1234");
     }
     
     @Test
     public void persistirGuardarropa(){
         entityManager().persist(prenda1);
         entityManager().persist(prenda2);
-        entityManager().persist(guardarropa);
+        guardarropa1.addPrenda(prenda1);
+        guardarropa1.addPrenda(prenda2);
+        entityManager().persist(guardarropa1);
 
         List<Guardarropa> guardarropas = entityManager().
                 createQuery("from Guardarropa", Guardarropa.class).
@@ -43,5 +47,22 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
 
         assertEquals(guardarropas.get(0).cantidadPrendas(), 2);
         
+    }
+
+    @Test
+    public void persistirUsuarioConDosGuardarropas(){
+        entityManager().persist(guardarropa1);
+        entityManager().persist(guardarropa2);
+        entityManager().persist(user);
+        guardarropa1.addUsuario(user);
+        guardarropa2.addUsuario(user);
+
+        List<Guardarropa> guardarropas = entityManager().
+                createQuery("from Guardarropa", Guardarropa.class).
+                getResultList();
+
+        assertEquals(guardarropas.get(0).getUsuariosPropietarios().size(), 1);
+        assertEquals(guardarropas.get(1).getUsuariosPropietarios().size(), 1);
+
     }
 }
