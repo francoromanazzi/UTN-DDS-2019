@@ -30,15 +30,16 @@ public class Atuendo {
 	private Prenda parteInferior; 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Prenda calzado;
-	@ManyToMany(cascade = CascadeType.ALL) //Pone prenda_superior_id y accesorio_id en una misma tabla intermedia...
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
+		name="atuendos_prendasSuperiores",
 		joinColumns = { @JoinColumn(name = "atuendo_id") }, 
 		inverseJoinColumns = { @JoinColumn(name = "prenda_superior_id") }
 	)
 	private final List<Prenda> partesSuperiores;
-	@ManyToMany(cascade = CascadeType.ALL) //Pone prenda_superior_id y accesorio_id en una misma tabla intermedia...
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
-//		name="tabla"
+		name="atuendos_accesorios",
 		joinColumns = { @JoinColumn(name = "atuendo_id") }, 
 		inverseJoinColumns = { @JoinColumn(name = "accesorio_id") }
 	)

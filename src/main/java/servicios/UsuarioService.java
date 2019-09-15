@@ -1,8 +1,6 @@
 package servicios;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -23,7 +21,8 @@ public class UsuarioService implements TransactionalOps, WithGlobalEntityManager
             commitTransaction();
         } catch (Exception e) {
             e.printStackTrace();
-            rollback();
+            rollbackTransaction();
+            rollbackTransaction();
         }
     }
 
@@ -40,13 +39,9 @@ public class UsuarioService implements TransactionalOps, WithGlobalEntityManager
             commitTransaction();
         } catch (Exception e) {
             e.printStackTrace();
-            rollback();
+            rollbackTransaction();
         }
     }
-
-	private static void rollback() {
-		Session.rollbackTransaction();
-	}
 
     public void actualizar(Usuario user) {
         try {
@@ -55,7 +50,7 @@ public class UsuarioService implements TransactionalOps, WithGlobalEntityManager
             commitTransaction();
         } catch (Exception e) {
             e.printStackTrace();
-            rollback();
+            rollbackTransaction();
         }
     }
 	
@@ -85,43 +80,8 @@ public class UsuarioService implements TransactionalOps, WithGlobalEntityManager
 	}
 	
 	public List<Guardarropa> GetGuardarropasDeUsuarioPorId(Long id) {
-		/*guardarropas = Session.getEntityManager().createQuery("SELECT g FROM Guardarropa g JOIN FETCH " +
-													 		  "g.usuariosPropietarios u WHERE u.Id = :idUsuario",
-												  Guardarropa.class).
-												  setParameter("idUsuario", id).getResultList();*/
-		
-		
-		// NO FUNCIONA
-//		List<Long> id_guardarropas =
-//				Session.getEntityManager()
-//				.createQuery("SELECT gu.guardarropa_id FROM guardarropas_usuarios AS gu WHERE gu.usuario_id = " + id, Long.class)
-//				.getResultList();
-//		
-//		List<Guardarropa> guardarropas =
-//				id_guardarropas
-//				.stream()
-//				.map(id_g -> {
-//					return Session
-//							.getEntityManager()
-//							.createQuery("FROM Guardarropa AS g WHERE g.Id = " + id_g, Guardarropa.class)
-//							.getSingleResult();
-//				}).collect(Collectors.toList());
-//		
-//		return guardarropas;
-		
-		
-		
-		// TAMPOCO FUNCIONA
-		
-		List<Guardarropa> guardarropas = new ArrayList<Guardarropa>(); 
-		guardarropas = entity().
-				createQuery("from Guardarropa", Guardarropa.class).
-				getResultList();
-		
-		guardarropas = (List<Guardarropa>) guardarropas.stream().filter(
-			g -> g.getUsuariosPropietarios().stream().anyMatch(u -> u.getId() == id)
-		).collect(Collectors.toList());
-		
-		return guardarropas;
+		return entity().createQuery("SELECT g FROM Guardarropa g JOIN FETCH " +
+									"g.usuariosPropietarios u WHERE u.Id = :idUsuario", Guardarropa.class).
+						setParameter("idUsuario", id).getResultList();
 	}
 }

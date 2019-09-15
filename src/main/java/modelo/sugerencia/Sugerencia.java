@@ -25,6 +25,7 @@ public class Sugerencia {
 	@Id @GeneratedValue
 	private Long Id;
 	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Atuendo atuendo;
 	
 	@Enumerated(EnumType.STRING)

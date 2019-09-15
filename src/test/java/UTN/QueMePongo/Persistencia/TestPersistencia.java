@@ -5,19 +5,18 @@ import static org.junit.Assert.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.Query;
-
 import org.junit.Test;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
 import modelo.evento.Evento;
 import modelo.evento.FrecuenciaEvento;
 import modelo.evento.TipoEvento;
 import modelo.usuario.Usuario;
 import servicios.SHA256Builder;
-import servicios.Session;
 import servicios.UsuarioService;
 
-public class TestPersistencia{
+public class TestPersistencia extends AbstractPersistenceTest implements WithGlobalEntityManager{
 	
 	@Test
 	public void persistirUsuarioYLoObtengo() {
@@ -31,7 +30,6 @@ public class TestPersistencia{
 	    new UsuarioService().eliminar(userDB);
 	}
 	
-//	@SuppressWarnings("unchecked")
 	@Test
 	public void persistirUsuarioConEventosYLosObtengo() {
 		Usuario user = new Usuario("lucas","rosol@gmail.com","1554675466","luqui","asd");
@@ -46,7 +44,7 @@ public class TestPersistencia{
 	    
 	    new UsuarioService().eliminar(userDB);
 	    
-	    List<Evento> eventos = Session.getEntityManager().createQuery("from Evento", Evento.class).getResultList();
+	    List<Evento> eventos = entityManager().createQuery("from Evento", Evento.class).getResultList();
 		
 		assertEquals(eventos.size(), 0);
 	}
