@@ -22,7 +22,7 @@ public class Prenda {
 	private Material material;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Color colorPrincipal;
-	@Transient
+	@Transient //Hay una anotation
 	private Optional<Color> colorSecundario;
 	@Transient
 	private Optional<Imagen> imagen;

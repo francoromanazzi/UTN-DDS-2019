@@ -59,15 +59,16 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
         entityManager().remove(guardarropa2);
     }
     
-    /*@Test
+    @Test
     public void persistirYObtenerGuardarropasDeUnUsuario(){
+    	entityManager().persist(user);
         guardarropa1.addUsuario(user);
         guardarropa2.addUsuario(user);
         entityManager().persist(guardarropa1);
         entityManager().persist(guardarropa2);
+        
+        List<Guardarropa> guardarropas = new UsuarioService().GetGuardarropasDeUsuarioPorId(user.getId());
 
-        List<Guardarropa> guardarropas = UsuarioService.GetGuardarropasDeUsuarioPorId(user.getId());
-
-        assertEquals(guardarropas.size(), 2);
-    }*/
+        assertEquals(2, guardarropas.size());
+    }
 }

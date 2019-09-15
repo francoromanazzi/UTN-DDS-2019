@@ -25,7 +25,6 @@ public class Sugerencia {
 	@Id @GeneratedValue
 	private Long Id;
 	
-	@Transient //Temporal
 	private Atuendo atuendo;
 	
 	@Enumerated(EnumType.STRING)

@@ -22,16 +22,16 @@ public class TestPersistencia{
 	@Test
 	public void persistirUsuarioYLoObtengo() {
 		Usuario user = new Usuario("lucas","rosol@gmail.com","1554675466","luqui","asd");
-	    UsuarioService.persistir(user);
+	    new UsuarioService().persistir(user);
 	    
-	    Usuario userDB = UsuarioService.getUsuarioByCredentials("luqui","asd");
+	    Usuario userDB = new UsuarioService().getUsuarioByCredentials("luqui","asd");
 	    assertEquals(user.getUsername(), "luqui");
 	    assertEquals(user.getPassword(), SHA256Builder.generarHash("asd"));
 	    
-	    UsuarioService.eliminar(userDB);
+	    new UsuarioService().eliminar(userDB);
 	}
 	
-	@SuppressWarnings("unchecked")
+//	@SuppressWarnings("unchecked")
 	@Test
 	public void persistirUsuarioConEventosYLosObtengo() {
 		Usuario user = new Usuario("lucas","rosol@gmail.com","1554675466","luqui","asd");
@@ -39,14 +39,14 @@ public class TestPersistencia{
 		Evento evento2 = new Evento("Ir al trabajo",LocalDateTime.now(), LocalDateTime.now().plusMinutes(10), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 	    user.getEventos().add(evento1);
 	    user.getEventos().add(evento2);
-		UsuarioService.persistir(user);
+		new UsuarioService().persistir(user);
 		
-	    Usuario userDB = UsuarioService.getUsuarioByCredentials("luqui","asd");
+	    Usuario userDB = new UsuarioService().getUsuarioByCredentials("luqui","asd");
 	    assertEquals(user.getEventos().size(), 2);
 	    
-	    UsuarioService.eliminar(userDB);
+	    new UsuarioService().eliminar(userDB);
 	    
-	    List<Evento> eventos = Session.getEntityManager().createQuery("from Evento").getResultList();
+	    List<Evento> eventos = Session.getEntityManager().createQuery("from Evento", Evento.class).getResultList();
 		
 		assertEquals(eventos.size(), 0);
 	}

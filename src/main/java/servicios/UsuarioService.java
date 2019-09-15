@@ -3,58 +3,71 @@ package servicios;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import modelo.guardarropa.Guardarropa;
 import modelo.usuario.Usuario;
 
-public class UsuarioService{
+public class UsuarioService implements TransactionalOps, WithGlobalEntityManager {
 	
-	public static void eliminar(Usuario user) {
+	public void eliminar(Usuario user) {
         try {
-            Session.beginTransaction();
-            Session.getEntityManager().remove(user);
-            Session.commitTransaction();
+            beginTransaction();
+            entity().remove(user);
+            commitTransaction();
         } catch (Exception e) {
             e.printStackTrace();
-            Session.rollbackTransaction();
+            rollback();
         }
     }
 
-    public static void persistir(Usuario user) {
+	private EntityManager entity() {
+		return this.entityManager();
+	}
+
+    public void persistir(Usuario user) {
         try {
-            Session.beginTransaction();
+            beginTransaction();
 			String passHasheada = SHA256Builder.generarHash(user.getPassword());
 			user.setPassword(passHasheada);
-            Session.getEntityManager().persist(user);
-            Session.commitTransaction();
+            entity().persist(user);
+            commitTransaction();
         } catch (Exception e) {
             e.printStackTrace();
-            Session.rollbackTransaction();
+            rollback();
         }
     }
 
-    public static void actualizar(Usuario user) {
+	private static void rollback() {
+		Session.rollbackTransaction();
+	}
+
+    public void actualizar(Usuario user) {
         try {
-            Session.beginTransaction();
-            Session.getEntityManager().merge(user);
-            Session.commitTransaction();
+            beginTransaction();
+            entity().merge(user);
+            commitTransaction();
         } catch (Exception e) {
             e.printStackTrace();
-            Session.rollbackTransaction();
+            rollback();
         }
     }
 	
-	public static Usuario getUsuarioById(Long Id) {
-		return Session.getEntityManager().find(Usuario.class, Id);
+	public Usuario getUsuarioById(Long Id) {
+		return entity().find(Usuario.class, Id);
 	}
 	
-	public static Usuario getUsuarioByCredentials(String username, String password)
+	public Usuario getUsuarioByCredentials(String username, String password)
     {
 		Usuario user = null; 
 		try{
-			Query query = Session.getEntityManager().createQuery("SELECT u FROM Usuario u WHERE u.username = :nomUsuario and u.password = :pass");
+			Query query = entity().createQuery("SELECT u FROM Usuario u WHERE u.username = :nomUsuario and u.password = :pass");
 			query.setParameter("nomUsuario", username);
 			query.setParameter("pass", SHA256Builder.generarHash(password));
 			query.setMaxResults(1);
@@ -67,18 +80,41 @@ public class UsuarioService{
     }
 	
 	@SuppressWarnings("unchecked")
-	public static List<Usuario> GetAllUsuarios() {
-		return (List<Usuario>) Session.getEntityManager().createQuery("FROM Usuario").getResultList();
+	public List<Usuario> GetAllUsuarios() {
+		return (List<Usuario>) entity().createQuery("FROM Usuario").getResultList();
 	}
 	
-	public static List<Guardarropa> GetGuardarropasDeUsuarioPorId(Long id) {
+	public List<Guardarropa> GetGuardarropasDeUsuarioPorId(Long id) {
 		/*guardarropas = Session.getEntityManager().createQuery("SELECT g FROM Guardarropa g JOIN FETCH " +
 													 		  "g.usuariosPropietarios u WHERE u.Id = :idUsuario",
 												  Guardarropa.class).
 												  setParameter("idUsuario", id).getResultList();*/
 		
+		
+		// NO FUNCIONA
+//		List<Long> id_guardarropas =
+//				Session.getEntityManager()
+//				.createQuery("SELECT gu.guardarropa_id FROM guardarropas_usuarios AS gu WHERE gu.usuario_id = " + id, Long.class)
+//				.getResultList();
+//		
+//		List<Guardarropa> guardarropas =
+//				id_guardarropas
+//				.stream()
+//				.map(id_g -> {
+//					return Session
+//							.getEntityManager()
+//							.createQuery("FROM Guardarropa AS g WHERE g.Id = " + id_g, Guardarropa.class)
+//							.getSingleResult();
+//				}).collect(Collectors.toList());
+//		
+//		return guardarropas;
+		
+		
+		
+		// TAMPOCO FUNCIONA
+		
 		List<Guardarropa> guardarropas = new ArrayList<Guardarropa>(); 
-		guardarropas = Session.getEntityManager().
+		guardarropas = entity().
 				createQuery("from Guardarropa", Guardarropa.class).
 				getResultList();
 		

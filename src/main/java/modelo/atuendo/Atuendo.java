@@ -38,6 +38,7 @@ public class Atuendo {
 	private final List<Prenda> partesSuperiores;
 	@ManyToMany(cascade = CascadeType.ALL) //Pone prenda_superior_id y accesorio_id en una misma tabla intermedia...
 	@JoinTable(
+//		name="tabla"
 		joinColumns = { @JoinColumn(name = "atuendo_id") }, 
 		inverseJoinColumns = { @JoinColumn(name = "accesorio_id") }
 	)

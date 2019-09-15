@@ -34,6 +34,7 @@ public class Usuario {
 	private Long Id;
 	private String nombre, mail, numeroTelefono, username, password;
 	@Transient //Persistir?
+//	@OneToOne(orphanRemoval=true)
 	private Decision ultimaDecision = new DecisionVacia();
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private PrivilegioUsuario privilegio = new Gratuito(10);
