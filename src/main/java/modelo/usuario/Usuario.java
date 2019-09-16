@@ -179,18 +179,6 @@ public class Usuario {
 			}
 		});
 	}
-	
-	// Usamos esto ?
-	public void controlarTamanioHistorialSugerencias() {
-		int cantidadMaxima = 100; // Se puede cambiar
-		int cantidadDeSugerencias = this.historialSugerencias.size();
-		
-		if(cantidadDeSugerencias > cantidadMaxima) {
-			int excedente = cantidadMaxima - cantidadDeSugerencias;
-			this.historialSugerencias.subList(0, excedente).clear(); // Saco el excedente de sugerencias.
-		}
-			
-	}
 
 	public String getUsername() {
 		return username;

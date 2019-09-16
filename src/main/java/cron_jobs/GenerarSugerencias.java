@@ -10,7 +10,6 @@ import utils.MailSender;
 
 import javax.mail.MessagingException;
 import java.util.List;
-import java.util.Map;
 import java.util.TimerTask;
 
 public class GenerarSugerencias extends TimerTask {
@@ -34,7 +33,6 @@ public class GenerarSugerencias extends TimerTask {
 		
 		evento.addSugerencias(sugerenciasGeneradas);
 		usuario.addToHistorialSugerencias(sugerenciasGeneradas);
-		//usuario.controlarTamanioHistorialSugerencias(); // Lo usamos ?
 		if(usuario.getEventos().contains(evento))
 			notificarAUsuario();
 	}
@@ -42,7 +40,6 @@ public class GenerarSugerencias extends TimerTask {
 	private void notificarAUsuario() {
 		String texto = "Hola " + usuario.getNombre() + "!\n" + "Tus sugerencias ya estan listas!";
 
-		// TODO hacer chequeada a esta excepcion
 		try {
 			MailSender.send(usuario.getMail(), "Sugerencias listas", texto);
 		} catch(MessagingException e) { }
