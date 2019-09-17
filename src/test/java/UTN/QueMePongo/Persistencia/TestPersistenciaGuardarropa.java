@@ -34,9 +34,8 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
                 createQuery("from Guardarropa", Guardarropa.class).
                 getResultList();
 
-        assertEquals(guardarropas.get(0).cantidadPrendas(), 2);
-        
-        entityManager().remove(guardarropa1);
+        assertEquals(1, guardarropas.size());
+        assertEquals(2, guardarropas.get(0).cantidadPrendas());
     }
 
     @Test
@@ -50,11 +49,8 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
                 createQuery("from Guardarropa", Guardarropa.class).
                 getResultList();
 
-        assertEquals(guardarropas.get(0).getUsuariosPropietarios().size(), 1);
-        assertEquals(guardarropas.get(1).getUsuariosPropietarios().size(), 1);
-
-        entityManager().remove(guardarropa1);
-        entityManager().remove(guardarropa2);
+        assertEquals(1, guardarropas.get(0).getUsuariosPropietarios().size());
+        assertEquals(1, guardarropas.get(1).getUsuariosPropietarios().size());
     }
     
     @Test

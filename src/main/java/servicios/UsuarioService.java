@@ -13,7 +13,7 @@ import modelo.guardarropa.Guardarropa;
 import modelo.usuario.Usuario;
 
 public class UsuarioService implements TransactionalOps, WithGlobalEntityManager {
-	
+
 	public void eliminar(Usuario user) {
         try {
             beginTransaction();
@@ -57,23 +57,15 @@ public class UsuarioService implements TransactionalOps, WithGlobalEntityManager
 	public Usuario getUsuarioById(Long Id) {
 		return entity().find(Usuario.class, Id);
 	}
-	
-	public Usuario getUsuarioByCredentials(String username, String password)
-    {
-		Usuario user = null; 
-		try{
-			Query query = entity().createQuery("SELECT u FROM Usuario u WHERE u.username = :nomUsuario and u.password = :pass");
-			query.setParameter("nomUsuario", username);
-			query.setParameter("pass", SHA256Builder.generarHash(password));
-			query.setMaxResults(1);
-			user = (Usuario) query.getSingleResult();
-		}
-		catch(NoResultException e){
-			e.printStackTrace();
-		}
-		return user;
-    }
-	
+
+	public Usuario getUsuarioByCredentials(String username, String pwdSinHash) throws NoResultException {
+		Query query = entity().createQuery("SELECT u FROM Usuario u WHERE u.username = :nomUsuario and u.password = :pass");
+		query.setParameter("nomUsuario", username);
+		query.setParameter("pass", SHA256Builder.generarHash(pwdSinHash));
+		query.setMaxResults(1);
+		return (Usuario) query.getSingleResult();
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<Usuario> GetAllUsuarios() {
 		return (List<Usuario>) entity().createQuery("FROM Usuario").getResultList();

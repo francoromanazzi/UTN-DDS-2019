@@ -10,6 +10,7 @@ import modelo.prenda.Prenda;
 import modelo.sugerencia.Sugerencia;
 import modelo.sugerencia.decision.Decision;
 import modelo.sugerencia.decision.DecisionVacia;
+import servicios.SHA256Builder;
 
 import javax.mail.MessagingException;
 import javax.persistence.CascadeType;
@@ -33,8 +34,7 @@ public class Usuario {
 	@Id @GeneratedValue
 	private Long Id;
 	private String nombre, mail, numeroTelefono, username, password;
-	@Transient //Persistir?
-//	@OneToOne(orphanRemoval=true)
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	private Decision ultimaDecision = new DecisionVacia();
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private PrivilegioUsuario privilegio = new Gratuito(10);
@@ -44,7 +44,7 @@ public class Usuario {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="usuario_id")
 	private final List<Sugerencia> historialSugerencias = new ArrayList<>();
-	@Transient //Persistir?
+	@Transient // TODO Persistir
 	private final List<AccionAnteAlertaMeteorologica> accionesAnteAlertaMeteorologica = new ArrayList<>();
 	
 	public Usuario() {}
@@ -54,7 +54,7 @@ public class Usuario {
 		this.nombre = nombre;
 		this.numeroTelefono = nro;
 		this.username = username;
-		this.password = password;
+		this.password = SHA256Builder.generarHash(password);
 	}
 
 	public Long getId() {

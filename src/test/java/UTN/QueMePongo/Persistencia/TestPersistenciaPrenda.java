@@ -16,7 +16,7 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 
 public class TestPersistenciaPrenda extends AbstractPersistenceTest implements WithGlobalEntityManager {
-    Prenda buzoRojo;
+    private Prenda buzoRojo;
     @Before
     public void crearPrenda(){
         Color rojo = new Color(100,0,0);
@@ -31,6 +31,7 @@ public class TestPersistenciaPrenda extends AbstractPersistenceTest implements W
         		.createQuery("from Prenda", Prenda.class)
                 .getResultList();
 
-        assertEquals(prendas.get(0).getTipo(), Tipo.BUZO);
+        assertEquals(1, prendas.size());
+        assertEquals(Tipo.BUZO, prendas.get(0).getTipo());
     }
 }

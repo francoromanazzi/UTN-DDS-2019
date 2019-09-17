@@ -17,7 +17,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 
@@ -35,8 +34,6 @@ public class Evento {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="evento_id")
 	private final List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
-
-	
 
 	public Evento() {} 
 	
@@ -87,5 +84,21 @@ public class Evento {
 	
 	public void addSugerencias(List<Sugerencia> sugerencias) {
 		this.sugerencias.addAll(sugerencias);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		Evento otro = (Evento) o;
+		return titulo.equals(otro.titulo) &&
+				fechaInicio == otro.fechaInicio &&
+				fechaFin == otro.fechaFin &&
+				frecuencia == otro.frecuencia &&
+				tipoEvento == otro.tipoEvento;
 	}
 }
