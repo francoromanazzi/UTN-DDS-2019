@@ -7,7 +7,6 @@ import modelo.usuario.Usuario;
 import org.junit.Test;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
-import servicios.UsuarioService;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -6,18 +6,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import java.util.Objects;
 import java.util.stream.Stream;
+
 @Entity
 @Table(name = "colores")
 public class Color {
-    @Id
-    @GeneratedValue
+	@Id
+	@GeneratedValue
 	private long Id;
-    private int rojo, verde, azul;
+	private int rojo, verde, azul;
 
-    public Color(){}
+	public Color() {
+	}
 
 	public Color(int rojo, int verde, int azul) {
 		if (Stream.of(rojo, verde, azul).map(color -> Objects.requireNonNull(color, "El color es obligatorio"))
@@ -44,7 +45,7 @@ public class Color {
 	public boolean esIgualA(Color color) {
 		return this.rojo == color.getRojo() && this.azul == color.getAzul() && this.verde == color.getVerde();
 	}
-	
+
 	public Long getId() {
 		return this.Id;
 	}

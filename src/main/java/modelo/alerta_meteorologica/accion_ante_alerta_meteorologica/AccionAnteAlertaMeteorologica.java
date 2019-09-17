@@ -6,5 +6,6 @@ import javax.mail.MessagingException;
 
 public interface AccionAnteAlertaMeteorologica {
 	void anteLluvia(Usuario usuario) throws MessagingException;
+
 	void anteGranizo(Usuario usuario) throws MessagingException;
 }

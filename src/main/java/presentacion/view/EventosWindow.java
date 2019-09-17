@@ -1,6 +1,5 @@
 package presentacion.view;
 
-import java.awt.Color;
 import modelo.usuario.Usuario;
 import org.uqbar.arena.layout.HorizontalLayout;
 import org.uqbar.arena.layout.VerticalLayout;
@@ -11,18 +10,18 @@ import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.widgets.tables.Column;
 import org.uqbar.arena.widgets.tables.Table;
 import org.uqbar.arena.windows.MainWindow;
-import org.uqbar.lacar.ui.model.Action;
-
 import presentacion.view_model.ButtonClickAction;
 import presentacion.view_model.EventoObservable;
 import presentacion.view_model.EventosViewModel;
 
+import java.awt.*;
+
 // IMPORTANTE: correr con -Djava.system.class.loader=org.uqbar.apo.APOClassLoader
-public class EventosWindow extends MainWindow<EventosViewModel>{
+class EventosWindow extends MainWindow<EventosViewModel> {
 	private static final long serialVersionUID = -1142663776268286620L;
 
 	private EventosWindow() {
-		super(new EventosViewModel(new Usuario("Pepe", "pepe@gmail.com","123456789","","")));
+		super(new EventosViewModel(new Usuario("Pepe", "pepe@gmail.com", "123456789", "", "")));
 	}
 
 	@Override
@@ -32,35 +31,35 @@ public class EventosWindow extends MainWindow<EventosViewModel>{
 		Panel panelFechaInicio = new Panel(panelLabels).setLayout(new VerticalLayout());
 		Panel panelSeparador = new Panel(panelLabels).setLayout(new VerticalLayout());
 		Panel panelFechaFin = new Panel(panelLabels).setLayout(new VerticalLayout());
-		
+
 		//Seleccionar fechas
 		new Label(panelFechaInicio).setText("Initial date\n ");
-		
+
 		new Label(panelFechaInicio).setText("Day");
 		new NumericField(panelFechaInicio, false).bindValueToProperty("diaInicio");
 		new Label(panelFechaInicio).setText("Month");
 		new NumericField(panelFechaInicio, false).bindValueToProperty("mesInicio");
 		new Label(panelFechaInicio).setText("Year");
 		new NumericField(panelFechaInicio, false).bindValueToProperty("anioInicio");
-		
+
 		//Bien croto
 		new Label(panelSeparador).setText("                                                                                                                 ");
-		
+
 		new Label(panelFechaFin).setText("Final date\n ");
-		
+
 		new Label(panelFechaFin).setText("Day");
 		new NumericField(panelFechaFin, false).bindValueToProperty("diaFin");
 		new Label(panelFechaFin).setText("Month");
 		new NumericField(panelFechaFin, false).bindValueToProperty("mesFin");
 		new Label(panelFechaFin).setText("Year");
 		new NumericField(panelFechaFin, false).bindValueToProperty("anioFin");
-		
+
 		new Button(mainPanel)
-	    	.setCaption("Filter events")
-	    	.onClick(new ButtonClickAction(this.getModelObject()))
-	    	.setAsDefault()
-	    	.disableOnError();
-		
+				.setCaption("Filter events")
+				.onClick(new ButtonClickAction(this.getModelObject()))
+				.setAsDefault()
+				.disableOnError();
+
 		//Tabla
 		Table<EventoObservable> tabla = new Table<>(mainPanel, EventoObservable.class).setNumberVisibleRows(5);
 		tabla.bindItemsToProperty("eventosFiltrados");

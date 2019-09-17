@@ -16,11 +16,11 @@ public class TestPersistenciaDecision extends AbstractPersistenceTest implements
 
 	@Test
 	public void persistirDecisionVaciaAlPersistirUsuarioNuevo() {
-		Usuario user = new Usuario("lucas","rosol@gmail.com","1554675466","luqui","asd");
+		Usuario user = new Usuario("lucas", "rosol@gmail.com", "1554675466", "luqui", "asd");
 
 		entityManager().persist(user);
 
-		Usuario userDB = new UsuarioService().getUsuarioByCredentials("luqui","asd");
+		Usuario userDB = new UsuarioService().getUsuarioByCredentials("luqui", "asd");
 
 		List<Decision> decisiones = entityManager().createQuery("from Decision", Decision.class).getResultList();
 

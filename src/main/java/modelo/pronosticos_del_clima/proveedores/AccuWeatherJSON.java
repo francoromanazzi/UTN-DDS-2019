@@ -25,7 +25,7 @@ public class AccuWeatherJSON implements MeteorologoJSON {
 
 	public Pronostico toPronostico() {
 		LocalDateTime fechaParseada = LocalDateTime.parse(fecha, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-		Temperatura temperaturaParseada = new Fahrenheit((double) temperatura.valor);
+		Temperatura temperaturaParseada = new Fahrenheit(temperatura.valor);
 		Clima clima = new Clima(temperaturaParseada);
 		return new Pronostico(fechaParseada.minusMinutes(60), fechaParseada, clima);
 		/*

@@ -27,7 +27,8 @@ public class Prenda {
 	@Transient
 	private Optional<Imagen> imagen;
 
-	public Prenda(){}
+	public Prenda() {
+	}
 
 	public Prenda(Tipo tipo, Material material, Color colorPrincipal, Optional<Color> colorSecundario, Optional<File> archivoImagen)
 			throws TipoNoPuedeSerNuloException, MaterialNoPuedeSerNuloException, ColorPrincipalNoPuedeSerNuloException, ColorSecundarioNoPuedeSerNuloException,
@@ -85,7 +86,7 @@ public class Prenda {
 	public Optional<Imagen> getImagen() {
 		return imagen;
 	}
-	
+
 	public Long getId() {
 		return this.Id;
 	}

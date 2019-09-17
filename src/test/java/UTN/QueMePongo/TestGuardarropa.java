@@ -9,7 +9,6 @@ import modelo.prenda.Tipo;
 import modelo.usuario.Gratuito;
 import modelo.usuario.Premium;
 import modelo.usuario.PrivilegioUsuario;
-import modelo.usuario.PrivilegioUsuario;
 import modelo.usuario.Usuario;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,8 +19,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class TestGuardarropa {
-	private final Usuario userGratuito = new Usuario("","","","","");
-	private final Usuario userPremium = new Usuario("","","","","");
+	private final Usuario userGratuito = new Usuario("", "", "", "", "");
+	private final Usuario userPremium = new Usuario("", "", "", "", "");
 	private final PrivilegioUsuario privilegiosPremium = new Premium();
 	private final PrivilegioUsuario privilegiosGratuito = new Gratuito(1);
 	private final Guardarropa guardarropa = new Guardarropa();

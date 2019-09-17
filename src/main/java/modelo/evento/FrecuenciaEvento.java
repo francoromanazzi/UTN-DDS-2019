@@ -5,27 +5,27 @@ public enum FrecuenciaEvento {
 	UNICA_VEZ {
 		@Override
 		public long getPerido() {
-			return 1L; 
+			return 1L;
 		}
 	}, DIARIO {
 		@Override
 		public long getPerido() {
-			return (60L * 60L * 24L)*1000L;
+			return (60L * 60L * 24L) * 1000L;
 		}
 	}, SEMANAL {
 		@Override
 		public long getPerido() {
-			return (60L * 60L * 24L * 7L)*1000L;
+			return (60L * 60L * 24L * 7L) * 1000L;
 		}
 	}, MENSUAL {
 		@Override
 		public long getPerido() {
-			return (60L * 60L * 24L * 30L)*1000L;
+			return (60L * 60L * 24L * 30L) * 1000L;
 		}
 	}, ANUAL {
 		@Override
 		public long getPerido() {
-			return (60L * 60L * 24L * 365L)*1000L;
+			return (60L * 60L * 24L * 365L) * 1000L;
 		}
 	};
 

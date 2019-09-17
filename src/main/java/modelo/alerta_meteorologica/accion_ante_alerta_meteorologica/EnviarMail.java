@@ -6,11 +6,9 @@ import utils.MailSender;
 
 import javax.mail.MessagingException;
 
-public class EnviarMail implements MedioNotificacion{
-	MailSender mailSender = new MailSender();
-
+public class EnviarMail implements MedioNotificacion {
 	@Override
 	public void send(Usuario usuario, AlertaMeteorologica alerta) throws MessagingException {
-		mailSender.send(usuario.getMail(),"Alerta de " + alerta ,"El servicio de Que Me Pongo le avisa que va a " + alerta);
+		MailSender.send(usuario.getMail(), "Alerta de " + alerta, "El servicio de Que Me Pongo le avisa que va a " + alerta);
 	}
 }

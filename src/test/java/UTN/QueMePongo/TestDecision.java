@@ -24,17 +24,16 @@ import org.junit.Test;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TestDecision {
-	private final Usuario usuario = new Usuario("","","","","");
+	private final Usuario usuario = new Usuario("", "", "", "", "");
 	private final Guardarropa guardarropa = new Guardarropa();
 	private final LocalDateTime fecha = LocalDateTime.now();
-	private final Evento eventoCorto = new Evento("", fecha, fecha.plusMinutes(15),FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
+	private final Evento eventoCorto = new Evento("", fecha, fecha.plusMinutes(15), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 
 	@Before
 	public void agregarGuardarropaAUsuario() {
@@ -58,7 +57,7 @@ public class TestDecision {
 
 	@Test
 	public void usuarioDeberiaPoderDeshacerUltimaAccion() {
-		Sugerencia sugerencia = guardarropa.generarSugerencias(eventoCorto,new ArrayList<>()).get(0);
+		Sugerencia sugerencia = guardarropa.generarSugerencias(eventoCorto, new ArrayList<>()).get(0);
 		sugerencia.aceptar(usuario);
 		sugerencia.calificar(new CalificacionSugerencia(SensibilidadTemperatura.NORMAL), usuario);
 		sugerencia.calificar(new CalificacionSugerencia(SensibilidadTemperatura.NORMAL), usuario);

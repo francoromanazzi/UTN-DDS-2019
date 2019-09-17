@@ -19,7 +19,8 @@ public class DecisionRecalificar extends Decision {
 		this.calificacionAnterior = sugerencia.getCalificacion();
 	}
 
-	public DecisionRecalificar() { }
+	public DecisionRecalificar() {
+	}
 
 	public CalificacionSugerencia getCalificacionAnterior() {
 		return calificacionAnterior;

@@ -5,15 +5,7 @@ import excepciones.GuardarropaConMayorPrendasQueCapMaxException;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Prenda;
 
-import java.util.List;
-
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Entity
@@ -21,14 +13,16 @@ import javax.persistence.Table;
 @DiscriminatorColumn(name = "discriminador")
 @Table(name = "privilegios_usuario")
 public abstract class PrivilegioUsuario {
-	@Id	@GeneratedValue
+	@Id
+	@GeneratedValue
 	public long Id;
-	
-	public PrivilegioUsuario() {}
-	
+
+	public PrivilegioUsuario() {
+	}
+
 	public abstract void addGuardarropa(Guardarropa guardarropaNuevo, Usuario usuarioNuevo) throws GuardarropaConMayorPrendasQueCapMaxException;
 
-	public abstract boolean admiteAddPrenda(Prenda prendaNueva, Guardarropa guardarropa);
+	protected abstract boolean admiteAddPrenda(Prenda prendaNueva, Guardarropa guardarropa);
 
 	public abstract void addPrenda(Prenda prendaNueva, Guardarropa guardarropa) throws CapacidadExcedidaGuardarropaException;
 }

@@ -1,16 +1,5 @@
 package modelo.sugerencia;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import modelo.atuendo.Atuendo;
 import modelo.sugerencia.decision.DecisionAceptar;
 import modelo.sugerencia.decision.DecisionCalificar;
@@ -18,24 +7,28 @@ import modelo.sugerencia.decision.DecisionRecalificar;
 import modelo.sugerencia.decision.DecisionRechazar;
 import modelo.usuario.Usuario;
 
+import javax.persistence.*;
+
 @Entity
-@Table(name="sugerencias")
+@Table(name = "sugerencias")
 public class Sugerencia {
-	
-	@Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	private Long Id;
-	
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Atuendo atuendo;
-	
+
 	@Enumerated(EnumType.STRING)
 	private EstadoSugerencia estado = EstadoSugerencia.NUEVO;
-	
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private CalificacionSugerencia calificacion;
 
-	public Sugerencia() {}
-	
+	public Sugerencia() {
+	}
+
 	public Sugerencia(Atuendo atuendo) {
 		this.atuendo = atuendo;
 	}
@@ -43,7 +36,7 @@ public class Sugerencia {
 	public Long getId() {
 		return this.Id;
 	}
-	
+
 	public Atuendo getAtuendo() {
 		return atuendo;
 	}

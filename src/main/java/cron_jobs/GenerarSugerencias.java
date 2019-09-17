@@ -27,13 +27,13 @@ public class GenerarSugerencias extends TimerTask {
 
 	@Override
 	public void run() throws PronosticoNoDisponibleException, SinSugerenciasPosiblesException {
-		List<Sugerencia> sugerenciasGeneradas = 
+		List<Sugerencia> sugerenciasGeneradas =
 				guardarropaAUtilizar.generarSugerencias(evento, historialSugerencias);
-		
-		
+
+
 		evento.addSugerencias(sugerenciasGeneradas);
 		usuario.addToHistorialSugerencias(sugerenciasGeneradas);
-		if(usuario.getEventos().contains(evento))
+		if (usuario.getEventos().contains(evento))
 			notificarAUsuario();
 	}
 
@@ -42,6 +42,7 @@ public class GenerarSugerencias extends TimerTask {
 
 		try {
 			MailSender.send(usuario.getMail(), "Sugerencias listas", texto);
-		} catch(MessagingException e) { }
+		} catch (MessagingException e) {
+		}
 	}
 }

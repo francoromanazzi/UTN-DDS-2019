@@ -8,7 +8,8 @@ import javax.persistence.*;
 @Table(name = "decisiones")
 @DiscriminatorColumn(name = "tipo_decision")
 public abstract class Decision {
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	private Long id;
 
 	@ManyToOne
@@ -18,7 +19,8 @@ public abstract class Decision {
 		this.sugerencia = sugerencia;
 	}
 
-	public Decision() { }
+	public Decision() {
+	}
 
 	Sugerencia getSugerencia() {
 		return sugerencia;

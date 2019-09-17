@@ -1,7 +1,6 @@
 package modelo.pronosticos_del_clima;
 
 import cron_jobs.EscucharAlertasMeteorologicas;
-import cron_jobs.GenerarSugerencias;
 import excepciones.PronosticoNoDisponibleException;
 import excepciones.ProveedorDeClimaSeCayoException;
 import modelo.alerta_meteorologica.AlertaMeteorologica;
@@ -67,14 +66,14 @@ public class ServicioDelClima {
 		Stream<Pronostico> pronosticosCacheados = this.pronosticosCache.stream();
 		Stream<Pronostico> pronosticosNuevos =
 				this.meteorologos
-				.stream()
-				.flatMap(meteorologo -> {
-					try {
-						return meteorologo.obtenerPronosticos(Optional.of(callbackAlGenerarPronostico)).stream();
-					} catch (ProveedorDeClimaSeCayoException e) {
-						return Stream.empty();
-					}
-				});
+						.stream()
+						.flatMap(meteorologo -> {
+							try {
+								return meteorologo.obtenerPronosticos(Optional.of(callbackAlGenerarPronostico)).stream();
+							} catch (ProveedorDeClimaSeCayoException e) {
+								return Stream.empty();
+							}
+						});
 
 		Stream<Pronostico> pronosticos = Stream.concat(pronosticosCacheados, pronosticosNuevos);
 
@@ -92,20 +91,20 @@ public class ServicioDelClima {
 			pronosticos.add(obtenerPronostico(fecha));
 		}
 
-		double celsuisPromedio = 
+		double celsuisPromedio =
 				pronosticos
-				.stream()
-				.mapToDouble(pronostico -> pronostico.getClima().getTemperatura().toCelsius().getValor())
-				.sum() / (double) pronosticos.size();
+						.stream()
+						.mapToDouble(pronostico -> pronostico.getClima().getTemperatura().toCelsius().getValor())
+						.sum() / (double) pronosticos.size();
 
 		Clima climaPromedio = new Clima(new Celsius(celsuisPromedio));
-		
+
 		return new Pronostico(fechaInicio, fechaFin, climaPromedio);
 	}
 
 	// TODO : Deshardcodear
 	public List<AlertaMeteorologica> obtenerAlertasMeteorologicas() {
-		List<AlertaMeteorologica> list = new ArrayList<AlertaMeteorologica>();
+		List<AlertaMeteorologica> list = new ArrayList<>();
 		list.add(AlertaMeteorologica.LLUVIA);
 		list.add(AlertaMeteorologica.GRANIZO);
 		return list;

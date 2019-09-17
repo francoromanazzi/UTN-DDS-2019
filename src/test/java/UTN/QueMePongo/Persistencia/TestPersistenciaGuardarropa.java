@@ -9,7 +9,6 @@ import modelo.usuario.Usuario;
 import org.junit.Test;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
-
 import servicios.UsuarioService;
 
 import java.util.List;
@@ -18,51 +17,51 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 
 public class TestPersistenciaGuardarropa extends AbstractPersistenceTest implements WithGlobalEntityManager {
-    private Guardarropa guardarropa1 = new Guardarropa();
-    private Guardarropa guardarropa2 = new Guardarropa();
-    private Prenda prenda1 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON,new Color(100,100,100), Optional.empty(), Optional.empty());;
-    private Prenda prenda2 = new Prenda(Tipo.BOTAS, Material.CUERO,new Color(0,0,0), Optional.empty(), Optional.empty());
-    private Usuario user = new Usuario("matias","mati@gmail.com","1145734639","mati543","1234");;
-    
-    @Test
-    public void persistirGuardarropa(){
-        guardarropa1.addPrenda(prenda1);
-        guardarropa1.addPrenda(prenda2);
-        entityManager().persist(guardarropa1);
+	private final Guardarropa guardarropa1 = new Guardarropa();
+	private final Guardarropa guardarropa2 = new Guardarropa();
+	private final Prenda prenda1 = new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(100, 100, 100), Optional.empty(), Optional.empty());
+	private final Prenda prenda2 = new Prenda(Tipo.BOTAS, Material.CUERO, new Color(0, 0, 0), Optional.empty(), Optional.empty());
+	private final Usuario user = new Usuario("matias", "mati@gmail.com", "1145734639", "mati543", "1234");
 
-        List<Guardarropa> guardarropas = entityManager().
-                createQuery("from Guardarropa", Guardarropa.class).
-                getResultList();
+	@Test
+	public void persistirGuardarropa() {
+		guardarropa1.addPrenda(prenda1);
+		guardarropa1.addPrenda(prenda2);
+		entityManager().persist(guardarropa1);
 
-        assertEquals(1, guardarropas.size());
-        assertEquals(2, guardarropas.get(0).cantidadPrendas());
-    }
+		List<Guardarropa> guardarropas = entityManager().
+				createQuery("from Guardarropa", Guardarropa.class).
+				getResultList();
 
-    @Test
-    public void persistirUsuarioConDosGuardarropas(){
-        guardarropa1.addUsuario(user);
-        guardarropa2.addUsuario(user);
-        entityManager().persist(guardarropa1);
-        entityManager().persist(guardarropa2);
+		assertEquals(1, guardarropas.size());
+		assertEquals(2, guardarropas.get(0).cantidadPrendas());
+	}
 
-        List<Guardarropa> guardarropas = entityManager().
-                createQuery("from Guardarropa", Guardarropa.class).
-                getResultList();
+	@Test
+	public void persistirUsuarioConDosGuardarropas() {
+		guardarropa1.addUsuario(user);
+		guardarropa2.addUsuario(user);
+		entityManager().persist(guardarropa1);
+		entityManager().persist(guardarropa2);
 
-        assertEquals(1, guardarropas.get(0).getUsuariosPropietarios().size());
-        assertEquals(1, guardarropas.get(1).getUsuariosPropietarios().size());
-    }
-    
-    @Test
-    public void persistirYObtenerGuardarropasDeUnUsuario(){
-    	entityManager().persist(user);
-        guardarropa1.addUsuario(user);
-        guardarropa2.addUsuario(user);
-        entityManager().persist(guardarropa1);
-        entityManager().persist(guardarropa2);
-        
-        List<Guardarropa> guardarropas = new UsuarioService().GetGuardarropasDeUsuarioPorId(user.getId());
+		List<Guardarropa> guardarropas = entityManager().
+				createQuery("from Guardarropa", Guardarropa.class).
+				getResultList();
 
-        assertEquals(2, guardarropas.size());
-    }
+		assertEquals(1, guardarropas.get(0).getUsuariosPropietarios().size());
+		assertEquals(1, guardarropas.get(1).getUsuariosPropietarios().size());
+	}
+
+	@Test
+	public void persistirYObtenerGuardarropasDeUnUsuario() {
+		entityManager().persist(user);
+		guardarropa1.addUsuario(user);
+		guardarropa2.addUsuario(user);
+		entityManager().persist(guardarropa1);
+		entityManager().persist(guardarropa2);
+
+		List<Guardarropa> guardarropas = new UsuarioService().GetGuardarropasDeUsuarioPorId(user.getId());
+
+		assertEquals(2, guardarropas.size());
+	}
 }

@@ -7,18 +7,18 @@ import javax.mail.MessagingException;
 
 public class Notificar implements AccionAnteAlertaMeteorologica {
 
-    private MedioNotificacion medio;
-    AlertaMeteorologica alerta;
+	private MedioNotificacion medio;
+	private AlertaMeteorologica alerta;
 
-    @Override
-    public void anteLluvia(Usuario usuario) throws MessagingException {
-        alerta = AlertaMeteorologica.LLUVIA;
-        medio.send(usuario, alerta);
-    }
+	@Override
+	public void anteLluvia(Usuario usuario) throws MessagingException {
+		alerta = AlertaMeteorologica.LLUVIA;
+		medio.send(usuario, alerta);
+	}
 
-    @Override
-    public void anteGranizo(Usuario usuario) throws MessagingException {
-        alerta = AlertaMeteorologica.GRANIZO;
-        medio.send(usuario, alerta);
-    }
+	@Override
+	public void anteGranizo(Usuario usuario) throws MessagingException {
+		alerta = AlertaMeteorologica.GRANIZO;
+		medio.send(usuario, alerta);
+	}
 }

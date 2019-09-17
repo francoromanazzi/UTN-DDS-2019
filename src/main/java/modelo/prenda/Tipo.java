@@ -134,51 +134,51 @@ public enum Tipo {
 	}
 
 	private static List<PrototipoSuperposicion> generarPrototiposAccesorios() {
-		EnumSet<Tipo> accesorios = 
+		EnumSet<Tipo> accesorios =
 				EnumSet
-				.allOf(Tipo.class)
-				.stream()
-				.filter(tipo -> tipo.getCategoria() == Categoria.ACCESORIO)
-				.collect(Collectors.toCollection(() -> EnumSet.noneOf(Tipo.class)));
+						.allOf(Tipo.class)
+						.stream()
+						.filter(tipo -> tipo.getCategoria() == Categoria.ACCESORIO)
+						.collect(Collectors.toCollection(() -> EnumSet.noneOf(Tipo.class)));
 
 		Set<Set<Tipo>> conjuntoPotencia = Sets.powerSet(accesorios);
 
-		List<PrototipoSuperposicion> combinaciones = 
+		List<PrototipoSuperposicion> combinaciones =
 				conjuntoPotencia
-				.stream()
-				.map(set -> new PrototipoSuperposicion(Lists.newArrayList(set), new TemperaturaMenosInfinito(), new TemperaturaMasInfinito()))
-				.collect(Collectors.toList());
+						.stream()
+						.map(set -> new PrototipoSuperposicion(Lists.newArrayList(set), new TemperaturaMenosInfinito(), new TemperaturaMasInfinito()))
+						.collect(Collectors.toList());
 
 		// Filtro las prendas validas. Ej: Una gorra y un gorro no pueden ir juntos
-		List<PrototipoSuperposicion> combinacionesValidas = 
+		List<PrototipoSuperposicion> combinacionesValidas =
 				combinaciones
-				.stream()
-				.filter(
-						superposicion -> !superposicion
+						.stream()
+						.filter(
+								superposicion -> !superposicion
 										.getTipos()
 										.containsAll(Arrays.asList(Tipo.GORRA, Tipo.GORRO))
-				).collect(Collectors.toList());
+						).collect(Collectors.toList());
 
 		// Restrinjo rangos de temperatura válidos para las superposiciones con gorro, guantes y/o bufanda
 		return combinacionesValidas
 				.stream()
 				.map(
-				superposicion -> {
-					List<Tipo> tipos = superposicion.getTipos();
-					if (tipos.containsAll(Arrays.asList(Tipo.GORRO, Tipo.GUANTES, Tipo.BUFANDA))) {
-						// 3 accesorios de abrigo
-						return new PrototipoSuperposicion(tipos, new TemperaturaMenosInfinito(), new Celsius(7.5));
-					} else if (tipos.containsAll(Arrays.asList(Tipo.GORRO, Tipo.GUANTES)) || tipos.containsAll(Arrays.asList(Tipo.GORRO, Tipo.BUFANDA)) || tipos.containsAll(Arrays.asList(Tipo.GUANTES, Tipo.BUFANDA))) {
-						// 2 accesorios de abrigo
-						return new PrototipoSuperposicion(tipos, new TemperaturaMenosInfinito(), new Celsius(9));
-					} else if (tipos.contains(Tipo.GORRO) || tipos.contains(Tipo.GUANTES) || tipos.contains(Tipo.BUFANDA)) {
-						// 1 accesorio de abrigo
-						return new PrototipoSuperposicion(tipos, new TemperaturaMenosInfinito(), new Celsius(12));
-					} else
-						// 0 accesorios de abrigo
-						return superposicion;
-				}
-				
+						superposicion -> {
+							List<Tipo> tipos = superposicion.getTipos();
+							if (tipos.containsAll(Arrays.asList(Tipo.GORRO, Tipo.GUANTES, Tipo.BUFANDA))) {
+								// 3 accesorios de abrigo
+								return new PrototipoSuperposicion(tipos, new TemperaturaMenosInfinito(), new Celsius(7.5));
+							} else if (tipos.containsAll(Arrays.asList(Tipo.GORRO, Tipo.GUANTES)) || tipos.containsAll(Arrays.asList(Tipo.GORRO, Tipo.BUFANDA)) || tipos.containsAll(Arrays.asList(Tipo.GUANTES, Tipo.BUFANDA))) {
+								// 2 accesorios de abrigo
+								return new PrototipoSuperposicion(tipos, new TemperaturaMenosInfinito(), new Celsius(9));
+							} else if (tipos.contains(Tipo.GORRO) || tipos.contains(Tipo.GUANTES) || tipos.contains(Tipo.BUFANDA)) {
+								// 1 accesorio de abrigo
+								return new PrototipoSuperposicion(tipos, new TemperaturaMenosInfinito(), new Celsius(12));
+							} else
+								// 0 accesorios de abrigo
+								return superposicion;
+						}
+
 				).collect(Collectors.toList());
 	}
 

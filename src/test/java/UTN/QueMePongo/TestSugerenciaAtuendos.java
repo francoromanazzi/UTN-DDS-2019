@@ -16,7 +16,6 @@ import modelo.pronosticos_del_clima.clima.temperatura.Celsius;
 import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Premium;
 import modelo.usuario.Usuario;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,7 +28,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 public class TestSugerenciaAtuendos {
-	private final Usuario userPremium = new Usuario("Federico","fede_123@gmail.com","1564568766","","");
+	private final Usuario userPremium = new Usuario("Federico", "fede_123@gmail.com", "1564568766", "", "");
 	private final Guardarropa guardarropa = new Guardarropa();
 
 	private final Prenda musculosa = new Prenda(Tipo.MUSCULOSA, Material.ALGODON, new Color(50, 50, 50), Optional.of(new Color(0, 0, 0)), Optional.empty());
@@ -50,9 +49,9 @@ public class TestSugerenciaAtuendos {
 
 	private final ServicioDelClima servicioDelClima = ServicioDelClima.getInstance();
 	private final LocalDateTime ahora = LocalDateTime.now();
-	private final Evento eventoCorto = new Evento("", ahora.plusSeconds(1), ahora.plusSeconds(1).plusMinutes(21), FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
-	private final Evento eventoLargo = new Evento("", ahora, ahora.plusHours(4),FrecuenciaEvento.UNICA_VEZ,TipoEvento.FORMAL);
-	private final Evento eventoDentroDeMuchoTiempo = new Evento("", ahora.plusHours(8), ahora.plusHours(9),FrecuenciaEvento.UNICA_VEZ,TipoEvento.FORMAL);
+	private final Evento eventoCorto = new Evento("", ahora.plusSeconds(1), ahora.plusSeconds(1).plusMinutes(21), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
+	private final Evento eventoLargo = new Evento("", ahora, ahora.plusHours(4), FrecuenciaEvento.UNICA_VEZ, TipoEvento.FORMAL);
+	private final Evento eventoDentroDeMuchoTiempo = new Evento("", ahora.plusHours(8), ahora.plusHours(9), FrecuenciaEvento.UNICA_VEZ, TipoEvento.FORMAL);
 
 	@Before
 	public void asignarPrivilegios() {
@@ -63,7 +62,7 @@ public class TestSugerenciaAtuendos {
 	public void agregarGuardarropaAUsuario() {
 		userPremium.addGuardarropa(guardarropa);
 	}
-	
+
 	@Test
 	public void deberiaSugerirRopaAbrigadaSiHaceFrio() {
 		userPremium.addPrenda(musculosa, guardarropa);
@@ -85,7 +84,7 @@ public class TestSugerenciaAtuendos {
 		servicioDelClima.setPronosticosCache(new ArrayList<>(Arrays.asList(new Pronostico(ahora.minusMinutes(30), ahora.plusMinutes(30), new Clima(new Celsius(2))))));
 
 		//Lista de sugerencias vacia
-		List<Sugerencia> sugerencias = guardarropa.generarSugerencias(eventoCorto,new ArrayList<>());
+		List<Sugerencia> sugerencias = guardarropa.generarSugerencias(eventoCorto, new ArrayList<>());
 
 		// Todas las sugerencias deberían tener la campera
 		assertTrue(sugerencias.stream().allMatch(sugerencia -> sugerencia.getAtuendo().getPartesSuperiores().contains(campera)));
@@ -100,7 +99,7 @@ public class TestSugerenciaAtuendos {
 
 		assertTrue(sugerencias.stream().anyMatch(sug -> sug.getAtuendo().getAccesorios().contains(reloj) && sug.getAtuendo().getAccesorios().contains(bufanda)));
 		assertEquals(0.25, (double) sugerencias_con_reloj_y_bufanda / (double) sugerencias_totales, 0.001);
-	
+
 		servicioDelClima.setPronosticosCache(new ArrayList<>());
 	}
 
@@ -146,7 +145,7 @@ public class TestSugerenciaAtuendos {
 		long sugerencias_totales = sugerencias.size();
 		long sugerencias_con_reloj = sugerencias.stream().filter(sug -> sug.getAtuendo().getAccesorios().contains(reloj)).count();
 		assertEquals(0.5, (double) sugerencias_con_reloj / (double) sugerencias_totales, 0.001);
-		
+
 		servicioDelClima.setPronosticosCache(new ArrayList<>());
 	}
 
@@ -161,7 +160,7 @@ public class TestSugerenciaAtuendos {
 		servicioDelClima.setPronosticosCache(new ArrayList<>(Arrays.asList(new Pronostico(ahora.minusMinutes(30), ahora.plusMinutes(30), new Clima(new Celsius(18))))));
 
 		guardarropa.generarSugerencias(eventoCorto, new ArrayList<>()); // Le falta calzado => falla
-		
+
 		servicioDelClima.setPronosticosCache(new ArrayList<>());
 	}
 
@@ -175,7 +174,7 @@ public class TestSugerenciaAtuendos {
 
 		userPremium.addPrenda(zapatos, guardarropa);
 
-		guardarropa.generarSugerencias(eventoCorto,new ArrayList<>()); // No hay pronostico disponible => falla
+		guardarropa.generarSugerencias(eventoCorto, new ArrayList<>()); // No hay pronostico disponible => falla
 	}
 
 	@Test
@@ -237,7 +236,7 @@ public class TestSugerenciaAtuendos {
 		)));
 
 		guardarropa.generarSugerencias(eventoLargo, new ArrayList<>()); // No están todos los pronosticos disponibles => falla
-	
+
 		servicioDelClima.setPronosticosCache(new ArrayList<>());
 	}
 
@@ -275,7 +274,7 @@ public class TestSugerenciaAtuendos {
 
 		// No debería sugerir un pantalón corto
 		assertTrue(sugerencias.stream().allMatch(sugerencia -> sugerencia.getAtuendo().getParteInferior() != pantalonCorto));
-	
+
 		servicioDelClima.setPronosticosCache(new ArrayList<>());
 	}
 
@@ -311,10 +310,10 @@ public class TestSugerenciaAtuendos {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		List<Sugerencia> sugerencias = userPremium.obtenerSugerencias(eventoCorto);
 		assertTrue(sugerencias.size() > 0);
-	
+
 		servicioDelClima.setPronosticosCache(new ArrayList<>());
 	}
 }

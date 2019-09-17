@@ -5,6 +5,6 @@ import modelo.usuario.Usuario;
 
 import javax.mail.MessagingException;
 
-public interface MedioNotificacion {
-    void send(Usuario usuario, AlertaMeteorologica alerta) throws MessagingException;
+interface MedioNotificacion {
+	void send(Usuario usuario, AlertaMeteorologica alerta) throws MessagingException;
 }

@@ -5,20 +5,20 @@ import excepciones.GuardarropaConMayorPrendasQueCapMaxException;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Prenda;
 
-import java.util.List;
-
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue(value = "G")
 public class Gratuito extends PrivilegioUsuario {
-	
-	private final int capacidadGuardarropa;
+
+	private int capacidadGuardarropa;
 
 	public Gratuito(int capMax) {
 		this.capacidadGuardarropa = capMax;
+	}
+
+	public Gratuito() {
 	}
 
 	@Override

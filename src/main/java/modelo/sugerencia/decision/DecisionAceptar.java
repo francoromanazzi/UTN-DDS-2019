@@ -13,7 +13,8 @@ public class DecisionAceptar extends Decision {
 		super(sugerencia);
 	}
 
-	public DecisionAceptar() { }
+	public DecisionAceptar() {
+	}
 
 	public void deshacer() {
 		getSugerencia().setEstado(EstadoSugerencia.NUEVO);

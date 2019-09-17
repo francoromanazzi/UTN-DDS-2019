@@ -1,9 +1,9 @@
 package modelo.usuario;
 
-import excepciones.*;
 import cron_jobs.GenerarSugerencias;
-import modelo.alerta_meteorologica.accion_ante_alerta_meteorologica.AccionAnteAlertaMeteorologica;
+import excepciones.*;
 import modelo.alerta_meteorologica.AlertaMeteorologica;
+import modelo.alerta_meteorologica.accion_ante_alerta_meteorologica.AccionAnteAlertaMeteorologica;
 import modelo.evento.Evento;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Prenda;
@@ -13,25 +13,19 @@ import modelo.sugerencia.decision.DecisionVacia;
 import servicios.SHA256Builder;
 
 import javax.mail.MessagingException;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	private Long Id;
 	private String nombre, mail, numeroTelefono, username, password;
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -39,15 +33,16 @@ public class Usuario {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private PrivilegioUsuario privilegio = new Gratuito(10);
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="usuario_id")
+	@JoinColumn(name = "usuario_id")
 	private final List<Evento> eventos = new ArrayList<>();
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="usuario_id")
+	@JoinColumn(name = "usuario_id")
 	private final List<Sugerencia> historialSugerencias = new ArrayList<>();
 	@Transient // TODO Persistir
 	private final List<AccionAnteAlertaMeteorologica> accionesAnteAlertaMeteorologica = new ArrayList<>();
-	
-	public Usuario() {}
+
+	public Usuario() {
+	}
 
 	public Usuario(String nombre, String mail, String nro, String username, String password) {
 		this.mail = mail;
@@ -60,19 +55,19 @@ public class Usuario {
 	public Long getId() {
 		return this.Id;
 	}
-	
+
 	public List<Evento> getEventos() {
 		return eventos;
 	}
-	
+
 	public String getNombre() {
 		return nombre;
 	}
-	
+
 	public String getNumeroTelefono() {
 		return numeroTelefono;
 	}
-	
+
 	public String getMail() {
 		return mail;
 	}
@@ -100,7 +95,7 @@ public class Usuario {
 	public void addToHistorialSugerencias(List<Sugerencia> s) {
 		historialSugerencias.addAll(s);
 	}
-	
+
 	public void addGuardarropa(Guardarropa guardarropa) throws GuardarropaConMayorPrendasQueCapMaxException {
 		privilegio.addGuardarropa(guardarropa, this);
 	}
@@ -128,26 +123,26 @@ public class Usuario {
 	public void agendarEvento(Evento evento, Guardarropa guardarropaAUtilizar) throws EventoYaFueAgendadoException, UsuarioNoEsPropietarioDelGuardarropaException {
 		if (eventos.contains(evento))
 			throw new EventoYaFueAgendadoException();
-		
+
 		eventos.add(evento);
 
 		Timer timer = new Timer();
 		TimerTask generarSugerencias = new GenerarSugerencias(evento, guardarropaAUtilizar, this.historialSugerencias, this);
 
 		LocalDateTime fechaDeEjecucion = evento.getFechaInicio().minusHours(2);
-		
-		if (!fechaDeEjecucion.isAfter(LocalDateTime.now())) 
+
+		if (!fechaDeEjecucion.isAfter(LocalDateTime.now()))
 			timer.schedule(generarSugerencias, 0, evento.getFrecuencia().getPerido());
 		else {
 			long delay = LocalDateTime.now().until(fechaDeEjecucion, ChronoUnit.MILLIS);
 			timer.schedule(generarSugerencias, delay, evento.getFrecuencia().getPerido());
-		}	
+		}
 	}
 
 	public void eliminarEvento(Evento e) {
 		eventos.remove(e);
 	}
-	
+
 	public List<Sugerencia> obtenerSugerencias(Evento evento) throws EventoNoFueAgendadoException, EventoNoEstaProximoException, SinSugerenciasPosiblesException, PronosticoNoDisponibleException {
 		if (!eventos.contains(evento))
 			throw new EventoNoFueAgendadoException();
@@ -168,10 +163,9 @@ public class Usuario {
 	public void recibirAlertaMeteorologica(AlertaMeteorologica alerta) {
 		accionesAnteAlertaMeteorologica.forEach(accion -> {
 			try {
-				if(alerta == AlertaMeteorologica.LLUVIA) {
+				if (alerta == AlertaMeteorologica.LLUVIA) {
 					accion.anteLluvia(this);
-				}
-				else {
+				} else {
 					accion.anteGranizo(this);
 				}
 			} catch (MessagingException e) {

@@ -8,28 +8,29 @@
     <persistence-unit name="db" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-		<class>modelo.usuario.Usuario</class>
-		<class>modelo.usuario.PrivilegioUsuario</class>
-		<class>modelo.usuario.Gratuito</class>
-		<class>modelo.usuario.Premium</class>
-		<class>modelo.sugerencia.decision.Decision</class>
-		<class>modelo.sugerencia.decision.DecisionAceptar</class>
-		<class>modelo.sugerencia.decision.DecisionCalificar</class>
-		<class>modelo.sugerencia.decision.DecisionRecalificar</class>
-		<class>modelo.sugerencia.decision.DecisionRechazar</class>
-		<class>modelo.sugerencia.decision.DecisionVacia</class>
-    	<class>modelo.evento.Evento</class>
-    	<class>modelo.sugerencia.Sugerencia</class>
-    	<class>modelo.sugerencia.CalificacionSugerencia</class>  
-    	<class>modelo.sugerencia.SensibilidadParteDelCuerpo</class>
-    	<class>modelo.atuendo.Atuendo</class>
-    	
+        <class>modelo.usuario.Usuario</class>
+        <class>modelo.usuario.PrivilegioUsuario</class>
+        <class>modelo.usuario.Gratuito</class>
+        <class>modelo.usuario.Premium</class>
+        <class>modelo.sugerencia.decision.Decision</class>
+        <class>modelo.sugerencia.decision.DecisionAceptar</class>
+        <class>modelo.sugerencia.decision.DecisionCalificar</class>
+        <class>modelo.sugerencia.decision.DecisionRecalificar</class>
+        <class>modelo.sugerencia.decision.DecisionRechazar</class>
+        <class>modelo.sugerencia.decision.DecisionVacia</class>
+        <class>modelo.evento.Evento</class>
+        <class>modelo.sugerencia.Sugerencia</class>
+        <class>modelo.sugerencia.CalificacionSugerencia</class>
+        <class>modelo.sugerencia.SensibilidadParteDelCuerpo</class>
+        <class>modelo.atuendo.Atuendo</class>
+
         <properties>
             <property name="hibernate.archive.autodetection" value="class"/>
 
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/queMePongo?serverTimezone=UTC" />
-            <property name="hibernate.connection.username" value="root" />
-            <property name="hibernate.connection.password" value="champions1234" />
+            <property name="hibernate.connection.url"
+                      value="jdbc:mysql://localhost:3306/queMePongo?serverTimezone=UTC"/>
+            <property name="hibernate.connection.username" value="root"/>
+            <property name="hibernate.connection.password" value="champions1234"/>
 
             <!--   <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
             <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:app-db"/>

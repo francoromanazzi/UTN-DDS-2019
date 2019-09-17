@@ -3,6 +3,7 @@ package presentacion.view_model;
 //import javafx.collections.FXCollections;
 //import javafx.collections.MapChangeListener;
 //import javafx.collections.ObservableMap;
+
 import modelo.evento.Evento;
 import modelo.evento.FrecuenciaEvento;
 import modelo.evento.TipoEvento;
@@ -15,10 +16,10 @@ import modelo.pronosticos_del_clima.Pronostico;
 import modelo.pronosticos_del_clima.ServicioDelClima;
 import modelo.pronosticos_del_clima.clima.Clima;
 import modelo.pronosticos_del_clima.clima.temperatura.Celsius;
-import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Premium;
 import modelo.usuario.Usuario;
 import org.uqbar.commons.model.annotations.Observable;
+
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -50,12 +51,12 @@ public class EventosViewModel {
 	public List<EventoObservable> getEventos() {
 		return eventos;
 	}
-	
+
 	public void setEventos(List<EventoObservable> ev) {
 		eventos = ev;
 	}
 
-	public void setearEventosIniciales(List<EventoObservable> eventos) {
+	private void setearEventosIniciales(List<EventoObservable> eventos) {
 		this.eventos = eventos.stream().sorted(
 				Comparator.comparing(e -> e.getEvento().getFechaInicio())
 		).collect(Collectors.toList());
@@ -88,19 +89,19 @@ public class EventosViewModel {
 		usuario.agendarEvento(evento2, guardarropa);
 		usuario.agendarEvento(evento3, guardarropa);
 		usuario.agendarEvento(evento4, guardarropa);
-		
+
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void inicializarFechas() {
 		fechaInicio = LocalDateTime.of(anioInicio, mesInicio, diaInicio, 0, 0);
 		fechaFin = LocalDateTime.of(anioFin, mesFin, diaFin, 0, 0);
 	}
-	
+
 	private void inicializarEventos() {
 		this.setearEventosIniciales(usuario.getEventos().stream().map(
 				evento -> evento.getSugerencias().isEmpty() ?
@@ -121,7 +122,7 @@ public class EventosViewModel {
 	public LocalDateTime getFechaFin() {
 		return fechaFin;
 	}
-	
+
 	public void setFechaInicio(LocalDateTime fi) {
 		fechaInicio = fi;
 	}
@@ -143,7 +144,7 @@ public class EventosViewModel {
 	}
 
 	public void setMesInicio(int mesInicio) {
-		if(mesInicio > 0 && mesInicio < 13) 
+		if (mesInicio > 0 && mesInicio < 13)
 			this.mesInicio = mesInicio;
 	}
 
@@ -152,7 +153,7 @@ public class EventosViewModel {
 	}
 
 	public void setDiaInicio(int diaInicio) {
-		if(cumpleCondicionDeDiaDeMes(diaInicio, fechaInicio.getMonthValue()))
+		if (cumpleCondicionDeDiaDeMes(diaInicio, fechaInicio.getMonthValue()))
 			this.diaInicio = diaInicio;
 	}
 
@@ -169,7 +170,7 @@ public class EventosViewModel {
 	}
 
 	public void setMesFin(int mesFin) {
-		if(mesFin > 0 && mesFin < 13) 
+		if (mesFin > 0 && mesFin < 13)
 			this.mesFin = mesFin;
 	}
 
@@ -178,13 +179,13 @@ public class EventosViewModel {
 	}
 
 	public void setDiaFin(int diaFin) {
-		if(cumpleCondicionDeDiaDeMes(diaFin, fechaFin.getMonthValue())) 
+		if (cumpleCondicionDeDiaDeMes(diaFin, fechaFin.getMonthValue()))
 			this.diaFin = diaFin;
 	}
-	
+
 	private boolean cumpleCondicionDeDiaDeMes(int dia, int mes) {
 		boolean retorno;
-		ArrayList<Integer> meses31 = new ArrayList<Integer>();
+		ArrayList<Integer> meses31 = new ArrayList<>();
 		meses31.add(1);
 		meses31.add(3);
 		meses31.add(5);
@@ -192,17 +193,17 @@ public class EventosViewModel {
 		meses31.add(8);
 		meses31.add(10);
 		meses31.add(12);
-		ArrayList<Integer> meses30 = new ArrayList<Integer>();
+		ArrayList<Integer> meses30 = new ArrayList<>();
 		meses30.add(4);
 		meses30.add(6);
 		meses30.add(9);
 		meses30.add(11);
-		ArrayList<Integer> meses29 = new ArrayList<Integer>();
+		ArrayList<Integer> meses29 = new ArrayList<>();
 		meses29.add(2);
 		retorno = meses31.contains(mes) && dia <= 31 && dia > 0;
-		if(!retorno)
+		if (!retorno)
 			retorno = meses30.contains(mes) && dia <= 30 && dia > 0;
-		if(!retorno)
+		if (!retorno)
 			retorno = meses29.contains(mes) && dia <= 29 && dia > 0;
 
 		return retorno;

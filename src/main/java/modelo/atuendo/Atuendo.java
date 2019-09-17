@@ -2,47 +2,38 @@ package modelo.atuendo;
 
 import modelo.prenda.Prenda;
 
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 @Entity
 @Table(name = "atuendos")
 public class Atuendo {
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	private Long Id;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Prenda parteInferior; 
+	private Prenda parteInferior;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Prenda calzado;
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
-		name="atuendos_prendasSuperiores",
-		joinColumns = { @JoinColumn(name = "atuendo_id") }, 
-		inverseJoinColumns = { @JoinColumn(name = "prenda_superior_id") }
+			name = "atuendos_prendasSuperiores",
+			joinColumns = {@JoinColumn(name = "atuendo_id")},
+			inverseJoinColumns = {@JoinColumn(name = "prenda_superior_id")}
 	)
-	private final List<Prenda> partesSuperiores;
+	private List<Prenda> partesSuperiores;
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
-		name="atuendos_accesorios",
-		joinColumns = { @JoinColumn(name = "atuendo_id") }, 
-		inverseJoinColumns = { @JoinColumn(name = "accesorio_id") }
+			name = "atuendos_accesorios",
+			joinColumns = {@JoinColumn(name = "atuendo_id")},
+			inverseJoinColumns = {@JoinColumn(name = "accesorio_id")}
 	)
-	private final List<Prenda> accesorios;
+	private List<Prenda> accesorios;
 
 	public Atuendo(List<Prenda> partesSuperiores, Prenda parteInferior, Prenda calzado, List<Prenda> accesorios) {
 		this.partesSuperiores = partesSuperiores;
@@ -51,10 +42,13 @@ public class Atuendo {
 		this.accesorios = accesorios;
 	}
 
+	public Atuendo() {
+	}
+
 	public Long getId() {
 		return this.Id;
 	}
-	
+
 	public List<Prenda> getPartesSuperiores() {
 		return partesSuperiores;
 	}

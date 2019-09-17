@@ -1,16 +1,17 @@
 package presentacion.view_model;
 
-import java.time.LocalDateTime;
-import java.util.stream.Collectors;
 import org.uqbar.lacar.ui.model.Action;
 
-public class ButtonClickAction implements Action{
-	private EventosViewModel viewModel;
-	
+import java.time.LocalDateTime;
+import java.util.stream.Collectors;
+
+public class ButtonClickAction implements Action {
+	private final EventosViewModel viewModel;
+
 	public ButtonClickAction(EventosViewModel viewModel) {
 		this.viewModel = viewModel;
 	}
-	
+
 	@Override
 	public void execute() {
 		viewModel.setFechaInicio(LocalDateTime.of(viewModel.getAnioInicio(), viewModel.getMesInicio(), viewModel.getDiaInicio(), 0, 0));

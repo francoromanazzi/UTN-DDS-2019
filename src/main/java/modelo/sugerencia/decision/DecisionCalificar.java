@@ -13,7 +13,8 @@ public class DecisionCalificar extends Decision {
 		super(sugerencia);
 	}
 
-	public DecisionCalificar() { }
+	public DecisionCalificar() {
+	}
 
 	public void deshacer() {
 		getSugerencia().setEstado(EstadoSugerencia.ACEPTADO);

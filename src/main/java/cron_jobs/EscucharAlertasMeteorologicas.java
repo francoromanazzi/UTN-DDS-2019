@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.TimerTask;
 
 public class EscucharAlertasMeteorologicas extends TimerTask {
-	
+
 	@Override
 	public void run() {
 		List<AlertaMeteorologica> alertas = ServicioDelClima.getInstance().obtenerAlertasMeteorologicas();
 		List<Usuario> usuarios = new UsuarioService().GetAllUsuarios();
 
-		alertas.forEach(alerta -> usuarios.forEach(user -> user.recibirAlertaMeteorologica(alerta)));		
+		alertas.forEach(alerta -> usuarios.forEach(user -> user.recibirAlertaMeteorologica(alerta)));
 	}
 }

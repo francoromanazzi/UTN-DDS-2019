@@ -6,24 +6,16 @@ import excepciones.parametros_nulos.FechaFinNoPuedeSerNulaException;
 import excepciones.parametros_nulos.FechaInicioNoPuedeSerNulaException;
 import modelo.sugerencia.Sugerencia;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Table;
-
 @Entity
-@Table(name="eventos")
+@Table(name = "eventos")
 public class Evento {
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	private Long Id;
 	private String titulo;
 	private LocalDateTime fechaInicio, fechaFin;
@@ -32,17 +24,18 @@ public class Evento {
 	@Enumerated(EnumType.STRING)
 	private TipoEvento tipoEvento;
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="evento_id")
-	private final List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
+	@JoinColumn(name = "evento_id")
+	private final List<Sugerencia> sugerencias = new ArrayList<>();
 
-	public Evento() {} 
-	
-	public Evento(String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFin, FrecuenciaEvento frecuencia ,TipoEvento tipo) throws FechaFinDebeSerPosteriorAFechaInicioException, FechaInicioNoPuedeSerNulaException, FechaFinNoPuedeSerNulaException {
+	public Evento() {
+	}
+
+	public Evento(String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFin, FrecuenciaEvento frecuencia, TipoEvento tipo) throws FechaFinDebeSerPosteriorAFechaInicioException, FechaInicioNoPuedeSerNulaException, FechaFinNoPuedeSerNulaException {
 		if (fechaInicio == null) throw new FechaInicioNoPuedeSerNulaException();
 		if (fechaFin == null) throw new FechaFinNoPuedeSerNulaException();
 		if (fechaFin.isBefore(fechaInicio)) throw new FechaFinDebeSerPosteriorAFechaInicioException();
-		if(frecuencia == null) throw new FrecuenciaDelEventoNula();
-		
+		if (frecuencia == null) throw new FrecuenciaDelEventoNula();
+
 		this.titulo = titulo;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
@@ -53,7 +46,7 @@ public class Evento {
 	public Long getId() {
 		return this.Id;
 	}
-	
+
 	public String getTitulo() {
 		return titulo;
 	}
@@ -73,15 +66,15 @@ public class Evento {
 	public TipoEvento getTipoEvento() {
 		return tipoEvento;
 	}
-	
+
 	public List<Sugerencia> getSugerencias() {
 		return this.sugerencias;
 	}
-	
+
 	public void addSugerencia(Sugerencia sugerencia) {
 		this.sugerencias.add(sugerencia);
 	}
-	
+
 	public void addSugerencias(List<Sugerencia> sugerencias) {
 		this.sugerencias.addAll(sugerencias);
 	}

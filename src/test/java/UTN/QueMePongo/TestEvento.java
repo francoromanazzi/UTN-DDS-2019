@@ -31,19 +31,19 @@ public class TestEvento {
 
 	@Test(expected = FechaInicioNoPuedeSerNulaException.class)
 	public void fechaInicialNula() {
-		new Evento("", null, finFiesta, FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
+		new Evento("", null, finFiesta, FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 	}
 
 	@Test(expected = FechaFinNoPuedeSerNulaException.class)
 	public void fechaFinNula() {
-		new Evento("", inicioFiesta, null, FrecuenciaEvento.UNICA_VEZ,TipoEvento.INFORMAL);
+		new Evento("", inicioFiesta, null, FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 	}
 
 	@Test
-	public void crearEventoSemanal(){
-		Evento eventoSemanal = new Evento("Ir al supermercado",inicioFiesta,inicioFiesta.plusMinutes(60),FrecuenciaEvento.SEMANAL,TipoEvento.INFORMAL);
-		long diaEnMilisegundos = (60l*60l*24l)*1000l;
-		assertEquals(eventoSemanal.getFrecuencia().getPerido(),diaEnMilisegundos * 7l);
+	public void crearEventoSemanal() {
+		Evento eventoSemanal = new Evento("Ir al supermercado", inicioFiesta, inicioFiesta.plusMinutes(60), FrecuenciaEvento.SEMANAL, TipoEvento.INFORMAL);
+		long diaEnMilisegundos = (60L * 60L * 24L) * 1000L;
+		assertEquals(eventoSemanal.getFrecuencia().getPerido(), diaEnMilisegundos * 7L);
 	}
 
 }
