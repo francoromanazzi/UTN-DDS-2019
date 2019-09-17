@@ -22,17 +22,17 @@ public class Prenda {
 	private Material material;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Color colorPrincipal;
-	@Transient //Hay una anotation
-	private Optional<Color> colorSecundario;
-	@Transient
-	private Optional<Imagen> imagen;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Color colorSecundario;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Imagen imagen;
 
 	public Prenda() {
 	}
 
-	public Prenda(Tipo tipo, Material material, Color colorPrincipal, Optional<Color> colorSecundario, Optional<File> archivoImagen)
+	public Prenda(Tipo tipo, Material material, Color colorPrincipal, Optional<Color> colorSecundario, Optional<Imagen> imagen)
 			throws TipoNoPuedeSerNuloException, MaterialNoPuedeSerNuloException, ColorPrincipalNoPuedeSerNuloException, ColorSecundarioNoPuedeSerNuloException,
-			MaterialNoTieneSentidoParaEseTipoException, ColoresIgualesException, ImagenNoPuedeSerNulaException, ImagenNoPudoSerLeidaException, ExtensionDeImagenErroneaException {
+			MaterialNoTieneSentidoParaEseTipoException, ColoresIgualesException, ImagenNoPuedeSerNulaException {
 
 		if (tipo != null) this.tipo = tipo;
 		else throw new TipoNoPuedeSerNuloException();
@@ -43,10 +43,10 @@ public class Prenda {
 		if (colorPrincipal != null) this.colorPrincipal = colorPrincipal;
 		else throw new ColorPrincipalNoPuedeSerNuloException();
 
-		if (colorSecundario != null) this.colorSecundario = colorSecundario;
+		if (colorSecundario != null) this.colorSecundario = colorSecundario.orElse(null);
 		else throw new ColorSecundarioNoPuedeSerNuloException();
 
-		if (archivoImagen != null) imagen = archivoImagen.map(Imagen::new);
+		if (imagen != null) this.imagen = imagen.orElse(null);
 		else throw new ImagenNoPuedeSerNulaException();
 
 		validarColoresDistintos();
@@ -59,7 +59,7 @@ public class Prenda {
 	}
 
 	private void validarColoresDistintos() throws ColoresIgualesException {
-		if (colorSecundario.filter(color -> color.esIgualA(colorPrincipal)).isPresent())
+		if (colorSecundario != null && colorPrincipal.esIgualA(colorSecundario))
 			throw new ColoresIgualesException();
 	}
 
@@ -80,11 +80,11 @@ public class Prenda {
 	}
 
 	public Optional<Color> getColorSecundario() {
-		return colorSecundario;
+		return Optional.ofNullable(colorSecundario);
 	}
 
 	public Optional<Imagen> getImagen() {
-		return imagen;
+		return Optional.ofNullable(imagen);
 	}
 
 	public Long getId() {

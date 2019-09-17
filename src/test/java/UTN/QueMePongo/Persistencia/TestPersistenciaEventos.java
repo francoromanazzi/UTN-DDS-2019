@@ -27,11 +27,11 @@ public class TestPersistenciaEventos extends AbstractPersistenceTest implements 
 		entityManager().persist(user);
 
 		List<Evento> eventosDeMiUserDB = entityManager().createQuery
-				("SELECT e FROM Evento e, Usuario u WHERE u.username=:username")
+				("SELECT e FROM Evento e, Usuario u WHERE u.username=:username", Evento.class)
 				.setParameter("username", user.getUsername())
 				.getResultList();
 
-		assertEquals(eventosDeMiUserDB.size(), 2);
+		assertEquals(2, eventosDeMiUserDB.size());
 		assertTrue(
 				eventosDeMiUserDB.stream().anyMatch(ev -> ev.equals(evento1))
 						&& eventosDeMiUserDB.stream().anyMatch(ev -> ev.equals(evento2))

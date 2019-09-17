@@ -7,10 +7,7 @@ import excepciones.MaterialNoTieneSentidoParaEseTipoException;
 import excepciones.parametros_nulos.ColorSecundarioNoPuedeSerNuloException;
 import excepciones.parametros_nulos.ImagenNoPuedeSerNulaException;
 import excepciones.parametros_nulos.TipoNoPuedeSerNuloException;
-import modelo.prenda.Color;
-import modelo.prenda.Material;
-import modelo.prenda.Prenda;
-import modelo.prenda.Tipo;
+import modelo.prenda.*;
 import org.junit.Test;
 
 import java.io.File;
@@ -45,21 +42,21 @@ public class TestPrenda {
 
 	@Test
 	public void deberiaPoderCargarImagenesChicas() {
-		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.of(new File("src/test/resources/img/RemeraArchivoChico.jpg")));
+		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.of(new Imagen(new File("src/test/resources/img/RemeraArchivoChico.jpg"))));
 	}
 
 	@Test
 	public void deberiaPoderCargarImagenesGrandas() {
-		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.of(new File("src/test/resources/img/RemeraArchivoGrande.jpg")));
+		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.of(new Imagen(new File("src/test/resources/img/RemeraArchivoGrande.jpg"))));
 	}
 
 	@Test(expected = ImagenNoPudoSerLeidaException.class)
 	public void deberiaFallarSiElPathNoTieneNada() {
-		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.of(new File("src/test/resources/img/vacio.png")));
+		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.of(new Imagen(new File("src/test/resources/img/vacio.png"))));
 	}
 
 	@Test(expected = ExtensionDeImagenErroneaException.class)
 	public void deberiaFallarSiElPathNoEsDeUnaImagen() {
-		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.of(new File("src/test/resources/img/texto.txt")));
+		new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.of(new Imagen(new File("src/test/resources/img/texto.txt"))));
 	}
 }

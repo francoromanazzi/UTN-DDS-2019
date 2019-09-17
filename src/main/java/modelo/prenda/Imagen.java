@@ -2,20 +2,36 @@ package modelo.prenda;
 
 import excepciones.ExtensionDeImagenErroneaException;
 import excepciones.ImagenNoPudoSerLeidaException;
+import utils.BufferedImageToByteArrConverter;
 
 import javax.imageio.ImageIO;
+import javax.persistence.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
+@Entity
+@Table(name = "imagenes")
 public class Imagen {
+	@Id
+	@GeneratedValue
+	private long Id;
+
 	public static final int HEIGHT = 500, WIDTH = 500;
-	private final BufferedImage imagen;
+
+	@Convert(converter = BufferedImageToByteArrConverter.class)
+	private BufferedImage imagen;
 
 	public Imagen(File arch) throws ImagenNoPudoSerLeidaException, ExtensionDeImagenErroneaException {
 		this.imagen = leerYNormalizarImagen(arch);
+	}
+
+	public Imagen() { }
+
+	public long getId() {
+		return Id;
 	}
 
 	public BufferedImage getImagen() {
