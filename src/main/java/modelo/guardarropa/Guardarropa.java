@@ -141,12 +141,12 @@ public class Guardarropa {
 
 	private List<List<Prenda>> conjuntoDePrendasDeCiertaCategoriaDisponiblesDadoElClimaEHistorialDeSugerencias(Categoria categoria, Clima clima, List<Sugerencia> historialSugerencias) {
 		List<PrototipoSuperposicion> superposicionesPosibles =
-				obtenerSuperposicionesDeTiposDeCategoriaPorClima(categoria, clima, obtenerSensibilidadGlobal(historialSugerencias), sencibilidadPorParteDelCuerpo(historialSugerencias));
+				obtenerSuperposicionesDeTiposDeCategoriaPorClima(categoria, clima, obtenerSensibilidadGlobal(historialSugerencias), sensibilidadPorParteDelCuerpo(historialSugerencias));
 
 		return obtenerPrendasQueSatisfacenPrototipo(categoria, superposicionesPosibles);
 	}
 
-	private List<SensibilidadParteDelCuerpo> sencibilidadPorParteDelCuerpo(List<Sugerencia> historialSugerencias) {
+	private List<SensibilidadParteDelCuerpo> sensibilidadPorParteDelCuerpo(List<Sugerencia> historialSugerencias) {
 		return historialSugerencias
 				.stream()
 				.filter(sug -> sug.getCalificacion() != null && sug.getCalificacion().getSensibilidadPorPartesDelCuerpo() != null)

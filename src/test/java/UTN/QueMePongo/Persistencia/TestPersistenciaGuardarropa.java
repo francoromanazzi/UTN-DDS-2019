@@ -83,8 +83,87 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
 		assertEquals(1, guardarropas.size());
 		assertTrue(guardarropas.stream().allMatch(g -> g.getUsuariosPropietarios().size() == 1
 				&& g.getUsuariosPropietarios().get(0).getUsername().equals(user2.getUsername())));
+	}
+
+	@Test
+	public void obtenerGuardarropasCompartidos() {
+		entityManager().persist(user);
+		entityManager().persist(user2);
+		entityManager().persist(guardarropa1);
+
+		guardarropa1.addUsuario(user);
+		guardarropa1.addUsuario(user2);
 
 
+		// User 1
+		List<Guardarropa> guardarropas = new UsuarioService().getGuardarropasDeUsuarioPorId(user.getId());
 
+		assertEquals(1, guardarropas.size());
+		assertTrue(guardarropas.stream().allMatch(g -> g.getUsuariosPropietarios().size() == 2
+				&& g.getUsuariosPropietarios().stream().anyMatch(u -> u.getUsername().equals(user.getUsername()))
+				&& g.getUsuariosPropietarios().stream().anyMatch(u -> u.getUsername().equals(user2.getUsername()))));
+
+		// User2
+		guardarropas = new UsuarioService().getGuardarropasDeUsuarioPorId(user2.getId());
+
+		assertEquals(1, guardarropas.size());
+		assertTrue(guardarropas.stream().allMatch(g -> g.getUsuariosPropietarios().size() == 2
+				&& g.getUsuariosPropietarios().stream().anyMatch(u -> u.getUsername().equals(user.getUsername()))
+				&& g.getUsuariosPropietarios().stream().anyMatch(u -> u.getUsername().equals(user2.getUsername()))));
+	}
+
+	@Test
+	public void deberiaPoderAgregarleUnaPrendaAUnGuardarropaYQueSeModifique() {
+		entityManager().persist(guardarropa1);
+		guardarropa1.addPrenda(new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.empty()));
+
+		Guardarropa guardarropaDB = entityManager().
+				createQuery("from Guardarropa", Guardarropa.class).
+				getSingleResult();
+
+		assertEquals(1, guardarropaDB.getPrendas().size());
+		assertEquals(Tipo.REMERA_MANGA_CORTA, guardarropaDB.getPrendas().get(0).getTipo());
+	}
+
+	@Test
+	public void usuarioDeberiaPoderAgregarleUnaPrendaAUnGuardarropaYQueSeModifique() {
+		entityManager().persist(user);
+		entityManager().persist(guardarropa1);
+
+		user.addGuardarropa(guardarropa1);
+
+		user.addPrenda(new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.empty()), guardarropa1);
+
+		List<Guardarropa> guardarropas = new UsuarioService().getGuardarropasDeUsuarioPorId(user.getId());
+
+		assertEquals(1, guardarropas.size());
+		assertEquals(1, guardarropas.get(0).getPrendas().size());
+		assertEquals(Tipo.REMERA_MANGA_CORTA, guardarropas.get(0).getPrendas().get(0).getTipo());
+	}
+
+	@Test
+	public void deberiaPoderEliminarUnGuardarropa() {
+		entityManager().persist(user);
+		entityManager().persist(guardarropa1);
+
+		guardarropa1.addUsuario(user);
+
+		List<Guardarropa> guardarropas = new UsuarioService().getGuardarropasDeUsuarioPorId(user.getId());
+		assertEquals(1, guardarropas.size());
+
+	    // Quito el guardarropa
+		user.removeGuardarropa(guardarropa1);
+
+		// Verifico que el usuario no tiene guardarropas
+		guardarropas = new UsuarioService().getGuardarropasDeUsuarioPorId(user.getId());
+		assertEquals(0, guardarropas.size());
+
+		// Verifico que el guardarropas sigue existiendo, pero no tiene propietario
+		List<Guardarropa> todosLosGuardarropas = entityManager().
+				createQuery("from Guardarropa", Guardarropa.class).
+				getResultList();
+
+		assertEquals(1, todosLosGuardarropas.size());
+		assertEquals(0, todosLosGuardarropas.get(0).getUsuariosPropietarios().size());
 	}
 }
