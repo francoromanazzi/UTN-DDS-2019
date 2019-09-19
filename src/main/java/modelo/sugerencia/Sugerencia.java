@@ -23,7 +23,7 @@ public class Sugerencia {
 	@Enumerated(EnumType.STRING)
 	private EstadoSugerencia estado = EstadoSugerencia.NUEVO;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private CalificacionSugerencia calificacion;
 
 	public Sugerencia() {

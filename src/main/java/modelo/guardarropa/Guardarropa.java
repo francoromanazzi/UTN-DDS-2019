@@ -128,7 +128,7 @@ public class Guardarropa {
 
 
 		List<Sugerencia> ret =
-				ObtenerListaDeSugerenciasDefinitiva(conjuntosDePrendasSuperioresPosibles,
+				obtenerListaDeSugerenciasDefinitiva(conjuntosDePrendasSuperioresPosibles,
 						conjuntosDePrendasInferioresPosibles,
 						conjuntosDeCalzadosPosibles,
 						conjuntosDeAccesoriosPosibles);
@@ -231,14 +231,14 @@ public class Guardarropa {
 		return sensibilidadGlobal;
 	}
 
-	private List<Sugerencia> ObtenerListaDeSugerenciasDefinitiva(List<List<Prenda>> prendasSuperiores, List<List<Prenda>> prendasInferiores, List<List<Prenda>> calzados, List<List<Prenda>> accesorios) {
+	private List<Sugerencia> obtenerListaDeSugerenciasDefinitiva(List<List<Prenda>> prendasSuperiores, List<List<Prenda>> prendasInferiores, List<List<Prenda>> calzados, List<List<Prenda>> accesorios) {
 
 		return Lists
 				.cartesianProduct(prendasSuperiores, prendasInferiores, calzados, accesorios)
 				.stream()
 				.map(result -> new Sugerencia(
 						new Atuendo(result.get(0), result.get(1).get(0), result.get(2).get(0), result.get(3))))
-				.filter(sug -> sinPrendasEnUsoPorOtroUsuario(sug)).collect(Collectors.toList());
+				.filter(this::sinPrendasEnUsoPorOtroUsuario).collect(Collectors.toList());
 	}
 
 	private boolean prendaEnUso(Prenda prenda) {

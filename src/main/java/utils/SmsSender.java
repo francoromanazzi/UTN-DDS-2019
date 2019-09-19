@@ -1,22 +1,23 @@
 package utils;
 
+import excepciones.MensajeriaException;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-public class SmsSender {
-	private static String API_KEY = "RMe8QssPavI-SGqPFTYhkoDSIlgd2k5kkTD2ZcBffV";
+public final class SmsSender {
+	private static final String API_KEY = "RMe8QssPavI-SGqPFTYhkoDSIlgd2k5kkTD2ZcBffV";
 
-	//DestinyNumber en formato internacional 
-	public static String send(String DestinyNumber, String text) {
+	public static String send(String destinyNumber, String text) throws MensajeriaException {
 		try {
 			// Construct data
 			String apiKey = "apikey=" + API_KEY;
 			String message = "&message=" + text;
 			String sender = "&sender=" + "QueMePongo";
-			String numbers = "&numbers=" + DestinyNumber;
+			String numbers = "&numbers=" + destinyNumber;
 			String test = "&test=" + "true";
 
 			// Send data
@@ -36,8 +37,7 @@ public class SmsSender {
 
 			return stringBuffer.toString();
 		} catch (Exception e) {
-			System.out.println("Error SMS " + e);
-			return "Error " + e;
+			throw new MensajeriaException();
 		}
 	}
 }

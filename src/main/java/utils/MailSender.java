@@ -1,16 +1,18 @@
 package utils;
 
+import excepciones.MensajeriaException;
+
 import javax.mail.*;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-public class MailSender {
-	//Creé un mail nuevo de gmail para que sea el emisor de mails
+public final class MailSender {
 	private static final String SenderAccountEmail = "utnquemepongo@gmail.com";
 	private static final String SenderAccountPassword = "qmp123456";
 
-	public static void send(String DestinyEmail, String subject, String text) throws MessagingException {
+	public static void send(String destinyEmail, String subject, String text) throws MensajeriaException {
 		Properties prop = new Properties();
 		prop.put("mail.smtp.auth", "true");
 		prop.put("mail.smtp.starttls.enable", "true");
@@ -24,10 +26,15 @@ public class MailSender {
 		});
 
 		Message message = new MimeMessage(session);
-		message.setFrom(new InternetAddress(SenderAccountEmail));
-		message.setRecipient(Message.RecipientType.TO, new InternetAddress(DestinyEmail));
-		message.setSubject(subject);
-		message.setText(text);
-		Transport.send(message);
+
+		try {
+			message.setFrom(new InternetAddress(SenderAccountEmail));
+			message.setRecipient(Message.RecipientType.TO, new InternetAddress(destinyEmail));
+			message.setSubject(subject);
+			message.setText(text);
+			Transport.send(message);
+		} catch(Exception e) {
+			throw new MensajeriaException();
+		}
 	}
 }

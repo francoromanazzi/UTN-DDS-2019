@@ -1,5 +1,6 @@
 package cron_jobs;
 
+import excepciones.MensajeriaException;
 import excepciones.PronosticoNoDisponibleException;
 import excepciones.SinSugerenciasPosiblesException;
 import modelo.evento.Evento;
@@ -26,10 +27,9 @@ public class GenerarSugerencias extends TimerTask {
 	}
 
 	@Override
-	public void run() throws PronosticoNoDisponibleException, SinSugerenciasPosiblesException {
+	public void run() throws PronosticoNoDisponibleException, SinSugerenciasPosiblesException, MensajeriaException {
 		List<Sugerencia> sugerenciasGeneradas =
 				guardarropaAUtilizar.generarSugerencias(evento, historialSugerencias);
-
 
 		evento.addSugerencias(sugerenciasGeneradas);
 		usuario.addToHistorialSugerencias(sugerenciasGeneradas);
@@ -37,12 +37,8 @@ public class GenerarSugerencias extends TimerTask {
 			notificarAUsuario();
 	}
 
-	private void notificarAUsuario() {
-		String texto = "Hola " + usuario.getNombre() + "!\n" + "Tus sugerencias ya estan listas!";
-
-		try {
-			MailSender.send(usuario.getMail(), "Sugerencias listas", texto);
-		} catch (MessagingException e) {
-		}
+	private void notificarAUsuario() throws MensajeriaException {
+		String texto = "Hola " + usuario.getNombre() + "!\n" + "Tus sugerencias para \"" + evento.getTitulo() +"\" ya estan listas!";
+		MailSender.send(usuario.getMail(), "Sugerencias listas", texto);
 	}
 }

@@ -1,11 +1,20 @@
 package modelo.alerta_meteorologica.accion_ante_alerta_meteorologica;
 
+import excepciones.MensajeriaException;
 import modelo.usuario.Usuario;
 
-import javax.mail.MessagingException;
+import javax.persistence.*;
 
-public interface AccionAnteAlertaMeteorologica {
-	void anteLluvia(Usuario usuario) throws MessagingException;
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_accion")
+@Table(name = "acciones_ante_alertas_meteorologicas")
+public abstract class AccionAnteAlertaMeteorologica {
+	@Id
+	@GeneratedValue
+	public long Id;
 
-	void anteGranizo(Usuario usuario) throws MessagingException;
+	public abstract void anteLluvia(Usuario usuario) throws MensajeriaException;
+
+	public abstract void anteGranizo(Usuario usuario) throws MensajeriaException;
 }

@@ -37,8 +37,9 @@ public class Usuario {
 	private final List<Evento> eventos = new ArrayList<>();
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "usuario_id")
-	private final List<Sugerencia> historialSugerencias = new ArrayList<>();
-	@Transient // TODO Persistir
+	private final List<Sugerencia> historialSugerencias = new ArrayList<>(); // Para la generacion de sugerencias en los guardarropas compartidos
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "accion_ante_alerta_meteorologica_id")
 	private final List<AccionAnteAlertaMeteorologica> accionesAnteAlertaMeteorologica = new ArrayList<>();
 
 	public Usuario() {
@@ -90,6 +91,22 @@ public class Usuario {
 
 	public List<Sugerencia> getHistorialSugerencias() {
 		return historialSugerencias;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public void addToHistorialSugerencias(List<Sugerencia> s) {
@@ -160,33 +177,12 @@ public class Usuario {
 		accionesAnteAlertaMeteorologica.remove(accion);
 	}
 
-	public void recibirAlertaMeteorologica(AlertaMeteorologica alerta) {
-		accionesAnteAlertaMeteorologica.forEach(accion -> {
-			try {
-				if (alerta == AlertaMeteorologica.LLUVIA) {
-					accion.anteLluvia(this);
-				} else {
-					accion.anteGranizo(this);
-				}
-			} catch (MessagingException e) {
-				e.printStackTrace();
-			}
-		});
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void recibirAlertaMeteorologica(AlertaMeteorologica alerta) throws MensajeriaException {
+		for (AccionAnteAlertaMeteorologica accion : accionesAnteAlertaMeteorologica) {
+			if (alerta == AlertaMeteorologica.LLUVIA)
+				accion.anteLluvia(this);
+			else if (alerta == AlertaMeteorologica.GRANIZO)
+				accion.anteGranizo(this);
+		}
 	}
 }
