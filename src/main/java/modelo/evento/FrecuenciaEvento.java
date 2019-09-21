@@ -5,7 +5,7 @@ public enum FrecuenciaEvento {
 	UNICA_VEZ {
 		@Override
 		public long getPerido() {
-			return 1L;
+			return 0L;
 		}
 	}, DIARIO {
 		@Override

@@ -3,6 +3,7 @@ package UTN.QueMePongo.Persistencia;
 import modelo.evento.Evento;
 import modelo.evento.FrecuenciaEvento;
 import modelo.evento.TipoEvento;
+import modelo.guardarropa.Guardarropa;
 import modelo.usuario.Usuario;
 import org.junit.Test;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
@@ -18,11 +19,12 @@ public class TestPersistenciaEventos extends AbstractPersistenceTest implements 
 	private final Usuario user = new Usuario("lucas", "rosol@gmail.com", "1554675466", "luqui", "asd");
 	private final Evento evento1 = new Evento("Ir al supermercado", LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 	private final Evento evento2 = new Evento("Ir al trabajo", LocalDateTime.now(), LocalDateTime.now().plusMinutes(10), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
+	private final Guardarropa guardarropa = new Guardarropa();
 
 	@Test
 	public void persistirUsuarioConEventosYLosObtengo() {
-		user.getEventos().add(evento1); // No hacer user.agendarEvento ya que genera sugerencias y manda mail
-		user.getEventos().add(evento2);
+		user.agendarEventoMockNoGenerarSugerencias(evento1, guardarropa);
+		user.agendarEventoMockNoGenerarSugerencias(evento2, guardarropa);
 
 		entityManager().persist(user);
 
@@ -40,7 +42,7 @@ public class TestPersistenciaEventos extends AbstractPersistenceTest implements 
 
 	@Test
 	public void deberiaPoderEliminarEventoYCuandoVuelvoATraerElUsuarioNoLoTiene() {
-		user.getEventos().add(evento1);
+		user.agendarEventoMockNoGenerarSugerencias(evento1, guardarropa);
 
 		entityManager().persist(user);
 
