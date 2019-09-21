@@ -19,4 +19,9 @@ public class RecalcularSugerencia extends AccionAnteAlertaMeteorologica {
 	public void anteGranizo(Usuario usuario) throws MensajeriaException {
 		// TODO
 	}
+
+	@Override
+	public void anteNieve(Usuario usuario) throws MensajeriaException {
+		// TODO
+	}
 }

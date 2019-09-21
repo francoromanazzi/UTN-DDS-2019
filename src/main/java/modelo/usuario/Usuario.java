@@ -207,6 +207,8 @@ public class Usuario {
 		for (AccionAnteAlertaMeteorologica accion : accionesAnteAlertaMeteorologica) {
 			if (alerta == AlertaMeteorologica.LLUVIA)
 				accion.anteLluvia(this);
+			if (alerta == AlertaMeteorologica.NIEVE)
+				accion.anteNieve(this);
 			else if (alerta == AlertaMeteorologica.GRANIZO)
 				accion.anteGranizo(this);
 		}

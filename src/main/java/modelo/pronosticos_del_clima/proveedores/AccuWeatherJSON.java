@@ -1,7 +1,6 @@
 package modelo.pronosticos_del_clima.proveedores;
 
 import com.google.gson.annotations.SerializedName;
-import modelo.pronosticos_del_clima.MeteorologoJSON;
 import modelo.pronosticos_del_clima.Pronostico;
 import modelo.pronosticos_del_clima.clima.Clima;
 import modelo.pronosticos_del_clima.clima.temperatura.Fahrenheit;
@@ -10,7 +9,7 @@ import modelo.pronosticos_del_clima.clima.temperatura.Temperatura;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class AccuWeatherJSON implements MeteorologoJSON {
+public class AccuWeatherJSON implements PronosticadorClimaJSON {
 
 	private class AccuWeatherTemperaturaJSON {
 		@SerializedName("Value")
@@ -23,6 +22,7 @@ public class AccuWeatherJSON implements MeteorologoJSON {
 	@SerializedName("Temperature")
 	private AccuWeatherTemperaturaJSON temperatura;
 
+	@Override
 	public Pronostico toPronostico() {
 		LocalDateTime fechaParseada = LocalDateTime.parse(fecha, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 		Temperatura temperaturaParseada = new Fahrenheit(temperatura.valor);

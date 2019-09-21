@@ -17,4 +17,6 @@ public abstract class AccionAnteAlertaMeteorologica {
 	public abstract void anteLluvia(Usuario usuario) throws MensajeriaException;
 
 	public abstract void anteGranizo(Usuario usuario) throws MensajeriaException;
+
+	public abstract void anteNieve(Usuario usuario) throws MensajeriaException;
 }
