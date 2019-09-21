@@ -2,6 +2,7 @@ package modelo.usuario;
 
 import cron_jobs.GenerarSugerencias;
 import excepciones.*;
+import mocks.GenerarSugerenciasNoPegarleALaDBNiNotificar;
 import modelo.alerta_meteorologica.AlertaMeteorologica;
 import modelo.alerta_meteorologica.accion_ante_alerta_meteorologica.AccionAnteAlertaMeteorologica;
 import modelo.evento.Evento;
@@ -10,9 +11,8 @@ import modelo.prenda.Prenda;
 import modelo.sugerencia.Sugerencia;
 import modelo.sugerencia.decision.Decision;
 import modelo.sugerencia.decision.DecisionVacia;
-import servicios.SHA256Builder;
+import utils.SHA256Builder;
 
-import javax.mail.MessagingException;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -144,7 +144,33 @@ public class Usuario {
 		eventos.add(evento);
 
 		Timer timer = new Timer();
-		TimerTask generarSugerencias = new GenerarSugerencias(evento, guardarropaAUtilizar, this.historialSugerencias, this);
+		TimerTask generarSugerencias = new GenerarSugerencias(evento, guardarropaAUtilizar, this.Id);
+
+		LocalDateTime fechaDeEjecucion = evento.getFechaInicio().minusHours(2);
+
+		if (!fechaDeEjecucion.isAfter(LocalDateTime.now()))
+			timer.schedule(generarSugerencias, 0, evento.getFrecuencia().getPerido());
+		else {
+			long delay = LocalDateTime.now().until(fechaDeEjecucion, ChronoUnit.MILLIS);
+			timer.schedule(generarSugerencias, delay, evento.getFrecuencia().getPerido());
+		}
+	}
+
+	public void agendarEventoMockNoGenerarSugerencias(Evento evento, Guardarropa guardarropaAUtilizar) {
+		if (eventos.contains(evento))
+			throw new EventoYaFueAgendadoException();
+
+		eventos.add(evento);
+	}
+
+	public void agendarEventoMockNoPegarleALaDBNiNotificar(Evento evento, Guardarropa guardarropaAUtilizar) {
+		if (eventos.contains(evento))
+			throw new EventoYaFueAgendadoException();
+
+		eventos.add(evento);
+
+		Timer timer = new Timer();
+		TimerTask generarSugerencias = new GenerarSugerenciasNoPegarleALaDBNiNotificar(evento, guardarropaAUtilizar, this);
 
 		LocalDateTime fechaDeEjecucion = evento.getFechaInicio().minusHours(2);
 

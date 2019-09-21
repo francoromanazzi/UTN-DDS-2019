@@ -1,4 +1,4 @@
-package cron_jobs;
+package mocks;
 
 import excepciones.MensajeriaException;
 import excepciones.PronosticoNoDisponibleException;
@@ -7,27 +7,23 @@ import modelo.evento.Evento;
 import modelo.guardarropa.Guardarropa;
 import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Usuario;
-import servicios.UsuarioService;
-import utils.MailSender;
 
 import java.util.List;
 import java.util.TimerTask;
 
-public class GenerarSugerencias extends TimerTask {
+public class GenerarSugerenciasNoPegarleALaDBNiNotificar extends TimerTask {
 	private final Evento evento;
-	private final Long user_id;
+	private final Usuario user;
 	private final Guardarropa guardarropaAUtilizar;
 
-	public GenerarSugerencias(Evento evento, Guardarropa guardarropaAUtilizar, Long user_id) {
+	public GenerarSugerenciasNoPegarleALaDBNiNotificar(Evento evento, Guardarropa guardarropaAUtilizar, Usuario user) {
 		this.evento = evento;
 		this.guardarropaAUtilizar = guardarropaAUtilizar;
-		this.user_id = user_id;
+		this.user = user;
 	}
 
 	@Override
 	public void run() throws PronosticoNoDisponibleException, SinSugerenciasPosiblesException, MensajeriaException {
-		Usuario user = new UsuarioService().getUsuarioById(this.user_id);
-
 		// Verifico que el usuario no haya borrado el evento ni quitado el guardarropa
 		if (!user.getEventos().contains(evento) || !guardarropaAUtilizar.tieneUsuario(user))
 			return;
@@ -37,11 +33,5 @@ public class GenerarSugerencias extends TimerTask {
 
 		evento.addSugerencias(sugerenciasGeneradas);
 		user.addToHistorialSugerencias(sugerenciasGeneradas);
-		notificarAUsuario(user);
-	}
-
-	private void notificarAUsuario(Usuario user) throws MensajeriaException {
-		String texto = "Hola " + user.getNombre() + "!\n" + "Tus sugerencias para \"" + evento.getTitulo() + "\" ya estan listas!";
-		MailSender.send(user.getMail(), "Sugerencias listas", texto);
 	}
 }

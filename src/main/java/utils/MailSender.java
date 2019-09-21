@@ -3,7 +3,6 @@ package utils;
 import excepciones.MensajeriaException;
 
 import javax.mail.*;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
@@ -33,7 +32,7 @@ public final class MailSender {
 			message.setSubject(subject);
 			message.setText(text);
 			Transport.send(message);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			throw new MensajeriaException();
 		}
 	}

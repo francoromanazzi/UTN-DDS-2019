@@ -3,15 +3,13 @@ package servicios;
 import modelo.guardarropa.Guardarropa;
 import modelo.usuario.Usuario;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
+import utils.SHA256Builder;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 
 public class UsuarioService implements WithGlobalEntityManager {
-
 	public Usuario getUsuarioById(Long Id) {
 		return entityManager().find(Usuario.class, Id);
 	}

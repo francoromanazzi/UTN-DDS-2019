@@ -285,14 +285,14 @@ public class TestSugerenciaAtuendos {
 
 	@Test(expected = EventoNoEstaProximoException.class)
 	public void deberiaFallarSiUsuarioPideSugerenciaDeEventoNoProximo() {
-		userPremium.agendarEvento(eventoDentroDeMuchoTiempo, guardarropa);
+		userPremium.agendarEventoMockNoPegarleALaDBNiNotificar(eventoDentroDeMuchoTiempo, guardarropa);
 		userPremium.obtenerSugerencias(eventoDentroDeMuchoTiempo);
 	}
 
 	@Test(expected = EventoYaFueAgendadoException.class)
 	public void deberiaFallarSiUsuarioAgregaElMismoEventoDosVeces() {
-		userPremium.agendarEvento(eventoDentroDeMuchoTiempo, guardarropa);
-		userPremium.agendarEvento(eventoDentroDeMuchoTiempo, guardarropa);
+		userPremium.agendarEventoMockNoPegarleALaDBNiNotificar(eventoDentroDeMuchoTiempo, guardarropa);
+		userPremium.agendarEventoMockNoPegarleALaDBNiNotificar(eventoDentroDeMuchoTiempo, guardarropa);
 	}
 
 	@Test
@@ -303,7 +303,7 @@ public class TestSugerenciaAtuendos {
 
 		servicioDelClima.setPronosticosCache(new ArrayList<>(Arrays.asList(new Pronostico(ahora.minusMinutes(30), ahora.plusMinutes(30), new Clima(new Celsius(34))))));
 
-		userPremium.agendarEvento(eventoCorto, guardarropa);
+		userPremium.agendarEventoMockNoPegarleALaDBNiNotificar(eventoCorto, guardarropa);
 
 		try {
 			Thread.sleep(2000);

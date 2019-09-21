@@ -15,13 +15,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TestPersistenciaEventos extends AbstractPersistenceTest implements WithGlobalEntityManager {
+	private final Usuario user = new Usuario("lucas", "rosol@gmail.com", "1554675466", "luqui", "asd");
+	private final Evento evento1 = new Evento("Ir al supermercado", LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
+	private final Evento evento2 = new Evento("Ir al trabajo", LocalDateTime.now(), LocalDateTime.now().plusMinutes(10), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 
 	@Test
 	public void persistirUsuarioConEventosYLosObtengo() {
-		Usuario user = new Usuario("lucas", "rosol@gmail.com", "1554675466", "luqui", "asd");
-		Evento evento1 = new Evento("Ir al supermercado", LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
-		Evento evento2 = new Evento("Ir al trabajo", LocalDateTime.now(), LocalDateTime.now().plusMinutes(10), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
-		user.getEventos().add(evento1);
+		user.getEventos().add(evento1); // No hacer user.agendarEvento ya que genera sugerencias y manda mail
 		user.getEventos().add(evento2);
 
 		entityManager().persist(user);
@@ -36,5 +36,23 @@ public class TestPersistenciaEventos extends AbstractPersistenceTest implements 
 				eventosDeMiUserDB.stream().anyMatch(ev -> ev.equals(evento1))
 						&& eventosDeMiUserDB.stream().anyMatch(ev -> ev.equals(evento2))
 		);
+	}
+
+	@Test
+	public void deberiaPoderEliminarEventoYCuandoVuelvoATraerElUsuarioNoLoTiene() {
+		user.getEventos().add(evento1);
+
+		entityManager().persist(user);
+
+		user.eliminarEvento(evento1);
+
+		Usuario usuarioDB = entityManager().createQuery("FROM Usuario u", Usuario.class).getSingleResult();
+		assertEquals(0, usuarioDB.getEventos().size());
+
+		// El evento sigue existiendo pero no tiene duenio
+		List<Evento> eventosDB = entityManager().createQuery
+				("FROM Evento e", Evento.class)
+				.getResultList();
+		assertEquals(1, eventosDB.size());
 	}
 }

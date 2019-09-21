@@ -1,13 +1,10 @@
 package modelo.prenda;
 
 import excepciones.ColoresIgualesException;
-import excepciones.ExtensionDeImagenErroneaException;
-import excepciones.ImagenNoPudoSerLeidaException;
 import excepciones.MaterialNoTieneSentidoParaEseTipoException;
 import excepciones.parametros_nulos.*;
 
 import javax.persistence.*;
-import java.io.File;
 import java.util.Optional;
 
 @Entity

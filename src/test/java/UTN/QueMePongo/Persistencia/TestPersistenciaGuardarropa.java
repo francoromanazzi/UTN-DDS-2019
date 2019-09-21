@@ -151,7 +151,7 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
 		List<Guardarropa> guardarropas = new UsuarioService().getGuardarropasDeUsuarioPorId(user.getId());
 		assertEquals(1, guardarropas.size());
 
-	    // Quito el guardarropa
+		// Quito el guardarropa
 		user.removeGuardarropa(guardarropa1);
 
 		// Verifico que el usuario no tiene guardarropas

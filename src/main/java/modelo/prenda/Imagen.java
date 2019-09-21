@@ -28,7 +28,8 @@ public class Imagen {
 		this.imagen = leerYNormalizarImagen(arch);
 	}
 
-	public Imagen() { }
+	public Imagen() {
+	}
 
 	public long getId() {
 		return Id;

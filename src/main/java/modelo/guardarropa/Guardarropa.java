@@ -156,8 +156,8 @@ public class Guardarropa {
 	}
 
 	private List<PrototipoSuperposicion> obtenerSuperposicionesDeTiposDeCategoriaPorClima(Categoria categoria,
-																						  Clima clima, SensibilidadTemperatura sensibilidadGlobal,
-																						  List<SensibilidadParteDelCuerpo> sensibilidadPorParteDelCuerpo) {
+	                                                                                      Clima clima, SensibilidadTemperatura sensibilidadGlobal,
+	                                                                                      List<SensibilidadParteDelCuerpo> sensibilidadPorParteDelCuerpo) {
 
 		double modificadorCelsiusSegunSensibilidadGlobal =
 				sensibilidadGlobal.getModificadorCelcius();
