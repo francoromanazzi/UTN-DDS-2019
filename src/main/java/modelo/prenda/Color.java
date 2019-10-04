@@ -49,4 +49,9 @@ public class Color {
 	public Long getId() {
 		return this.Id;
 	}
+
+	@Override
+	public String toString() {
+		return "(" + rojo + ", " + verde + ", " + azul + ")";
+	}
 }
