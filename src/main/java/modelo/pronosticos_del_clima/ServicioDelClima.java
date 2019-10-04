@@ -23,9 +23,9 @@ public class ServicioDelClima {
 	}
 
 	private ServicioDelClima() {
-		// Escuchar alertas meteorologicas
-		TimerTask escucharAlertas = new EscucharAlertasMeteorologicas();
-		new Timer().schedule(escucharAlertas, 0, 1000L * 60L * 60L /* Cada 1 hora */);
+		// Escuchar alertas meteorologicas TODO descomentar cuando lo necesitemos de verdad
+		// TimerTask escucharAlertas = new EscucharAlertasMeteorologicas();
+		// new Timer().schedule(escucharAlertas, 0, 1000L * 60L * 60L /* Cada 1 hora */);
 	}
 
 	public List<Meteorologo> getMeteorologos() {
@@ -102,11 +102,19 @@ public class ServicioDelClima {
 		return new Pronostico(fechaInicio, fechaFin, climaPromedio);
 	}
 
-	// TODO : Deshardcodear
 	public List<AlertaMeteorologica> obtenerAlertasMeteorologicas() {
-		List<AlertaMeteorologica> list = new ArrayList<>();
-		list.add(AlertaMeteorologica.LLUVIA);
-		list.add(AlertaMeteorologica.GRANIZO);
-		return list;
+
+		Optional<AlertaMeteorologica> alertas =
+				this.meteorologos
+						.stream()
+						.flatMap(meteorologo -> {
+							try {
+								return meteorologo.obtenerAlertasMeteorologicas().stream();
+							} catch (ProveedorDeClimaSeCayoException e) {
+								return Stream.empty();
+							}
+						}).findFirst();
+
+		return alertas.map(Collections::singletonList).orElse(Collections.emptyList());
 	}
 }

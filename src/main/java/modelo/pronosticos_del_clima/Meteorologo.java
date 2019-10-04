@@ -10,5 +10,5 @@ import java.util.function.Consumer;
 public abstract class Meteorologo {
 	public abstract List<Pronostico> obtenerPronosticos(Optional<Consumer<List<Pronostico>>> callback) throws ProveedorDeClimaSeCayoException;
 
-	public abstract List<AlertaMeteorologica> obtenerAlertasMeteorologicas();
+	public abstract List<AlertaMeteorologica> obtenerAlertasMeteorologicas() throws ProveedorDeClimaSeCayoException;
 }

@@ -147,7 +147,7 @@ public class TestPronostico {
 		Pronostico pronostico = servicioDelClima.obtenerPronostico(LocalDateTime.now());
 
 		System.out.println(servicioDelClima.getPronosticosCache().size());
-		System.out.println(pronostico.getFechaFin());
+		System.out.println(pronostico.getFechaInicio());
 		System.out.println(pronostico.getFechaFin());
 		System.out.println(pronostico.getClima().getTemperatura().getValor());
 		System.out.println(pronostico.getClima().getTemperatura().getClass());

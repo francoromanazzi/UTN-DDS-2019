@@ -9,6 +9,7 @@ import modelo.pronosticos_del_clima.Pronostico;
 import utils.HttpRequest;
 
 import javax.ws.rs.client.ClientBuilder;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -32,7 +33,18 @@ public class AccuWeather extends Meteorologo {
 	}
 
 	@Override
-	public List<AlertaMeteorologica> obtenerAlertasMeteorologicas() {
-		return null;
+	public List<AlertaMeteorologica> obtenerAlertasMeteorologicas() throws ProveedorDeClimaSeCayoException {
+		String json = HttpRequest.pegarleA(ClientBuilder.newClient()
+				.target("http://dataservice.accuweather.com/currentconditions/v1/7894")
+				.queryParam("apikey", "a9ZEXA1qgqXcX4sIgxv6OXZWV95jOOXC")
+				.queryParam("language", "en-US")
+				.queryParam("details", "false"));
+
+		List<AccuWeatherAlertasJSON> alertaAccuWeatherEnLista = new Gson().fromJson(json, new TypeToken<List<AccuWeatherAlertasJSON>>() {
+		}.getType());
+		AccuWeatherAlertasJSON alertaAccuWeather = alertaAccuWeatherEnLista.get(0); // La lista en realidad tiene 1 solo elemento
+		Optional<AlertaMeteorologica> alerta = alertaAccuWeather.toAlertaMeteorologica();
+
+		return alerta.map(Collections::singletonList).orElse(Collections.emptyList());
 	}
 }

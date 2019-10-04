@@ -6,10 +6,7 @@ import org.junit.Test;
 import utils.MailSender;
 import utils.SmsSender;
 
-import javax.mail.MessagingException;
-
 public class TestSenders {
-
 	@Test(expected = MensajeriaException.class)
 	public void deberiaFallarSiElMailEsErroneo() {
 		MailSender.send("asd", "Prueba", "Envío el mail de prueba papa!");

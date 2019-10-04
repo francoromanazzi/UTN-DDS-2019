@@ -6,6 +6,7 @@ import mocks.GenerarSugerenciasNoPegarleALaDBNiNotificar;
 import modelo.alerta_meteorologica.AlertaMeteorologica;
 import modelo.alerta_meteorologica.accion_ante_alerta_meteorologica.AccionAnteAlertaMeteorologica;
 import modelo.evento.Evento;
+import modelo.evento.FrecuenciaEvento;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Prenda;
 import modelo.sugerencia.Sugerencia;
@@ -143,17 +144,7 @@ public class Usuario {
 
 		eventos.add(evento);
 
-		Timer timer = new Timer();
-		TimerTask generarSugerencias = new GenerarSugerencias(evento, guardarropaAUtilizar, this.Id);
-
-		LocalDateTime fechaDeEjecucion = evento.getFechaInicio().minusHours(2);
-
-		if (!fechaDeEjecucion.isAfter(LocalDateTime.now()))
-			timer.schedule(generarSugerencias, 0, evento.getFrecuencia().getPerido());
-		else {
-			long delay = LocalDateTime.now().until(fechaDeEjecucion, ChronoUnit.MILLIS);
-			timer.schedule(generarSugerencias, delay, evento.getFrecuencia().getPerido());
-		}
+		planificarGeneracionSugerencias(evento, new GenerarSugerencias(evento, guardarropaAUtilizar, this.Id));
 	}
 
 	public void agendarEventoMockNoGenerarSugerencias(Evento evento, Guardarropa guardarropaAUtilizar) {
@@ -169,17 +160,19 @@ public class Usuario {
 
 		eventos.add(evento);
 
-		Timer timer = new Timer();
-		TimerTask generarSugerencias = new GenerarSugerenciasNoPegarleALaDBNiNotificar(evento, guardarropaAUtilizar, this);
+		planificarGeneracionSugerencias(evento, new GenerarSugerenciasNoPegarleALaDBNiNotificar(evento, guardarropaAUtilizar, this));
+	}
 
+	private void planificarGeneracionSugerencias(Evento evento, TimerTask generarSugerencias) {
+		Timer timer = new Timer();
 		LocalDateTime fechaDeEjecucion = evento.getFechaInicio().minusHours(2);
 
-		if (!fechaDeEjecucion.isAfter(LocalDateTime.now()))
-			timer.schedule(generarSugerencias, 0, evento.getFrecuencia().getPerido());
-		else {
-			long delay = LocalDateTime.now().until(fechaDeEjecucion, ChronoUnit.MILLIS);
+		long delay = !fechaDeEjecucion.isAfter(LocalDateTime.now()) ? 0 : LocalDateTime.now().until(fechaDeEjecucion, ChronoUnit.MILLIS);
+
+		if(evento.getFrecuencia() == FrecuenciaEvento.UNICA_VEZ)
+			timer.schedule(generarSugerencias, delay);
+		else
 			timer.schedule(generarSugerencias, delay, evento.getFrecuencia().getPerido());
-		}
 	}
 
 	public void eliminarEvento(Evento e) {
@@ -207,6 +200,8 @@ public class Usuario {
 		for (AccionAnteAlertaMeteorologica accion : accionesAnteAlertaMeteorologica) {
 			if (alerta == AlertaMeteorologica.LLUVIA)
 				accion.anteLluvia(this);
+			if (alerta == AlertaMeteorologica.NIEVE)
+				accion.anteNieve(this);
 			else if (alerta == AlertaMeteorologica.GRANIZO)
 				accion.anteGranizo(this);
 		}

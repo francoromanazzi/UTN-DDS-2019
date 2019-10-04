@@ -20,4 +20,9 @@ public class RecibirSMS extends AccionAnteAlertaMeteorologica {
 	public void anteGranizo(Usuario usuario) throws MensajeriaException {
 		SmsSender.send(usuario.getNumeroTelefono(), "El servicio de Que Me Pongo le avisa que va a granizar");
 	}
+
+	@Override
+	public void anteNieve(Usuario usuario) throws MensajeriaException {
+		SmsSender.send(usuario.getNumeroTelefono(), "El servicio de Que Me Pongo le avisa que va a nevar");
+	}
 }

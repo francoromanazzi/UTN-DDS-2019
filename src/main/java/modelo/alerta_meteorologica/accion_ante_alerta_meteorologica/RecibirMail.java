@@ -21,4 +21,9 @@ public class RecibirMail extends AccionAnteAlertaMeteorologica {
 	public void anteGranizo(Usuario usuario) throws MensajeriaException {
 		MailSender.send(usuario.getMail(), "Alerta de granizo", "El servicio de Que Me Pongo le avisa que va a granizar");
 	}
+
+	@Override
+	public void anteNieve(Usuario usuario) throws MensajeriaException {
+		MailSender.send(usuario.getMail(), "Alerta de nieve", "El servicio de Que Me Pongo le avisa que va a nevar");
+	}
 }
