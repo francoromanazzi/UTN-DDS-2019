@@ -11,8 +11,14 @@ public class Server {
 
 		ControllerGuardarropas controller = new ControllerGuardarropas();
 
-		Spark.get("/guardarropa/prendas",
-				controller::prendas,
+		/*
+		Tipos de parametros:
+			* path param (parametro de ruta), se escribe como ":param" (se usa con todos los metodos)
+			* query param, se escribe como "?param=valor" (se usa con todos los metodos, mas comunmente con GET)
+			* body param, es lo que va adentro de un POST/PUT/PATCH
+		 */
+		Spark.get("/guardarropas",
+				controller::guardarropas,
 				new HandlebarsTemplateEngine());
 
 		DebugScreen.enableDebugScreen();
