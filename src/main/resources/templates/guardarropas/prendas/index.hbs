@@ -5,7 +5,13 @@
         {{#each prendas}}
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card">
-                    <img src="/img/logo.png" class="card-img-top" alt="imagen de la prenda">
+                    {{#if tieneImagen}}
+                        <img
+                                src='data:image/jpeg;base64, {{base64 imagen}}'
+                                class="card-img-top" alt="imagen de la prenda">
+                    {{else}}
+                        <img src="/img/logo.png" class="card-img-top" alt="imagen de la prenda">
+                    {{/if}}
                     <div class="card-body">
                         <h5>{{tipo}}</h5>
                         <p>{{material}}</p>

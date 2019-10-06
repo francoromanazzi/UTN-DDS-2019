@@ -84,6 +84,10 @@ public class Prenda {
 		return Optional.ofNullable(imagen);
 	}
 
+	public boolean getTieneImagen() {
+		return imagen != null;
+	}
+
 	public Long getId() {
 		return this.Id;
 	}

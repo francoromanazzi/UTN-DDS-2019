@@ -4,6 +4,7 @@ import controllers.ControllerGuardarropas;
 import controllers.LoginController;
 import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
+import spark.utils.Base64Helper;
 import spark.utils.BooleanHelper;
 import spark.utils.HandlebarsTemplateEngineBuilder;
 
@@ -15,6 +16,7 @@ public class Router {
 				.create()
 				.withDefaultHelpers()
 				.withHelper("isTrue", BooleanHelper.isTrue)
+				.withHelper("base64", Base64Helper.isTrue)
 				.build();
 
 		ControllerGuardarropas controllerGuardarropas = new ControllerGuardarropas();
