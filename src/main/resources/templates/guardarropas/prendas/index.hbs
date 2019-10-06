@@ -1,9 +1,19 @@
 {{#partial "contenido"}}
-    <h1>Prendas</h1>
+    <h1 class="text-center mb-4">Prendas del guardarropa</h1>
 
-    {{#each prendas}}
-        <h1>{{tipo}}</h1>
-    {{/each}}
+    <div class="row">
+        {{#each prendas}}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card">
+                    <img src="/img/logo.png" class="card-img-top" alt="imagen de la prenda">
+                    <div class="card-body">
+                        <h5>{{tipo}}</h5>
+                        <p>{{material}}</p>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
 {{/partial}}
 
 {{>layout.hbs}}
