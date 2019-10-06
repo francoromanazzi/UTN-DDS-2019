@@ -1,4 +1,12 @@
-.footer {
+body {
+    background-color: rgb(247, 247, 247);
+}
+
+#main-nav {
+    border-bottom: 1px solid rgb(210, 210, 210);
+}
+
+#main-footer {
     position: absolute;
     bottom: 0;
     width: 100%;
