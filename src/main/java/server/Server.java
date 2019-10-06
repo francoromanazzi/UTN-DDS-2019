@@ -3,10 +3,7 @@ package server;
 import spark.Spark;
 import spark.debug.DebugScreen;
 import spark.template.handlebars.HandlebarsTemplateEngine;
-import spark.utils.Base64Helper;
-import spark.utils.BooleanHelper;
-import spark.utils.HandlebarsTemplateEngineBuilder;
-import spark.utils.SinGuionesBajosHelper;
+import spark.utils.*;
 
 public class Server {
 	public static void main(String[] args) {
@@ -20,6 +17,8 @@ public class Server {
 				.withHelper("isTrue", BooleanHelper.isTrue)
 				.withHelper("base64", Base64Helper.isTrue)
 				.withHelper("sinGuionesBajos", SinGuionesBajosHelper.isTrue)
+				.withHelper("sumar1", Sumar1Helper.isTrue)
+				.withHelper("size", SizeHelper.isTrue)
 				.build();
 
 		Router.configurar(engine);
