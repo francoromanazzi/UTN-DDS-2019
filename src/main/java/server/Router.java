@@ -1,6 +1,8 @@
 package server;
 
 import controllers.ControllerGuardarropas;
+import controllers.LoginController;
+import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import spark.utils.BooleanHelper;
 import spark.utils.HandlebarsTemplateEngineBuilder;
@@ -25,5 +27,6 @@ public class Router {
 				get("", controllerGuardarropas::listarPrendas, engine);
 			});
 		});
+		Spark.get("/login", LoginController::show, engine);
 	}
 }
