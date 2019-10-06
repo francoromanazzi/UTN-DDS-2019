@@ -4,21 +4,11 @@ import controllers.ControllerGuardarropas;
 import controllers.LoginController;
 import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
-import spark.utils.Base64Helper;
-import spark.utils.BooleanHelper;
-import spark.utils.HandlebarsTemplateEngineBuilder;
 
 import static spark.Spark.*;
 
 public class Router {
-	public static void configurar() {
-		HandlebarsTemplateEngine engine = HandlebarsTemplateEngineBuilder
-				.create()
-				.withDefaultHelpers()
-				.withHelper("isTrue", BooleanHelper.isTrue)
-				.withHelper("base64", Base64Helper.isTrue)
-				.build();
-
+	public static void configurar(HandlebarsTemplateEngine engine) {
 		ControllerGuardarropas controllerGuardarropas = new ControllerGuardarropas();
 
 		path("/guardarropas", () -> {
