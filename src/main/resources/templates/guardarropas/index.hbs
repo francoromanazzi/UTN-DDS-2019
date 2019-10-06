@@ -3,15 +3,17 @@
 
     {{#each this}}
         <div class="card mb-4">
-            <div class="card-body">
-                <h4 class="card-title">Guardarropas {{sumar1 @index}}</h4>
-                <p>Propietarios:
-                    {{#each usuariosPropietarios}}
-                        <span>{{nombre}}.</span>
-                    {{/each}}
-                </p>
-                <p>Cantidad de prendas: {{size prendas}}</p>
-            </div>
+            <a class="nav-link" href="/guardarropas/{{id}}/prendas">
+                <div class="card-body">
+                    <h4 class="card-title">Guardarropas {{sumar1 @index}}</h4>
+                    <p>Propietarios:
+                        {{#each usuariosPropietarios}}
+                            <span>{{nombre}}.</span>
+                        {{/each}}
+                    </p>
+                    <p>Cantidad de prendas: {{size prendas}}</p>
+                </div>
+            </a>
         </div>
 
     {{/each}}
