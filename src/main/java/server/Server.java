@@ -1,5 +1,6 @@
 package server;
 
+import hardcodear_datos_db.HardcodearDatosDB;
 import spark.Spark;
 import spark.debug.DebugScreen;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -10,6 +11,7 @@ import spark.utils.SinGuionesBajosHelper;
 
 public class Server {
 	public static void main(String[] args) {
+		HardcodearDatosDB.save();
 		Spark.port(9001);
 		Spark.staticFiles.location("/public");
 		Spark.init();
