@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class HardcodearDatosDB implements WithGlobalEntityManager, TransactionalOps {
 
-	public static void save() {
+	public static void main(String[] args) {
 		new HardcodearDatosDB().hardcodear();
 	}
 

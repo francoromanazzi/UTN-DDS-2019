@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ControllerGuardarropas {
-	//Chequear si usuario está autenticado en cada request
+	//Chequear si usuario esta autenticado en cada request
 	
 	public static ModelAndView listar(Request req, Response res) {
 		List<Guardarropa> listaDeGuardarropas = new RepositorioGuardarropas().obtenerTodos();
