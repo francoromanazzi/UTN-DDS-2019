@@ -18,12 +18,9 @@ public class LoginController {
     }
     
     public static String login(Request req, Response res) {
-    	System.out.println("Entró!");
     	String username = req.queryParams("username");
         String pass = req.queryParams("password");
         String password = SHA256Builder.generarHash(pass);
-        System.out.println("User: " + username);
-        System.out.println("Pass: " + password);
         Usuario user = new UsuarioService().getUsuarioByCredentials(username, pass);
 
         try {
