@@ -15,11 +15,16 @@ public class UsuarioService implements WithGlobalEntityManager {
 	}
 
 	public Usuario getUsuarioByCredentials(String username, String pwdSinHash) throws NoResultException {
-		Query query = entityManager().createQuery("SELECT u FROM Usuario u WHERE u.username = :nomUsuario and u.password = :pass");
-		query.setParameter("nomUsuario", username);
-		query.setParameter("pass", SHA256Builder.generarHash(pwdSinHash));
-		query.setMaxResults(1);
-		return (Usuario) query.getSingleResult();
+		try {
+			Query query = entityManager().createQuery("SELECT u FROM Usuario u WHERE u.username = :nomUsuario and u.password = :pass");
+			query.setParameter("nomUsuario", username);
+			query.setParameter("pass", SHA256Builder.generarHash(pwdSinHash));
+			query.setMaxResults(1);
+			return (Usuario) query.getSingleResult();
+		}
+		catch(NoResultException ex) {
+			return null;
+		}	
 	}
 
 	public List<Usuario> getAllUsuarios() {

@@ -7,14 +7,14 @@
     <div class="ContentForm">
         <form action="/login" method="post" name="FormEntrar">
             <div class="input-group input-group-lg">
-                <input type="text" class="form-control" name="username" placeholder="Usuario" id="Username" aria-describedby="sizing-addon1" required>
+                <input type="text" class="form-control" name="username" placeholder="Usuario" id="Username" aria-describedby="sizing-addon1" value="" required>
             </div>
             <br>
             <div class="input-group input-group-lg">
-                <input type="password" name="password" class="form-control" placeholder="******" aria-describedby="sizing-addon1" required>
+                <input type="password" name="password" class="form-control" placeholder="******" aria-describedby="sizing-addon1" value="" required>
             </div>
             <br>
-            <button class="btn btn-lg btn-primary btn-block btn-signin" id="IngresoLog" type="submit">Entrar</button>
+            <input class="btn btn-lg btn-primary btn-block btn-signin" id="IngresoLog" type="submit" value="Entrar"/>
         </form>
     </div>
 {{/partial}}

@@ -8,6 +8,7 @@ import spark.Response;
 import utils.SHA256Builder;
 
 public class LoginController {
+	
     public static ModelAndView show(Request req, Response res) {
         return new ModelAndView(null, "login/index.hbs");
     }
@@ -16,10 +17,13 @@ public class LoginController {
         return new ModelAndView(null, "login/loginFailed.hbs");
     }
     
-    public static ModelAndView login(Request req, Response res) {
+    public static String login(Request req, Response res) {
+    	System.out.println("Entró!");
     	String username = req.queryParams("username");
         String pass = req.queryParams("password");
         String password = SHA256Builder.generarHash(pass);
+        System.out.println("User: " + username);
+        System.out.println("Pass: " + password);
         Usuario user = new UsuarioService().getUsuarioByCredentials(username, pass);
 
         try {
@@ -34,10 +38,22 @@ public class LoginController {
                 req.session().attribute("password", password);
                 res.redirect("/guardarropas");
             }
+            
         } catch (Exception e) {
         	res.status(500);
         	res.body(e.toString());
         }
+        
+        return null;
+    }
+    
+    public static String logout(Request req, Response res) {
+    	res.status(200);
+    	res.removeCookie("userId");
+        req.session().removeAttribute("username");
+        req.session().removeAttribute("password");
+
+        res.redirect("/");
         return null;
     }
 }
