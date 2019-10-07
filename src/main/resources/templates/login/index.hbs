@@ -1,16 +1,17 @@
 {{#partial "contenido"}}
-
+	<link rel="stylesheet" href="/css/login.css">
+	
     <h1 class="text-center">Bienvenido a Que Me Pongo</h1>
     <div class="icono">
         <img src="/img/logo.png" alt="remera">
     </div>
     <div class="ContentForm">
         <form action="/login" method="post" name="FormEntrar">
-            <div class="input-group input-group-lg">
+            <div class="input-group input-group-lg" id="username-container">
                 <input type="text" class="form-control" name="username" placeholder="Usuario" id="Username" aria-describedby="sizing-addon1" value="" required>
             </div>
             <br>
-            <div class="input-group input-group-lg">
+            <div class="input-group input-group-lg" id="password-container">
                 <input type="password" name="password" class="form-control" placeholder="******" aria-describedby="sizing-addon1" value="" required>
             </div>
             <br>
