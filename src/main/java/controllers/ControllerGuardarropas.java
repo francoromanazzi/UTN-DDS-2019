@@ -1,5 +1,6 @@
 package controllers;
 
+import excepciones.GuardarropaNoEncontradoException;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Color;
 import modelo.prenda.Material;
@@ -21,9 +22,13 @@ public class ControllerGuardarropas {
 		return new ModelAndView(listaDeGuardarropas, "guardarropas/index.hbs");
 	}
 
-	public static ModelAndView listarPrendas(Request req, Response res) {
+	public static ModelAndView listarPrendas(Request req, Response res) throws GuardarropaNoEncontradoException {
 		long id = Long.parseLong(req.params("id"));
 		Guardarropa guardarropa = new RepositorioGuardarropas().buscarPorId(id);
 		return new ModelAndView(guardarropa, "guardarropas/prendas/index.hbs");
+	}
+
+	public static void noEncontrado(GuardarropaNoEncontradoException ex, Request req, Response res) {
+		res.redirect("/404?msg=Guardarropa no encontrado");
 	}
 }

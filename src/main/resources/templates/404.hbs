@@ -1,0 +1,21 @@
+{{#partial "contenido"}}
+    <h1 class="text-center mb-4">
+        <span class="text-danger">404: </span>
+        <span>{{this}}</span>
+    </h1>
+
+    <div class="text-center">
+        <button type="button" class="btn btn-primary text-center" onclick="goBack()">
+            Volver atras
+        </button>
+    </div>
+
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+{{/partial}}
+
+{{>layout.hbs}}
