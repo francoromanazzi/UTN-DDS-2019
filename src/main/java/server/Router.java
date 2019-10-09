@@ -1,5 +1,6 @@
 package server;
 
+import controllers.ControllerEventos;
 import controllers.ControllerGuardarropas;
 import controllers.ControllerLogin;
 import excepciones.GuardarropaNoEncontradoException;
@@ -20,7 +21,7 @@ public class Router {
 			return new ModelAndView(msg, "404.hbs");
 		}, engine);
 
-		get("/", ControllerLogin::show, engine);
+		get("/", ControllerLogin::mostrar, engine);
 		post("/login", ControllerLogin::login);
 		post("/logout", ControllerLogin::logout);
 		get("/loginFailed", ControllerLogin::loginFailed, engine);
@@ -28,5 +29,7 @@ public class Router {
 		get("/guardarropas", ControllerGuardarropas::listar, engine);
 		get("/guardarropas/:id/prendas", ControllerGuardarropas::listarPrendas, engine);
 		exception(GuardarropaNoEncontradoException.class, ControllerGuardarropas::noEncontrado);
+
+		get("/eventos", ControllerEventos::listar, engine);
 	}
 }

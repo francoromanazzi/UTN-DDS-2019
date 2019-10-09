@@ -1,0 +1,13 @@
+{{#partial "contenido"}}
+    <h1 class="text-center mb-4">Eventos</h1>
+
+    {{#each this}}
+        <div>{{id}}</div>
+        <div>{{titulo}}</div>
+        <div>{{fechaInicio}}</div>
+        <div>{{fechaFin}}</div>
+        <div>{{tipoEvento}}</div>
+    {{/each}}
+{{/partial}}
+
+{{>layout.hbs}}

@@ -9,7 +9,7 @@ import utils.SHA256Builder;
 
 public class ControllerLogin {
 	
-    public static ModelAndView show(Request req, Response res) {
+    public static ModelAndView mostrar(Request req, Response res) {
         return new ModelAndView(null, "login/index.hbs");
     }
     

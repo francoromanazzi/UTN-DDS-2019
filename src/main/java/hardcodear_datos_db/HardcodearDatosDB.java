@@ -1,12 +1,18 @@
 package hardcodear_datos_db;
 
+import modelo.evento.Evento;
+import modelo.evento.FrecuenciaEvento;
+import modelo.evento.TipoEvento;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.*;
 import modelo.usuario.Usuario;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
+import repositorios.RepositorioGuardarropas;
+import repositorios.RepositorioUsuarios;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class HardcodearDatosDB implements WithGlobalEntityManager, TransactionalOps {
@@ -19,7 +25,9 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 		this.beginTransaction();
 
 		Usuario user1 = new Usuario("Juan Perez", "utnquemepongo@gmail.com", "1111", "juan123", "juan123");
+		Usuario user2 = new Usuario("Carlos Gonzalez", "utnquemepongo@gmail.com", "1111", "carlos123", "carlos123");
 		entityManager().persist(user1);
+		entityManager().persist(user2);
 
 		Guardarropa guardarropa1 = new Guardarropa();
 		user1.addGuardarropa(guardarropa1);
@@ -78,6 +86,7 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 
 		Guardarropa guardarropa2 = new Guardarropa();
 		user1.addGuardarropa(guardarropa2);
+		user2.addGuardarropa(guardarropa2); // Guardarropa compartido
 
 		user1.addPrenda(
 				new Prenda(
@@ -123,4 +132,22 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 
 		this.commitTransaction();
 	}
+
+	public void agendarEventos() {
+		this.beginTransaction();
+
+		Usuario user1 = new RepositorioUsuarios().getUsuarioById(1L);
+		Usuario user2 = new RepositorioUsuarios().getUsuarioById(2L);
+
+		Guardarropa guardarropa1 = new RepositorioGuardarropas().buscarPorId(1L);
+		Guardarropa guardarropa2 = new RepositorioGuardarropas().buscarPorId(2L);
+
+		user1.agendarEvento(new Evento("Ir a la facultad", LocalDateTime.now().plusSeconds(30), LocalDateTime.now().plusHours(4), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL), guardarropa1);
+		user1.agendarEvento(new Evento("Ir al trabajo", LocalDateTime.now().plusDays(2), LocalDateTime.now().plusDays(2).plusHours(8), FrecuenciaEvento.UNICA_VEZ, TipoEvento.FORMAL), guardarropa1);
+
+		user2.agendarEvento(new Evento("Ir a correr", LocalDateTime.now().plusSeconds(30), LocalDateTime.now().plusHours(4), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL), guardarropa2);
+
+		this.commitTransaction();
+	}
+
 }

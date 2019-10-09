@@ -1,5 +1,6 @@
 package server;
 
+import hardcodear_datos_db.HardcodearDatosDB;
 import spark.Spark;
 import spark.debug.DebugScreen;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -24,5 +25,7 @@ public class Server {
 		Router.configurar(engine);
 
 		DebugScreen.enableDebugScreen();
+
+		new HardcodearDatosDB().agendarEventos();
 	}
 }
