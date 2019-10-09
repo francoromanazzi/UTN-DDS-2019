@@ -1,13 +1,13 @@
 package controllers;
 
 import modelo.usuario.Usuario;
-import servicios.UsuarioService;
+import repositorios.RepositorioUsuarios;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import utils.SHA256Builder;
 
-public class LoginController {
+public class ControllerLogin {
 	
     public static ModelAndView show(Request req, Response res) {
         return new ModelAndView(null, "login/index.hbs");
@@ -21,7 +21,7 @@ public class LoginController {
     	String username = req.queryParams("username");
         String pass = req.queryParams("password");
         String password = SHA256Builder.generarHash(pass);
-        Usuario user = new UsuarioService().getUsuarioByCredentials(username, pass);
+        Usuario user = new RepositorioUsuarios().getUsuarioByCredentials(username, pass);
 
         try {
             if (username.isEmpty() || pass.isEmpty() || user == null) {

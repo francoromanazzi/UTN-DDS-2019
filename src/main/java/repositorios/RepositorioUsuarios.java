@@ -1,4 +1,4 @@
-package servicios;
+package repositorios;
 
 import modelo.guardarropa.Guardarropa;
 import modelo.usuario.Usuario;
@@ -9,7 +9,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 
-public class UsuarioService implements WithGlobalEntityManager {
+public class RepositorioUsuarios implements WithGlobalEntityManager {
 	public Usuario getUsuarioById(Long Id) {
 		return entityManager().find(Usuario.class, Id);
 	}

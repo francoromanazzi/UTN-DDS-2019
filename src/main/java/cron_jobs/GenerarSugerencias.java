@@ -7,7 +7,7 @@ import modelo.evento.Evento;
 import modelo.guardarropa.Guardarropa;
 import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Usuario;
-import servicios.UsuarioService;
+import repositorios.RepositorioUsuarios;
 import utils.MailSender;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class GenerarSugerencias extends TimerTask {
 
 	@Override
 	public void run() throws PronosticoNoDisponibleException, SinSugerenciasPosiblesException, MensajeriaException {
-		Usuario user = new UsuarioService().getUsuarioById(this.user_id);
+		Usuario user = new RepositorioUsuarios().getUsuarioById(this.user_id);
 
 		// Verifico que el usuario no haya borrado el evento ni quitado el guardarropa
 		if (!user.getEventos().contains(evento) || !guardarropaAUtilizar.tieneUsuario(user))

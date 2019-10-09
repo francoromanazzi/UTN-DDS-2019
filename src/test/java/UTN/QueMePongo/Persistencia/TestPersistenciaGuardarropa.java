@@ -9,7 +9,7 @@ import modelo.usuario.Usuario;
 import org.junit.Test;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
-import servicios.UsuarioService;
+import repositorios.RepositorioUsuarios;
 
 import java.util.List;
 import java.util.Optional;
@@ -71,14 +71,14 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
 		entityManager().persist(guardarropa3);
 
 		// User 1
-		List<Guardarropa> guardarropas = new UsuarioService().getGuardarropasDeUsuarioPorId(user.getId());
+		List<Guardarropa> guardarropas = new RepositorioUsuarios().getGuardarropasDeUsuarioPorId(user.getId());
 
 		assertEquals(2, guardarropas.size());
 		assertTrue(guardarropas.stream().allMatch(g -> g.getUsuariosPropietarios().size() == 1
 				&& g.getUsuariosPropietarios().get(0).getUsername().equals(user.getUsername())));
 
 		// User2
-		guardarropas = new UsuarioService().getGuardarropasDeUsuarioPorId(user2.getId());
+		guardarropas = new RepositorioUsuarios().getGuardarropasDeUsuarioPorId(user2.getId());
 
 		assertEquals(1, guardarropas.size());
 		assertTrue(guardarropas.stream().allMatch(g -> g.getUsuariosPropietarios().size() == 1
@@ -96,7 +96,7 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
 
 
 		// User 1
-		List<Guardarropa> guardarropas = new UsuarioService().getGuardarropasDeUsuarioPorId(user.getId());
+		List<Guardarropa> guardarropas = new RepositorioUsuarios().getGuardarropasDeUsuarioPorId(user.getId());
 
 		assertEquals(1, guardarropas.size());
 		assertTrue(guardarropas.stream().allMatch(g -> g.getUsuariosPropietarios().size() == 2
@@ -104,7 +104,7 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
 				&& g.getUsuariosPropietarios().stream().anyMatch(u -> u.getUsername().equals(user2.getUsername()))));
 
 		// User2
-		guardarropas = new UsuarioService().getGuardarropasDeUsuarioPorId(user2.getId());
+		guardarropas = new RepositorioUsuarios().getGuardarropasDeUsuarioPorId(user2.getId());
 
 		assertEquals(1, guardarropas.size());
 		assertTrue(guardarropas.stream().allMatch(g -> g.getUsuariosPropietarios().size() == 2
@@ -134,7 +134,7 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
 
 		user.addPrenda(new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.empty()), guardarropa1);
 
-		List<Guardarropa> guardarropas = new UsuarioService().getGuardarropasDeUsuarioPorId(user.getId());
+		List<Guardarropa> guardarropas = new RepositorioUsuarios().getGuardarropasDeUsuarioPorId(user.getId());
 
 		assertEquals(1, guardarropas.size());
 		assertEquals(1, guardarropas.get(0).getPrendas().size());
@@ -148,14 +148,14 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
 
 		guardarropa1.addUsuario(user);
 
-		List<Guardarropa> guardarropas = new UsuarioService().getGuardarropasDeUsuarioPorId(user.getId());
+		List<Guardarropa> guardarropas = new RepositorioUsuarios().getGuardarropasDeUsuarioPorId(user.getId());
 		assertEquals(1, guardarropas.size());
 
 		// Quito el guardarropa
 		user.removeGuardarropa(guardarropa1);
 
 		// Verifico que el usuario no tiene guardarropas
-		guardarropas = new UsuarioService().getGuardarropasDeUsuarioPorId(user.getId());
+		guardarropas = new RepositorioUsuarios().getGuardarropasDeUsuarioPorId(user.getId());
 		assertEquals(0, guardarropas.size());
 
 		// Verifico que el guardarropas sigue existiendo, pero no tiene propietario
