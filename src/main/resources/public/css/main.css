@@ -18,3 +18,7 @@ a {
     font-size: 50px;
     text-align: center;
 }
+
+#salir_btn{
+	border-left: 0.3vh #ABE7FF solid;
+}

@@ -31,8 +31,6 @@ public class ControllerLogin {
             if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
             	res.status(200);
             	res.cookie("userId", user.getId().toString());
-                req.session().attribute("username", username);
-                req.session().attribute("password", password);
                 res.redirect("/guardarropas");
             }
             
@@ -47,8 +45,6 @@ public class ControllerLogin {
     public static String logout(Request req, Response res) {
     	res.status(200);
     	res.removeCookie("userId");
-        req.session().removeAttribute("username");
-        req.session().removeAttribute("password");
 
         res.redirect("/");
         return null;
