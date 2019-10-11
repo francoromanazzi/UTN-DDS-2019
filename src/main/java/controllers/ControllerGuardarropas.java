@@ -25,7 +25,7 @@ public class ControllerGuardarropas {
 		String idUser = req.cookie("userId");
 		try {
 			if(isAuth(idUser)) {
-				List<Guardarropa> listaDeGuardarropas = new RepositorioUsuarios().getGuardarropasDeUsuarioPorId(Long.parseLong(idUser));
+				List<Guardarropa> listaDeGuardarropas = new RepositorioGuardarropas().obtenerTodosDelUsuario(Long.parseLong(idUser));
 				return new ModelAndView(listaDeGuardarropas, "guardarropas/index.hbs");
 			}
 			else {

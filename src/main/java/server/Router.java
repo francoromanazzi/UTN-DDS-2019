@@ -21,7 +21,7 @@ public class Router {
 			return new ModelAndView(msg, "404.hbs");
 		}, engine);
 
-		get("/login", ControllerLogin::mostrar, engine);
+		get("/", ControllerLogin::mostrar, engine);
 		post("/login", ControllerLogin::login);
 		get("/logout", ControllerLogin::logout);
 		get("/loginFailed", ControllerLogin::loginFailed, engine);
