@@ -12,6 +12,7 @@ import modelo.prenda.Prenda;
 import modelo.sugerencia.Sugerencia;
 import modelo.sugerencia.decision.Decision;
 import modelo.sugerencia.decision.DecisionVacia;
+import repositorios.RepositorioEventos;
 import utils.SHA256Builder;
 
 import javax.persistence.*;
@@ -143,6 +144,8 @@ public class Usuario {
 			throw new EventoYaFueAgendadoException();
 
 		eventos.add(evento);
+
+		new RepositorioEventos().guardar(evento);
 
 		planificarGeneracionSugerencias(evento, new GenerarSugerencias(evento.getId(), guardarropaAUtilizar.getId(), this.Id));
 	}

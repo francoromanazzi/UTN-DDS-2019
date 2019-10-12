@@ -76,4 +76,14 @@ public class Sugerencia {
 		usuario.setUltimaDecision(new DecisionRechazar(this));
 		estado = EstadoSugerencia.RECHAZADO;
 	}
+
+	@Override
+	public String toString() {
+		return "Sugerencia{" +
+				"Id=" + Id +
+				", atuendo=" + atuendo +
+				", estado=" + estado +
+				", calificacion=" + calificacion +
+				'}';
+	}
 }

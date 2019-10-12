@@ -141,6 +141,16 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 
 		user1.addPrenda(
 				new Prenda(
+						Tipo.PANTALON_LARGO,
+						Material.DENIM,
+						new Color(0, 0, 0),
+						Optional.empty(),
+						Optional.empty()),
+				guardarropa2
+		);
+
+		user1.addPrenda(
+				new Prenda(
 						Tipo.ZAPATILLAS,
 						Material.CUERO,
 						new Color(0, 0, 0),
@@ -163,17 +173,9 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 		Guardarropa guardarropa1 = new RepositorioGuardarropas().buscarPorId(1L);
 		Guardarropa guardarropa2 = new RepositorioGuardarropas().buscarPorId(2L);
 
-		Evento ev1 = new Evento("Ir a la facultad", LocalDateTime.now().plusSeconds(30), LocalDateTime.now().plusHours(4), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
+		Evento ev1 = new Evento("Ir a la facultad", LocalDateTime.now().plusMinutes(1), LocalDateTime.now().plusHours(4), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 		Evento ev2 = new Evento("Ir al trabajo", LocalDateTime.now().plusDays(2), LocalDateTime.now().plusDays(2).plusHours(8), FrecuenciaEvento.UNICA_VEZ, TipoEvento.FORMAL);
-		Evento ev3 = new Evento("Ir a correr", LocalDateTime.now().plusSeconds(30), LocalDateTime.now().plusHours(4), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
-
-		entityManager().persist(ev1);
-		entityManager().persist(ev2);
-		entityManager().persist(ev3);
-
-		this.commitTransaction();
-
-		this.beginTransaction();
+		Evento ev3 = new Evento("Ir a correr", LocalDateTime.now().plusMinutes(2), LocalDateTime.now().plusHours(4), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 
 		user1.agendarEvento(ev1, guardarropa1);
 		user1.agendarEvento(ev2, guardarropa1);

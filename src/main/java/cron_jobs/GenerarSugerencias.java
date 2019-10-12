@@ -7,6 +7,7 @@ import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Usuario;
 import repositorios.RepositorioEventos;
 import repositorios.RepositorioGuardarropas;
+import repositorios.RepositorioSugerencias;
 import repositorios.RepositorioUsuarios;
 import utils.MailSender;
 
@@ -17,11 +18,6 @@ public class GenerarSugerencias extends TimerTask {
 	private final long evento_id, guardarropa_id, user_id;
 
 	public GenerarSugerencias(long evento_id, long guardarropa_id, long user_id) {
-		System.out.println("GenerarSugerencias");
-		System.out.println(evento_id);
-		System.out.println(guardarropa_id);
-		System.out.println(user_id);
-
 		this.evento_id = evento_id;
 		this.guardarropa_id = guardarropa_id;
 		this.user_id = user_id;
@@ -34,21 +30,17 @@ public class GenerarSugerencias extends TimerTask {
 		Evento evento = new RepositorioEventos().buscarPorId(this.evento_id);
 
 		// Verifico que el usuario no haya borrado el evento ni quitado el guardarropa
-		if (!user.getEventos().contains(evento) || !guardarropa.tieneUsuario(user)) {
-			System.out.println("RETORNANDO, " + !user.getEventos().contains(evento) + ", " + !guardarropa.tieneUsuario(user));
-			System.out.println(evento);
-			System.out.println(user.getEventos());
+		if (!user.getEventos().contains(evento) || !guardarropa.tieneUsuario(user))
 			return;
-		}
 
 		List<Sugerencia> sugerenciasGeneradas =
 				guardarropa.generarSugerencias(evento, user.getHistorialSugerencias());
 
-		System.out.println("SUGERENCIAS GENERADAS:");
-		System.out.println(sugerenciasGeneradas);
-
 		evento.addSugerencias(sugerenciasGeneradas);
 		user.addToHistorialSugerencias(sugerenciasGeneradas);
+
+		new RepositorioSugerencias().guardarTodas(sugerenciasGeneradas);
+
 		notificarAUsuario(user, evento);
 	}
 
