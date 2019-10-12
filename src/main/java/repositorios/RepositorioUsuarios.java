@@ -1,5 +1,6 @@
 package repositorios;
 
+import excepciones.UsuarioNoEncontradoException;
 import modelo.guardarropa.Guardarropa;
 import modelo.usuario.Usuario;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
@@ -10,8 +11,12 @@ import javax.persistence.Query;
 import java.util.List;
 
 public class RepositorioUsuarios implements WithGlobalEntityManager {
-	public Usuario getUsuarioById(Long Id) {
-		return entityManager().find(Usuario.class, Id);
+	public Usuario getUsuarioById(Long Id) throws UsuarioNoEncontradoException {
+		Usuario ret = entityManager().find(Usuario.class, Id);
+
+		if(ret == null) throw new UsuarioNoEncontradoException();
+
+		return ret;
 	}
 
 	public Usuario getUsuarioByCredentials(String username, String pwdSinHash) throws NoResultException {

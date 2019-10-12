@@ -2,10 +2,6 @@ package controllers;
 
 import excepciones.GuardarropaNoEncontradoException;
 import modelo.guardarropa.Guardarropa;
-import modelo.prenda.Color;
-import modelo.prenda.Material;
-import modelo.prenda.Prenda;
-import modelo.prenda.Tipo;
 import repositorios.RepositorioGuardarropas;
 import spark.ModelAndView;
 import spark.Request;

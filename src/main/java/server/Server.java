@@ -1,6 +1,9 @@
 package server;
 
 import hardcodear_datos_db.HardcodearDatosDB;
+import modelo.pronosticos_del_clima.ServicioDelClima;
+import modelo.pronosticos_del_clima.proveedores.AccuWeather;
+import modelo.pronosticos_del_clima.proveedores.DarkSky;
 import spark.Spark;
 import spark.debug.DebugScreen;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -26,6 +29,8 @@ public class Server {
 
 		DebugScreen.enableDebugScreen();
 
+		ServicioDelClima.getInstance().agregarMeteorologo(new AccuWeather());
+		ServicioDelClima.getInstance().agregarMeteorologo(new DarkSky());
 		new HardcodearDatosDB().agendarEventos();
 	}
 }
