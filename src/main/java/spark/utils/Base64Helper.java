@@ -3,12 +3,13 @@ package spark.utils;
 import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
 import modelo.prenda.Imagen;
-import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Base64;
+import java.util.Base64.Encoder;
 import java.util.Optional;
 
 public enum Base64Helper implements Helper<Optional<Imagen>> {
@@ -23,8 +24,8 @@ public enum Base64Helper implements Helper<Optional<Imagen>> {
 			ImageIO.write(bufferedImage, "jpg", bos);
 			byte[] imageBytes = bos.toByteArray();
 
-			BASE64Encoder encoder = new BASE64Encoder();
-			imageString = encoder.encode(imageBytes);
+			Encoder encoder = Base64.getEncoder();
+			imageString = encoder.encodeToString(imageBytes);
 
 			bos.close();
 

@@ -35,10 +35,4 @@ public class RepositorioUsuarios implements WithGlobalEntityManager {
 	public List<Usuario> getAllUsuarios() {
 		return entityManager().createQuery("FROM Usuario", Usuario.class).getResultList();
 	}
-
-	public List<Guardarropa> getGuardarropasDeUsuarioPorId(Long id_user) {
-		return entityManager().createQuery("SELECT g FROM Guardarropa g JOIN FETCH " +
-				"g.usuariosPropietarios u WHERE u.Id = :idUsuario", Guardarropa.class).
-				setParameter("idUsuario", id_user).getResultList();
-	}
 }

@@ -11,7 +11,7 @@ import spark.utils.*;
 
 public class Server {
 	public static void main(String[] args) {
-		Spark.port(9001);
+		Spark.port(9000);
 		Spark.staticFiles.location("/public");
 		Spark.init();
 

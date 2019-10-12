@@ -15,7 +15,7 @@ public class Router {
 			response.redirect("/404");
 			return null;
 		}));
-
+		
 		get("/404", (req, res) -> {
 			String msg = req.queryParams("msg") != null ? req.queryParams("msg") : "Recurso no encontrado";
 			return new ModelAndView(msg, "404.hbs");
@@ -23,7 +23,7 @@ public class Router {
 
 		get("/", ControllerLogin::mostrar, engine);
 		post("/login", ControllerLogin::login);
-		post("/logout", ControllerLogin::logout);
+		get("/logout", ControllerLogin::logout);
 		get("/loginFailed", ControllerLogin::loginFailed, engine);
 
 		get("/guardarropas", ControllerGuardarropas::listar, engine);
@@ -31,5 +31,7 @@ public class Router {
 		exception(GuardarropaNoEncontradoException.class, ControllerGuardarropas::noEncontrado);
 
 		get("/eventos", ControllerEventos::listar, engine);
+		
+		
 	}
 }
