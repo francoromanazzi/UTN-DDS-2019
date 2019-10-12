@@ -2,10 +2,6 @@ package controllers;
 
 import excepciones.GuardarropaNoEncontradoException;
 import modelo.guardarropa.Guardarropa;
-import modelo.prenda.Color;
-import modelo.prenda.Material;
-import modelo.prenda.Prenda;
-import modelo.prenda.Tipo;
 import repositorios.RepositorioGuardarropas;
 import repositorios.RepositorioUsuarios;
 import spark.ModelAndView;
@@ -14,7 +10,6 @@ import spark.Response;
 import utils.Token;
 
 import java.util.List;
-import java.util.Optional;
 
 public class ControllerGuardarropas {
 

@@ -89,9 +89,22 @@ public class Evento {
 		}
 		Evento otro = (Evento) o;
 		return titulo.equals(otro.titulo) &&
-				fechaInicio == otro.fechaInicio &&
-				fechaFin == otro.fechaFin &&
+				fechaInicio.isEqual(otro.fechaInicio) &&
+				fechaFin.isEqual(otro.fechaFin) &&
 				frecuencia == otro.frecuencia &&
 				tipoEvento == otro.tipoEvento;
+	}
+
+	@Override
+	public String toString() {
+		return "Evento{" +
+				"Id=" + Id +
+				", titulo='" + titulo + '\'' +
+				", fechaInicio=" + fechaInicio +
+				", fechaFin=" + fechaFin +
+				", frecuencia=" + frecuencia +
+				", tipoEvento=" + tipoEvento +
+				", sugerencias=" + sugerencias +
+				'}';
 	}
 }

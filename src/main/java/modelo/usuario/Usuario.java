@@ -144,7 +144,7 @@ public class Usuario {
 
 		eventos.add(evento);
 
-		planificarGeneracionSugerencias(evento, new GenerarSugerencias(evento, guardarropaAUtilizar, this.Id));
+		planificarGeneracionSugerencias(evento, new GenerarSugerencias(evento.getId(), guardarropaAUtilizar.getId(), this.Id));
 	}
 
 	public void agendarEventoMockNoGenerarSugerencias(Evento evento, Guardarropa guardarropaAUtilizar) {

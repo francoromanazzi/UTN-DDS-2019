@@ -20,7 +20,6 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 	public static void main(String[] args) {
 		HardcodearDatosDB hardcoder = new HardcodearDatosDB();
 		hardcoder.hardcodear();
-		hardcoder.agendarEventos();
 	}
 
 	private void hardcodear() {
@@ -41,6 +40,16 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 						new Color(255, 109, 61),
 						Optional.empty(),
 						Optional.of(new Imagen(new File("src/main/java/hardcodear_datos_db/Remera.jpg")))),
+				guardarropa1
+		);
+
+		user1.addPrenda(
+				new Prenda(
+						Tipo.REMERA_MANGA_LARGA,
+						Material.ALGODON,
+						new Color(255, 109, 61),
+						Optional.empty(),
+						Optional.empty()),
 				guardarropa1
 		);
 
@@ -102,6 +111,16 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 
 		user1.addPrenda(
 				new Prenda(
+						Tipo.REMERA_MANGA_CORTA,
+						Material.ALGODON,
+						new Color(0, 0, 0),
+						Optional.empty(),
+						Optional.empty()),
+				guardarropa2
+		);
+
+		user1.addPrenda(
+				new Prenda(
 						Tipo.CAMISA,
 						Material.POLIESTER,
 						new Color(0, 0, 0),
@@ -144,10 +163,21 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 		Guardarropa guardarropa1 = new RepositorioGuardarropas().buscarPorId(1L);
 		Guardarropa guardarropa2 = new RepositorioGuardarropas().buscarPorId(2L);
 
-		user1.agendarEvento(new Evento("Ir a la facultad", LocalDateTime.now().plusSeconds(30), LocalDateTime.now().plusHours(4), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL), guardarropa1);
-		user1.agendarEvento(new Evento("Ir al trabajo", LocalDateTime.now().plusDays(2), LocalDateTime.now().plusDays(2).plusHours(8), FrecuenciaEvento.UNICA_VEZ, TipoEvento.FORMAL), guardarropa1);
+		Evento ev1 = new Evento("Ir a la facultad", LocalDateTime.now().plusSeconds(30), LocalDateTime.now().plusHours(4), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
+		Evento ev2 = new Evento("Ir al trabajo", LocalDateTime.now().plusDays(2), LocalDateTime.now().plusDays(2).plusHours(8), FrecuenciaEvento.UNICA_VEZ, TipoEvento.FORMAL);
+		Evento ev3 = new Evento("Ir a correr", LocalDateTime.now().plusSeconds(30), LocalDateTime.now().plusHours(4), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 
-		user2.agendarEvento(new Evento("Ir a correr", LocalDateTime.now().plusSeconds(30), LocalDateTime.now().plusHours(4), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL), guardarropa2);
+		entityManager().persist(ev1);
+		entityManager().persist(ev2);
+		entityManager().persist(ev3);
+
+		this.commitTransaction();
+
+		this.beginTransaction();
+
+		user1.agendarEvento(ev1, guardarropa1);
+		user1.agendarEvento(ev2, guardarropa1);
+		user2.agendarEvento(ev3, guardarropa2);
 
 		this.commitTransaction();
 	}
