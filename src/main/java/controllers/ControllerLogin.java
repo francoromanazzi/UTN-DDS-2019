@@ -22,7 +22,7 @@ public class ControllerLogin {
     	String username = req.queryParams("username");
         String pass = req.queryParams("password");
         String password = SHA256Builder.generarHash(pass);
-        Usuario user = new RepositorioUsuarios().getUsuarioByCredentials(username, pass);
+        Usuario user = new RepositorioUsuarios().buscarPorCredenciales(username, pass);
 
         try {
             if (username.isEmpty() || pass.isEmpty() || user == null) {

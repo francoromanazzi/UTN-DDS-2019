@@ -14,7 +14,7 @@ public class EscucharAlertasMeteorologicas extends TimerTask {
 	@Override
 	public void run() throws MensajeriaException {
 		List<AlertaMeteorologica> alertas = ServicioDelClima.getInstance().obtenerAlertasMeteorologicas();
-		List<Usuario> usuarios = new RepositorioUsuarios().getAllUsuarios();
+		List<Usuario> usuarios = new RepositorioUsuarios().obtenerTodos();
 
 		alertas.forEach(alerta -> usuarios.forEach(user -> user.recibirAlertaMeteorologica(alerta)));
 	}

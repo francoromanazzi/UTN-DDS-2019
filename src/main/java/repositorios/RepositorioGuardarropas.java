@@ -7,7 +7,7 @@ import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import java.util.List;
 
 public class RepositorioGuardarropas implements WithGlobalEntityManager {
-	public Guardarropa buscarPorId(long id) throws GuardarropaNoEncontradoException{
+	public Guardarropa buscarPorId(long id) throws GuardarropaNoEncontradoException {
 		Guardarropa ret = entityManager().find(Guardarropa.class, id);
 
 		if (ret == null) throw new GuardarropaNoEncontradoException();

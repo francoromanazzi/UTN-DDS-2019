@@ -29,7 +29,7 @@ public class GenerarSugerencias extends TimerTask {
 
 	@Override
 	public void run() throws UsuarioNoEncontradoException, GuardarropaNoEncontradoException, EventoNoEncontradoException, PronosticoNoDisponibleException, SinSugerenciasPosiblesException, MensajeriaException {
-		Usuario user = new RepositorioUsuarios().getUsuarioById(this.user_id);
+		Usuario user = new RepositorioUsuarios().buscarPorId(this.user_id);
 		Guardarropa guardarropa = new RepositorioGuardarropas().buscarPorId(this.guardarropa_id);
 		Evento evento = new RepositorioEventos().buscarPorId(this.evento_id);
 

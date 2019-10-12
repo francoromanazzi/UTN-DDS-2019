@@ -28,7 +28,7 @@ public class TestPersistenciaDecision extends AbstractPersistenceTest implements
 	public void persistirDecisionVaciaAlPersistirUsuarioNuevo() {
 		entityManager().persist(user);
 
-		Usuario userDB = new RepositorioUsuarios().getUsuarioByCredentials("luqui", "asd");
+		Usuario userDB = new RepositorioUsuarios().buscarPorCredenciales("luqui", "asd");
 
 		List<Decision> decisiones = entityManager().createQuery("from Decision", Decision.class).getResultList();
 
@@ -52,7 +52,7 @@ public class TestPersistenciaDecision extends AbstractPersistenceTest implements
 
 		sugerencia.aceptar(user);
 
-		Usuario userDB = new RepositorioUsuarios().getUsuarioByCredentials("luqui", "asd");
+		Usuario userDB = new RepositorioUsuarios().buscarPorCredenciales("luqui", "asd");
 
 		assertEquals(DecisionAceptar.class, userDB.getUltimaDecision().getClass());
 	}

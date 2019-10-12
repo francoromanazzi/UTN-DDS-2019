@@ -16,7 +16,7 @@ public class TestPersistenciaUsuario extends AbstractPersistenceTest implements 
 
 		entityManager().persist(user);
 
-		Usuario userDB = new RepositorioUsuarios().getUsuarioByCredentials("luqui", "asd");
+		Usuario userDB = new RepositorioUsuarios().buscarPorCredenciales("luqui", "asd");
 
 		assertEquals(user.getUsername(), userDB.getUsername());
 		assertEquals(user.getPassword(), userDB.getPassword());

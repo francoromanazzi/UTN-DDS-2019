@@ -157,8 +157,8 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 	public void agendarEventos() {
 		this.beginTransaction();
 
-		Usuario user1 = new RepositorioUsuarios().getUsuarioById(1L);
-		Usuario user2 = new RepositorioUsuarios().getUsuarioById(2L);
+		Usuario user1 = new RepositorioUsuarios().buscarPorId(1L);
+		Usuario user2 = new RepositorioUsuarios().buscarPorId(2L);
 
 		Guardarropa guardarropa1 = new RepositorioGuardarropas().buscarPorId(1L);
 		Guardarropa guardarropa2 = new RepositorioGuardarropas().buscarPorId(2L);

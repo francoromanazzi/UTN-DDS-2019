@@ -1,7 +1,6 @@
 package repositorios;
 
 import excepciones.UsuarioNoEncontradoException;
-import modelo.guardarropa.Guardarropa;
 import modelo.usuario.Usuario;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import utils.SHA256Builder;
@@ -11,7 +10,7 @@ import javax.persistence.Query;
 import java.util.List;
 
 public class RepositorioUsuarios implements WithGlobalEntityManager {
-	public Usuario getUsuarioById(Long Id) throws UsuarioNoEncontradoException {
+	public Usuario buscarPorId(Long Id) throws UsuarioNoEncontradoException {
 		Usuario ret = entityManager().find(Usuario.class, Id);
 
 		if(ret == null) throw new UsuarioNoEncontradoException();
@@ -19,20 +18,25 @@ public class RepositorioUsuarios implements WithGlobalEntityManager {
 		return ret;
 	}
 
-	public Usuario getUsuarioByCredentials(String username, String pwdSinHash) throws NoResultException {
+	public Usuario buscarPorCredenciales(String username, String pwdSinHash) throws UsuarioNoEncontradoException {
 		try {
 			Query query = entityManager().createQuery("SELECT u FROM Usuario u WHERE u.username = :nomUsuario and u.password = :pass");
 			query.setParameter("nomUsuario", username);
 			query.setParameter("pass", SHA256Builder.generarHash(pwdSinHash));
 			query.setMaxResults(1);
-			return (Usuario) query.getSingleResult();
+
+			Usuario ret = (Usuario) query.getSingleResult();
+
+			if(ret == null) throw new UsuarioNoEncontradoException();
+
+			return ret;
 		}
 		catch(NoResultException ex) {
-			return null;
-		}	
+			throw new UsuarioNoEncontradoException();
+		}
 	}
 
-	public List<Usuario> getAllUsuarios() {
+	public List<Usuario> obtenerTodos() {
 		return entityManager().createQuery("FROM Usuario", Usuario.class).getResultList();
 	}
 }

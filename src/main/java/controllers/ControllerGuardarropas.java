@@ -42,7 +42,7 @@ public class ControllerGuardarropas {
 				long id = Long.parseLong(req.params("id"));
 				Guardarropa guardarropa = new RepositorioGuardarropas().buscarPorId(id);
 
-				if(guardarropa.tieneUsuario(new RepositorioUsuarios().getUsuarioById(Long.parseLong(idUser))))
+				if(guardarropa.tieneUsuario(new RepositorioUsuarios().buscarPorId(Long.parseLong(idUser))))
 					return new ModelAndView(guardarropa, "guardarropas/prendas/index.hbs");
 				else {
 					res.redirect("/404?msg=Error al listar prendas");
