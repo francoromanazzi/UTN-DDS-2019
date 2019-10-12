@@ -20,7 +20,6 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 	public static void main(String[] args) {
 		HardcodearDatosDB hardcoder = new HardcodearDatosDB();
 		hardcoder.hardcodear();
-		hardcoder.agendarEventos();
 	}
 
 	private void hardcodear() {
@@ -173,12 +172,6 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 		entityManager().persist(ev3);
 
 		this.commitTransaction();
-
-		try {
-			Thread.sleep(1000L);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 
 		this.beginTransaction();
 
