@@ -55,6 +55,16 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 
 		user1.addPrenda(
 				new Prenda(
+						Tipo.CAMISA,
+						Material.ALGODON,
+						new Color(255, 0, 0),
+						Optional.empty(),
+						Optional.empty()),
+				guardarropa1
+		);
+
+		user1.addPrenda(
+				new Prenda(
 						Tipo.CAMPERA,
 						Material.POLIESTER,
 						new Color(0, 0, 0),
@@ -90,6 +100,16 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 						new Color(255, 255, 255),
 						Optional.empty(),
 						Optional.of(new Imagen(new File("src/main/java/hardcodear_datos_db/Zapatillas.jpg")))),
+				guardarropa1
+		);
+
+		user1.addPrenda(
+				new Prenda(
+						Tipo.RELOJ,
+						Material.PLATA,
+						new Color(200, 200, 200),
+						Optional.empty(),
+						Optional.empty()),
 				guardarropa1
 		);
 
@@ -183,5 +203,4 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 
 		this.commitTransaction();
 	}
-
 }
