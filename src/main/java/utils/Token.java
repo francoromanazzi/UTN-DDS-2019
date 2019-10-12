@@ -1,5 +1,7 @@
 package utils;
 
+import excepciones.DesencriptacionException;
+
 import java.security.MessageDigest;
 import java.util.Arrays;
 
@@ -36,7 +38,7 @@ public class Token {
         return base64EncryptedString;
 	}
 	
-	public static String Desencriptar(String textoEncriptado) throws Exception {
+	public static String Desencriptar(String textoEncriptado) throws DesencriptacionException {
 
         String secretKey = "qualityinfosolutions"; //llave para desenciptar datos
         String base64EncryptedString = "";
@@ -55,7 +57,9 @@ public class Token {
 
             base64EncryptedString = new String(plainText, "UTF-8");
 
-        } catch (Exception ex) { }
+        } catch (Exception ex) {
+            throw new DesencriptacionException();
+        }
         
         return base64EncryptedString;
 	}

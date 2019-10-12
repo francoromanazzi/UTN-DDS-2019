@@ -20,7 +20,7 @@ public class RepositorioUsuarios implements WithGlobalEntityManager {
 
 	public Usuario buscarPorCredenciales(String username, String pwdSinHash) throws UsuarioNoEncontradoException {
 		try {
-			Query query = entityManager().createQuery("SELECT u FROM Usuario u WHERE u.username = :nomUsuario and u.password = :pass");
+			Query query = entityManager().createQuery("SELECT u FROM Usuario u WHERE u.username = :nomUsuario AND u.password = :pass");
 			query.setParameter("nomUsuario", username);
 			query.setParameter("pass", SHA256Builder.generarHash(pwdSinHash));
 			query.setMaxResults(1);

@@ -36,6 +36,11 @@ public class GenerarSugerencias extends TimerTask {
 		List<Sugerencia> sugerenciasGeneradas =
 				guardarropa.generarSugerencias(evento, user.getHistorialSugerencias());
 
+		if(sugerenciasGeneradas.size() == 1) {
+			// Como solo hay 1, queda automáticamente aceptada
+			sugerenciasGeneradas.get(0).aceptar(user);
+		}
+
 		evento.addSugerencias(sugerenciasGeneradas);
 		user.addToHistorialSugerencias(sugerenciasGeneradas);
 

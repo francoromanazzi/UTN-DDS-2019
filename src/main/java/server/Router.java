@@ -4,34 +4,37 @@ import controllers.ControllerEventos;
 import controllers.ControllerGuardarropas;
 import controllers.ControllerLogin;
 import excepciones.GuardarropaNoEncontradoException;
+import excepciones.UsuarioNoEncontradoException;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
+import utils.Auth;
 
 import static spark.Spark.*;
 
 public class Router {
 	public static void configurar(HandlebarsTemplateEngine engine) {
-		notFound(((request, response) -> {
-			response.redirect("/404");
+		notFound(((req, res) -> {
+			res.redirect("/error");
 			return null;
 		}));
-		
-		get("/404", (req, res) -> {
-			String msg = req.queryParams("msg") != null ? req.queryParams("msg") : "Recurso no encontrado";
-			return new ModelAndView(msg, "404.hbs");
-		}, engine);
+
+		get("/error", (req, res) -> new ModelAndView(null, "error.hbs"), engine);
 
 		get("/", ControllerLogin::mostrar, engine);
 		post("/login", ControllerLogin::login);
+		exception(UsuarioNoEncontradoException.class, ControllerLogin::userNoEncontrado);
 		get("/logout", ControllerLogin::logout);
 		get("/loginFailed", ControllerLogin::loginFailed, engine);
 
+		before("/guardarropas", Auth::tieneToken);
+		before("/guardarropas/*", Auth::tieneToken);
 		get("/guardarropas", ControllerGuardarropas::listar, engine);
+		before("/guardarropas/:id/prendas", Auth::userEsPropietarioDeGuardarropa);
 		get("/guardarropas/:id/prendas", ControllerGuardarropas::listarPrendas, engine);
 		exception(GuardarropaNoEncontradoException.class, ControllerGuardarropas::noEncontrado);
 
+		before("/eventos", Auth::tieneToken);
+		before("/eventos/*", Auth::tieneToken);
 		get("/eventos", ControllerEventos::listar, engine);
-		
-		
 	}
 }
