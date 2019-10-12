@@ -38,7 +38,7 @@ public class ControllerEventos {
 			}
 		}
 		catch(Exception e) {
-			res.redirect("/404/msg=Error al listar eventos");
+			res.redirect("/404?msg=Error al listar eventos");
 			return null;
 		}
 	}

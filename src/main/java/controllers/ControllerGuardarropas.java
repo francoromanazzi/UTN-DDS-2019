@@ -34,7 +34,7 @@ public class ControllerGuardarropas {
 			}
 		}
 		catch(Exception e) {
-			res.redirect("/404/msg=Error al listar guardarropas");
+			res.redirect("/404?msg=Error al listar guardarropas");
 			return null;
 		}
 	}
@@ -45,7 +45,13 @@ public class ControllerGuardarropas {
 			if(isAuth(idUser)) {
 				long id = Long.parseLong(req.params("id"));
 				Guardarropa guardarropa = new RepositorioGuardarropas().buscarPorId(id);
-				return new ModelAndView(guardarropa, "guardarropas/prendas/index.hbs");
+
+				if(guardarropa.tieneUsuario(new RepositorioUsuarios().getUsuarioById(Long.parseLong(idUser))))
+					return new ModelAndView(guardarropa, "guardarropas/prendas/index.hbs");
+				else {
+					res.redirect("/404?msg=Error al listar prendas");
+					return null;
+				}
 			}
 			else {
 				res.redirect("/");
@@ -53,7 +59,7 @@ public class ControllerGuardarropas {
 			}
 		}
 		catch(Exception e) {
-			res.redirect("/404/msg=Error al listar prendas");
+			res.redirect("/404?msg=Error al listar prendas");
 			return null;
 		}
 	}
