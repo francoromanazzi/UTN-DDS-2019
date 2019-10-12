@@ -1,5 +1,6 @@
 package controllers;
 
+import excepciones.EventoNoEncontradoException;
 import modelo.evento.Evento;
 import modelo.evento.FrecuenciaEvento;
 import repositorios.RepositorioEventos;
@@ -24,5 +25,15 @@ public class ControllerEventos {
 				.collect(Collectors.toList());
 
 		return new ModelAndView(listaDeEventosNoRepetitivos, "eventos/index.hbs");
+	}
+
+	public static ModelAndView listarSugerencias(Request req, Response res) {
+		long idEvento = Long.parseLong(req.params("id"));
+		Evento evento = new RepositorioEventos().buscarPorId(idEvento);
+		return new ModelAndView(evento, "eventos/sugerencias/index.hbs");
+	}
+
+	public static void noEncontrado(EventoNoEncontradoException ex, Request req, Response res) {
+		res.redirect("/error");
 	}
 }

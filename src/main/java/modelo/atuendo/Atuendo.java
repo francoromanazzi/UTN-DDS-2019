@@ -65,7 +65,7 @@ public class Atuendo {
 		return accesorios;
 	}
 
-	public List<Prenda> obtenerTodasLasPrendas() {
+	public List<Prenda> getTodasLasPrendas() {
 		return Stream.of(partesSuperiores, Collections.singletonList(parteInferior), Collections.singletonList(calzado), accesorios)
 				.flatMap(Collection::stream).collect(Collectors.toList());
 	}

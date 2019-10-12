@@ -248,7 +248,7 @@ public class Guardarropa {
 						.getHistorialSugerencias()
 						.stream()
 						.anyMatch(sug -> sug.getEstado() == EstadoSugerencia.ACEPTADO
-								&& sug.getAtuendo().obtenerTodasLasPrendas().contains(prenda)
+								&& sug.getAtuendo().getTodasLasPrendas().contains(prenda)
 						)
 				);
 	}
@@ -256,7 +256,7 @@ public class Guardarropa {
 	private boolean sinPrendasEnUsoPorOtroUsuario(Sugerencia sugerencia) {
 		return sugerencia
 				.getAtuendo()
-				.obtenerTodasLasPrendas()
+				.getTodasLasPrendas()
 				.stream()
 				.noneMatch(this::prendaEnUso);
 	}

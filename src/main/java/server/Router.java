@@ -3,6 +3,8 @@ package server;
 import controllers.ControllerEventos;
 import controllers.ControllerGuardarropas;
 import controllers.ControllerLogin;
+import controllers.ControllerSugerencias;
+import excepciones.EventoNoEncontradoException;
 import excepciones.GuardarropaNoEncontradoException;
 import excepciones.UsuarioNoEncontradoException;
 import spark.ModelAndView;
@@ -36,5 +38,8 @@ public class Router {
 		before("/eventos", Auth::tieneToken);
 		before("/eventos/*", Auth::tieneToken);
 		get("/eventos", ControllerEventos::listar, engine);
+		before("/eventos/:id", Auth::userEsPropietarioDeEvento);
+		get("/eventos/:id", ControllerEventos::listarSugerencias, engine);
+		exception(EventoNoEncontradoException.class, ControllerEventos::noEncontrado);
 	}
 }
