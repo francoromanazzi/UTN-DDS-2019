@@ -6,6 +6,7 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import utils.SHA256Builder;
+import utils.Token;
 
 public class ControllerLogin {
 	
@@ -30,7 +31,7 @@ public class ControllerLogin {
                
             if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
             	res.status(200);
-            	res.cookie("userId", user.getId().toString());
+            	res.cookie("userId", Token.Encriptar(user.getId().toString()) );
                 res.redirect("/guardarropas");
             }
             

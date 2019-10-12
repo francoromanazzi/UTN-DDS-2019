@@ -8,6 +8,7 @@ import repositorios.RepositorioUsuarios;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+import utils.Token;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,8 +20,8 @@ public class ControllerEventos {
 	}
 	
 	public static ModelAndView listar(Request req, Response res) {
-		String idUser = req.cookie("userId");
 		try {
+			String idUser = Token.Desencriptar( req.cookie("userId") );
 			if(isAuth(idUser)) {
 				List<Evento> listaDeEventos = new RepositorioEventos().obtenerEventosDeUsuario(Long.parseLong(idUser));
 

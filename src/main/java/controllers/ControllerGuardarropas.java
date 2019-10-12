@@ -11,6 +11,7 @@ import repositorios.RepositorioUsuarios;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+import utils.Token;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,8 +23,8 @@ public class ControllerGuardarropas {
 	}
 	
 	public static ModelAndView listar(Request req, Response res) {
-		String idUser = req.cookie("userId");
 		try {
+			String idUser = Token.Desencriptar( req.cookie("userId") );
 			if(isAuth(idUser)) {
 				List<Guardarropa> listaDeGuardarropas = new RepositorioGuardarropas().obtenerTodosDelUsuario(Long.parseLong(idUser));
 				return new ModelAndView(listaDeGuardarropas, "guardarropas/index.hbs");
@@ -40,8 +41,8 @@ public class ControllerGuardarropas {
 	}
 
 	public static ModelAndView listarPrendas(Request req, Response res) throws GuardarropaNoEncontradoException {
-		String idUser = req.cookie("userId");
 		try {
+			String idUser = Token.Desencriptar( req.cookie("userId") );
 			if(isAuth(idUser)) {
 				long id = Long.parseLong(req.params("id"));
 				Guardarropa guardarropa = new RepositorioGuardarropas().buscarPorId(id);
