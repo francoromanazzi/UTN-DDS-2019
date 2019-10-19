@@ -16,13 +16,14 @@ public class CalificacionSugerencia {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "calificacion_sugerencia_id")
-	private final List<SensibilidadParteDelCuerpo> sensibilidadPorPartesDelCuerpo = new ArrayList<>();
+	private List<SensibilidadParteDelCuerpo> sensibilidadPorPartesDelCuerpo;
 
 	public CalificacionSugerencia() {
 	}
 
-	public CalificacionSugerencia(SensibilidadTemperatura sensibilidadGlobal) {
+	public CalificacionSugerencia(SensibilidadTemperatura sensibilidadGlobal, List<SensibilidadParteDelCuerpo> sensibilidadPorPartesDelCuerpo) {
 		this.sensibilidadGlobal = sensibilidadGlobal;
+		this.sensibilidadPorPartesDelCuerpo = sensibilidadPorPartesDelCuerpo;
 	}
 
 	public SensibilidadTemperatura getSensibilidadGlobal() {

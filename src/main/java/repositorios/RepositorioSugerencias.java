@@ -2,6 +2,7 @@ package repositorios;
 
 import excepciones.SugerenciaNoEncontradaException;
 import modelo.sugerencia.Sugerencia;
+import modelo.usuario.Usuario;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
@@ -20,5 +21,18 @@ public class RepositorioSugerencias implements WithGlobalEntityManager, Transact
 		if (ret == null) throw new SugerenciaNoEncontradaException();
 
 		return ret;
+	}
+
+	public List<Sugerencia> obtenerTodasLasAceptadasDelUsuario(long id_user) {
+		return entityManager().createQuery("SELECT s FROM Usuario u " +
+						"JOIN u.eventos e " +
+						"JOIN e.sugerencias s " +
+						"WHERE u.Id = :idUsuario " +
+						"AND s.estado = 'ACEPTADO'", Sugerencia.class).
+				setParameter("idUsuario", id_user).getResultList();
+	}
+
+	public void calificar(Sugerencia sugerencia, Usuario usuario) {
+		withTransaction(() -> sugerencia.aceptar(usuario));
 	}
 }

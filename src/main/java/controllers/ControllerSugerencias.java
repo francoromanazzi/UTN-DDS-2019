@@ -2,6 +2,7 @@ package controllers;
 
 import excepciones.SugerenciaNoEncontradaException;
 import modelo.evento.Evento;
+import modelo.sugerencia.CalificacionSugerencia;
 import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Usuario;
 import repositorios.RepositorioEventos;
@@ -11,6 +12,9 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import utils.Token;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ControllerSugerencias {
 
@@ -27,7 +31,7 @@ public class ControllerSugerencias {
 		Usuario usuario = new RepositorioUsuarios().buscarPorId(idUser);
 		Sugerencia sugerencia = new RepositorioSugerencias().buscarPorId(idSugerencia);
 
-		sugerencia.aceptar(usuario);
+		new RepositorioSugerencias().calificar(sugerencia, usuario);
 
 		res.redirect("/eventos");
 
@@ -36,5 +40,27 @@ public class ControllerSugerencias {
 
 	public static void noEncontrado(SugerenciaNoEncontradaException ex, Request req, Response res) {
 		res.redirect("/error");
+	}
+
+	public static ModelAndView listarAceptadasParaCalificarlas(Request req, Response res) {
+		long idUser = Long.parseLong(Token.Desencriptar(req.cookie("userId")));
+		List<Sugerencia> sugerenciasAceptadasDelUser = new RepositorioSugerencias().obtenerTodasLasAceptadasDelUsuario(idUser);
+		return new ModelAndView(sugerenciasAceptadasDelUser, "sugerenciasAceptadas/index.hbs");
+	}
+
+	public static String calificar(Request req, Response res) throws SugerenciaNoEncontradaException {
+		long idSugerencia = Long.parseLong(req.queryParams("id_sugerencia"));
+		long idUser = Long.parseLong(Token.Desencriptar(req.cookie("userId")));
+
+		Usuario usuario = new RepositorioUsuarios().buscarPorId(idUser);
+		Sugerencia sugerencia = new RepositorioSugerencias().buscarPorId(idSugerencia);
+
+		CalificacionSugerencia calificacionSugerencia = new CalificacionSugerencia(null, new ArrayList<>());
+
+		sugerencia.calificar(calificacionSugerencia, usuario);
+
+		res.redirect("/eventos");
+
+		return null;
 	}
 }

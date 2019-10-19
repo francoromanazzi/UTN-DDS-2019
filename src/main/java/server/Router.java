@@ -42,5 +42,9 @@ public class Router {
 		before("/eventos/:id/sugerencias/aceptadas", Auth::userEsPropietarioDeEvento);
 		post("/eventos/:id/sugerencias/aceptadas", ControllerSugerencias::aceptar);
 		exception(SugerenciaNoEncontradaException.class, ControllerSugerencias::noEncontrado);
+
+		before("/sugerencias/aceptadas", Auth::tieneToken);
+		get("/sugerencias/aceptadas", ControllerSugerencias::listarAceptadasParaCalificarlas, engine);
+		post("/sugerencias/calificadas", ControllerSugerencias::calificar);
 	}
 }
