@@ -18,12 +18,6 @@ public class ControllerGuardarropas {
 		return new ModelAndView(listaDeGuardarropas, "guardarropas/index.hbs");
 	}
 
-	public static ModelAndView listarPrendas(Request req, Response res) {
-		long idGuardarropa = Long.parseLong(req.params("id"));
-		Guardarropa guardarropa = new RepositorioGuardarropas().buscarPorId(idGuardarropa);
-		return new ModelAndView(guardarropa, "guardarropas/prendas/index.hbs");
-	}
-
 	public static void noEncontrado(GuardarropaNoEncontradoException ex, Request req, Response res) {
 		res.redirect("/error");
 	}

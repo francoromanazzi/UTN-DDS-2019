@@ -27,24 +27,7 @@ public class ControllerEventos {
 		return new ModelAndView(listaDeEventosNoRepetitivos, "eventos/index.hbs");
 	}
 
-	public static ModelAndView listarSugerencias(Request req, Response res) {
-		long idEvento = Long.parseLong(req.params("id"));
-		Evento evento = new RepositorioEventos().buscarPorId(idEvento);
-		return new ModelAndView(evento, "eventos/sugerencias/index.hbs");
-	}
-
 	public static void noEncontrado(EventoNoEncontradoException ex, Request req, Response res) {
 		res.redirect("/error");
-	}
-
-	public static String aceptarSugerencia(Request req, Response res) {
-		long idEvento = Long.parseLong(req.params("id"));
-		long idSugerencia = Long.parseLong(req.queryParams("id_sugerencia"));
-
-		System.out.println(idEvento + ", " + idSugerencia);
-
-		res.redirect("/eventos");
-
-		return null;
 	}
 }

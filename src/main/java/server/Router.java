@@ -1,10 +1,9 @@
 package server;
 
-import controllers.ControllerEventos;
-import controllers.ControllerGuardarropas;
-import controllers.ControllerLogin;
+import controllers.*;
 import excepciones.EventoNoEncontradoException;
 import excepciones.GuardarropaNoEncontradoException;
+import excepciones.SugerenciaNoEncontradaException;
 import excepciones.UsuarioNoEncontradoException;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -31,15 +30,17 @@ public class Router {
 		before("/guardarropas/*", Auth::tieneToken);
 		get("/guardarropas", ControllerGuardarropas::listar, engine);
 		before("/guardarropas/:id/prendas", Auth::userEsPropietarioDeGuardarropa);
-		get("/guardarropas/:id/prendas", ControllerGuardarropas::listarPrendas, engine);
+		get("/guardarropas/:id/prendas", ControllerPrendas::listar, engine);
 		exception(GuardarropaNoEncontradoException.class, ControllerGuardarropas::noEncontrado);
 
 		before("/eventos", Auth::tieneToken);
 		before("/eventos/*", Auth::tieneToken);
 		get("/eventos", ControllerEventos::listar, engine);
 		before("/eventos/:id/sugerencias", Auth::userEsPropietarioDeEvento);
-		get("/eventos/:id/sugerencias", ControllerEventos::listarSugerencias, engine);
+		get("/eventos/:id/sugerencias", ControllerSugerencias::listar, engine);
 		exception(EventoNoEncontradoException.class, ControllerEventos::noEncontrado);
-		post("/eventos/:id/sugerencias/aceptadas", ControllerEventos::aceptarSugerencia);
+		before("/eventos/:id/sugerencias/aceptadas", Auth::userEsPropietarioDeEvento);
+		post("/eventos/:id/sugerencias/aceptadas", ControllerSugerencias::aceptar);
+		exception(SugerenciaNoEncontradaException.class, ControllerSugerencias::noEncontrado);
 	}
 }

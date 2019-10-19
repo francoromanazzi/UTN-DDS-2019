@@ -1,5 +1,6 @@
 package repositorios;
 
+import excepciones.SugerenciaNoEncontradaException;
 import modelo.sugerencia.Sugerencia;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
@@ -11,5 +12,13 @@ public class RepositorioSugerencias implements WithGlobalEntityManager, Transact
 		this.beginTransaction();
 		sugerencias.forEach(sug -> entityManager().persist(sug));
 		this.commitTransaction();
+	}
+
+	public Sugerencia buscarPorId(long id) throws SugerenciaNoEncontradaException {
+		Sugerencia ret = entityManager().find(Sugerencia.class, id);
+
+		if (ret == null) throw new SugerenciaNoEncontradaException();
+
+		return ret;
 	}
 }

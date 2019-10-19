@@ -22,7 +22,6 @@ public class ControllerLogin {
 	public static String login(Request req, Response res) throws UsuarioNoEncontradoException {
 		String username = req.queryParams("username");
 		String pass = req.queryParams("password");
-		String passHash = SHA256Builder.generarHash(pass);
 
 		Usuario user = new RepositorioUsuarios().buscarPorCredenciales(username, pass);
 
