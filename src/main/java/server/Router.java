@@ -31,6 +31,8 @@ public class Router {
 		get("/guardarropas", ControllerGuardarropas::listar, engine);
 		before("/guardarropas/:id/prendas", Auth::userEsPropietarioDeGuardarropa);
 		get("/guardarropas/:id/prendas", ControllerPrendas::listar, engine);
+		get("/guardarropas/:id/addPrenda", ControllerPrendas::crearPrenda,engine);
+		//TODO: post addPrenda
 		exception(GuardarropaNoEncontradoException.class, ControllerGuardarropas::noEncontrado);
 
 		before("/eventos", Auth::tieneToken);

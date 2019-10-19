@@ -14,4 +14,9 @@ public class ControllerPrendas {
 		return new ModelAndView(guardarropa, "guardarropas/prendas/index.hbs");
 	}
 
+	public static ModelAndView crearPrenda(Request req, Response res) {
+		return new ModelAndView(null, "guardarropas/prendas/addPrenda.hbs");
+	}
+
+
 }
