@@ -7,11 +7,11 @@
             <select data-placeholder="Tipo de Prenda" class="chosen-select" tabindex="2">
                 <option value=""></option>
                 <option>REMERA MANGA CORTA</option>
-                <option>REMERA_MANGA_LARGA</option>
+                <option>REMERA MANGA LARGA</option>
                 <option>CAMISA</option>
                 <option>BUZO</option>
                 <option>CAMPERA</option>
-                <option>PANTALON_LARGO</option>
+                <option>PANTALON LARGO</option>
                 <option>BERMUDA</option>
                 <option>POLLERA</option>
             </select>
@@ -31,7 +31,7 @@
                 <option>DENIM</option>
             </select>
         </div>
-        <div>
+        <div class="col-lg-3">
             <h3>Color Principal</h3>
             <select id="colorselector">
                 <option>Blanco</option>
@@ -43,7 +43,13 @@
             </select>
         </div>
     </div>
-    <input type="submit" value="Agregar Prenda"/>
+    <center>
+        <div class="buttons-content">
+            <input class="post-button" type="submit" href="/guardarropas/{{id}}/prendas" value="Agregar Prenda"/>
+            <a class="post-button" href="/guardarropas/{{id}}/prendas">Volver</a>
+        </div>
+    </center>
+
 {{/partial}}
 
 {{>layout.hbs}}
