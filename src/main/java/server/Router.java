@@ -3,7 +3,6 @@ package server;
 import controllers.ControllerEventos;
 import controllers.ControllerGuardarropas;
 import controllers.ControllerLogin;
-import controllers.ControllerSugerencias;
 import excepciones.EventoNoEncontradoException;
 import excepciones.GuardarropaNoEncontradoException;
 import excepciones.UsuarioNoEncontradoException;
@@ -38,8 +37,9 @@ public class Router {
 		before("/eventos", Auth::tieneToken);
 		before("/eventos/*", Auth::tieneToken);
 		get("/eventos", ControllerEventos::listar, engine);
-		before("/eventos/:id", Auth::userEsPropietarioDeEvento);
-		get("/eventos/:id", ControllerEventos::listarSugerencias, engine);
+		before("/eventos/:id/sugerencias", Auth::userEsPropietarioDeEvento);
+		get("/eventos/:id/sugerencias", ControllerEventos::listarSugerencias, engine);
 		exception(EventoNoEncontradoException.class, ControllerEventos::noEncontrado);
+		post("/eventos/:id/sugerencias/aceptadas", ControllerEventos::aceptarSugerencia);
 	}
 }

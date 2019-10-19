@@ -36,4 +36,15 @@ public class ControllerEventos {
 	public static void noEncontrado(EventoNoEncontradoException ex, Request req, Response res) {
 		res.redirect("/error");
 	}
+
+	public static String aceptarSugerencia(Request req, Response res) {
+		long idEvento = Long.parseLong(req.params("id"));
+		long idSugerencia = Long.parseLong(req.queryParams("id_sugerencia"));
+
+		System.out.println(idEvento + ", " + idSugerencia);
+
+		res.redirect("/eventos");
+
+		return null;
+	}
 }

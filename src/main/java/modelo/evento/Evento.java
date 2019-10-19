@@ -4,12 +4,14 @@ import excepciones.FechaFinDebeSerPosteriorAFechaInicioException;
 import excepciones.FrecuenciaDelEventoNula;
 import excepciones.parametros_nulos.FechaFinNoPuedeSerNulaException;
 import excepciones.parametros_nulos.FechaInicioNoPuedeSerNulaException;
+import modelo.sugerencia.EstadoSugerencia;
 import modelo.sugerencia.Sugerencia;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "eventos")
@@ -69,6 +71,10 @@ public class Evento {
 
 	public List<Sugerencia> getSugerencias() {
 		return this.sugerencias;
+	}
+	
+	public List<Sugerencia> getSugerenciasAceptadas() {
+		return this.sugerencias.stream().filter(sug -> sug.getEstado() == EstadoSugerencia.ACEPTADO).collect(Collectors.toList());
 	}
 
 	public void addSugerencia(Sugerencia sugerencia) {
