@@ -26,4 +26,8 @@ public enum SensibilidadTemperatura {
 		return cantFrio > cantNormal && cantFrio > cantCalor ? FRIO :
 				cantCalor > cantNormal ? CALOR : NORMAL;
 	}
+
+	public static SensibilidadTemperatura fromString(String str) {
+		return str.equals("FRIO") ? FRIO : str.equals("CALOR") ? CALOR : NORMAL;
+	}
 }

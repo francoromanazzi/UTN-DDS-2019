@@ -3,6 +3,7 @@ package controllers;
 import excepciones.SugerenciaNoEncontradaException;
 import modelo.evento.Evento;
 import modelo.sugerencia.CalificacionSugerencia;
+import modelo.sugerencia.SensibilidadTemperatura;
 import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Usuario;
 import repositorios.RepositorioEventos;
@@ -31,7 +32,7 @@ public class ControllerSugerencias {
 		Usuario usuario = new RepositorioUsuarios().buscarPorId(idUser);
 		Sugerencia sugerencia = new RepositorioSugerencias().buscarPorId(idSugerencia);
 
-		new RepositorioSugerencias().calificar(sugerencia, usuario);
+		new RepositorioSugerencias().aceptar(sugerencia, usuario);
 
 		res.redirect("/eventos");
 
@@ -51,13 +52,15 @@ public class ControllerSugerencias {
 	public static String calificar(Request req, Response res) throws SugerenciaNoEncontradaException {
 		long idSugerencia = Long.parseLong(req.queryParams("id_sugerencia"));
 		long idUser = Long.parseLong(Token.Desencriptar(req.cookie("userId")));
+		String nivel_abrigo_global = req.queryParams("nivel_abrigo_global");
 
 		Usuario usuario = new RepositorioUsuarios().buscarPorId(idUser);
 		Sugerencia sugerencia = new RepositorioSugerencias().buscarPorId(idSugerencia);
 
-		CalificacionSugerencia calificacionSugerencia = new CalificacionSugerencia(null, new ArrayList<>());
+		SensibilidadTemperatura sensibilidadGlobal = SensibilidadTemperatura.fromString(nivel_abrigo_global);
+		CalificacionSugerencia calificacionSugerencia = new CalificacionSugerencia(sensibilidadGlobal, new ArrayList<>());
 
-		sugerencia.calificar(calificacionSugerencia, usuario);
+		new RepositorioSugerencias().calificar(sugerencia, usuario, calificacionSugerencia);
 
 		res.redirect("/eventos");
 

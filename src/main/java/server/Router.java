@@ -32,6 +32,7 @@ public class Router {
 		before("/guardarropas/:id/prendas", Auth::userEsPropietarioDeGuardarropa);
 		get("/guardarropas/:id/prendas", ControllerPrendas::listar, engine);
 		get("/guardarropas/:id/nuevaPrenda", ControllerPrendas::crear,engine);
+		before("/guardarropas/:id/nuevaPrenda", Auth::userEsPropietarioDeGuardarropa);
 		post("/guardarropas/:id/nuevaPrenda", ControllerPrendas::add);
 		exception(GuardarropaNoEncontradoException.class, ControllerGuardarropas::noEncontrado);
 
@@ -47,6 +48,7 @@ public class Router {
 
 		before("/sugerencias/aceptadas", Auth::tieneToken);
 		get("/sugerencias/aceptadas", ControllerSugerencias::listarAceptadasParaCalificarlas, engine);
+		before("/sugerencias/calificadas", Auth::tieneToken);
 		post("/sugerencias/calificadas", ControllerSugerencias::calificar);
 	}
 }

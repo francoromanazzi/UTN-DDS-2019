@@ -1,6 +1,7 @@
 package repositorios;
 
 import excepciones.SugerenciaNoEncontradaException;
+import modelo.sugerencia.CalificacionSugerencia;
 import modelo.sugerencia.Sugerencia;
 import modelo.usuario.Usuario;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
@@ -32,7 +33,12 @@ public class RepositorioSugerencias implements WithGlobalEntityManager, Transact
 				setParameter("idUsuario", id_user).getResultList();
 	}
 
-	public void calificar(Sugerencia sugerencia, Usuario usuario) {
+	public void aceptar(Sugerencia sugerencia, Usuario usuario) {
 		withTransaction(() -> sugerencia.aceptar(usuario));
 	}
+
+	public void calificar(Sugerencia sugerencia, Usuario usuario, CalificacionSugerencia calificacionSugerencia) {
+		withTransaction(() -> sugerencia.calificar(calificacionSugerencia, usuario));
+	}
+
 }

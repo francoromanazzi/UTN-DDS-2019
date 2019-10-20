@@ -35,6 +35,11 @@
                     <h4 class="text-center">Cuanto te abrigo?</h4>
                     <form action="/sugerencias/calificadas" method="post" name="FormEntrar">
                         <input type="hidden" name="id_sugerencia" value="{{id}}"/>
+                        <select class="custom-select mb-3" name="nivel_abrigo_global">
+                            <option value="FRIO">Tuve frio</option>
+                            <option selected value="NORMAL">No tuve ni frio ni calor</option>
+                            <option value="CALOR">Tuve calor</option>
+                        </select>
                         <input type="submit" class="btn btn-primary btn-lg btn-block" value="Calificar"/>
                     </form>
                 </div>
