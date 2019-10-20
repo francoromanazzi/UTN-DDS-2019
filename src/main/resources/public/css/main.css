@@ -19,6 +19,8 @@ a {
     text-align: center;
 }
 
-#salir_btn{
-	border-left: 0.3vh #ABE7FF solid;
+@media (min-width: 992px) {
+    #salir_btn{
+        border-left: 2px rgb(210, 210, 210) solid;
+    }
 }
