@@ -1,7 +1,12 @@
 {{#partial "contenido"}}
     <h1 class="text-center mb-4">Prendas del guardarropa</h1>
 
-    <a class="btn btn-info" href="/guardarropas/{{id}}/nuevaPrenda">Agregar Prenda</a>
+    <div class="text-center mb-4">
+        <a class="btn btn-primary" href="/guardarropas/{{id}}/nuevaPrenda">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            Agregar Nueva Prenda
+        </a>
+    </div>
     <div class="row">
         {{#each prendas}}
             <div class="col-6 col-md-4 col-lg-3 mb-4 d-flex align-items-stretch">
