@@ -2,6 +2,7 @@ package repositorios;
 
 import excepciones.GuardarropaNoEncontradoException;
 import modelo.guardarropa.Guardarropa;
+import modelo.prenda.Prenda;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 import java.util.List;
@@ -23,5 +24,9 @@ public class RepositorioGuardarropas implements WithGlobalEntityManager {
 		return entityManager().createQuery("SELECT g FROM Guardarropa g JOIN " +
 				"g.usuariosPropietarios u WHERE u.Id = :idUsuario", Guardarropa.class).
 				setParameter("idUsuario", id_user).getResultList();
+	}
+
+	public void agregarPrenda(Prenda prenda) {
+		entityManager().persist(prenda);
 	}
 }

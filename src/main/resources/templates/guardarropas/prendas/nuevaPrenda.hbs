@@ -1,54 +1,86 @@
 {{#partial "contenido"}}
     <h1 class="text-center mb-4">Crear Nueva Prenda</h1>
 
-    <div class="row">
-        <div class="col-lg-3">
-            <h3>Tipo de Prenda</h3>
-            <select data-placeholder="Tipo de Prenda" class="chosen-select" tabindex="2">
-                <option value=""></option>
-                <option>REMERA MANGA CORTA</option>
-                <option>REMERA MANGA LARGA</option>
-                <option>CAMISA</option>
-                <option>BUZO</option>
-                <option>CAMPERA</option>
-                <option>PANTALON LARGO</option>
-                <option>BERMUDA</option>
-                <option>POLLERA</option>
-            </select>
-        </div>
-        <div class="col-lg-3">
-            <h3>Material de Prenda</h3>
-            <select data-placeholder="Tipo de Prenda" class="chosen-select" tabindex="2">
-                <option value=""></option>
-                <option>CUERO</option>
-                <option>LANA</option>
-                <option>ALGODON</option>
-                <option>POLIESTER</option>
-                <option>GOMA</option>
-                <option>PLATA</option>
-                <option>ORO</option>
-                <option>PLASTICO</option>
-                <option>DENIM</option>
-            </select>
-        </div>
-        <div class="col-lg-3">
-            <h3>Color Principal</h3>
-            <select id="colorselector">
-                <option>Blanco</option>
-                <option>Negro</option>
-                <option>Azul</option>
-                <option>Rojo</option>
-                <option>Amarrillo</option>
-                <option>Verde</option>
-            </select>
+    <div class="text-center mb-2">
+        <div class="card-deck mb-4 text-center">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Tipo</h3>
+                </div>
+                <div class="card-body">
+                    <select data-placeholder="Tipo de Prenda" class="chosen-select" tabindex="2">
+                        <option value=""></option>
+                        <option>REMERA MANGA CORTA</option>
+                        <option>REMERA MANGA LARGA</option>
+                        <option>CAMISA</option>
+                        <option>BUZO</option>
+                        <option>CAMPERA</option>
+                        <option>PANTALON LARGO</option>
+                        <option>BERMUDA</option>
+                        <option>POLLERA</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Material</h3>
+                </div>
+                <div class="card-body">
+                        <select data-placeholder="Tipo de Prenda" class="chosen-select" tabindex="2">
+                            <option value=""></option>
+                            <option>CUERO</option>
+                            <option>LANA</option>
+                            <option>ALGODON</option>
+                            <option>POLIESTER</option>
+                            <option>GOMA</option>
+                            <option>PLATA</option>
+                            <option>ORO</option>
+                            <option>PLASTICO</option>
+                            <option>DENIM</option>
+                        </select>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Color Principal</h3>
+                </div>
+                <div class="card-body">
+                    <select id="colorselector">
+                        <option>Blanco</option>
+                        <option>Negro</option>
+                        <option>Azul</option>
+                        <option>Rojo</option>
+                        <option>Amarrillo</option>
+                        <option>Verde</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Color Secundario</h3>
+                </div>
+                <div class="card-body">
+                    <select id="colorselector">
+                        <option>Blanco</option>
+                        <option>Negro</option>
+                        <option>Azul</option>
+                        <option>Rojo</option>
+                        <option>Amarrillo</option>
+                        <option>Verde</option>
+                    </select>
+                </div>
+            </div>
+
         </div>
     </div>
-    <center>
-        <div class="buttons-content">
-            <input class="post-button" type="submit" href="/guardarropas/{{id}}/prendas" value="Agregar Prenda"/>
-            <a class="post-button" href="/guardarropas/{{id}}/prendas">Volver</a>
-        </div>
-    </center>
+    <div class="text-center mb-4">
+        <a class="btn btn-primary" href="/guardarropas/{{id}}/prendas" type="submit">
+            Agregar Prenda
+        </a>
+        <a class="btn btn-primary" href="/guardarropas/{{id}}/prendas" type="submit">
+            Volver
+        </a>
+    </div>
 
 {{/partial}}
 
