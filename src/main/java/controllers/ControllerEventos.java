@@ -60,7 +60,7 @@ public class ControllerEventos {
 
 		user.agendarEvento(nuevoEvento, g);
 
-		res.redirect("/eventos");
+		res.redirect("/eventos?eventCreated=1");
 		return null;
 	}
 }
