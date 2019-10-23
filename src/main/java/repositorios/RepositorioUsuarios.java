@@ -39,4 +39,8 @@ public class RepositorioUsuarios implements WithGlobalEntityManager {
 	public List<Usuario> obtenerTodos() {
 		return entityManager().createQuery("FROM Usuario", Usuario.class).getResultList();
 	}
+
+	public void nuevoUsuario(Usuario user){
+		entityManager().persist(user);
+	}
 }
