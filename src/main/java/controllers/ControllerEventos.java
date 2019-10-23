@@ -30,4 +30,8 @@ public class ControllerEventos {
 	public static void noEncontrado(EventoNoEncontradoException ex, Request req, Response res) {
 		res.redirect("/error");
 	}
+	
+	public static ModelAndView nuevoEvento(Request req, Response res) {
+		return new ModelAndView(null, "eventos/nuevo.hbs");
+	}
 }
