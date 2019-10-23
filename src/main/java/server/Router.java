@@ -24,8 +24,11 @@ public class Router {
 		get("/logout", ControllerLogin::logout);
 		get("/loginFailed", ControllerLogin::loginFailed, engine);
 
-		ControllerPrendas controllerPrendas = new ControllerPrendas();
+		ControllerRegistro controllerRegistro = new ControllerRegistro();
+		get("/registro", ControllerRegistro::mostrar, engine);
+		post("/registrarse", controllerRegistro::registrar);
 
+		ControllerPrendas controllerPrendas = new ControllerPrendas();
 		before("/guardarropas", Auth::tieneToken);
 		before("/guardarropas/*", Auth::tieneToken);
 		get("/guardarropas", ControllerGuardarropas::listar, engine);

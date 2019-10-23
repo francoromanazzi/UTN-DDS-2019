@@ -1,0 +1,31 @@
+{{#partial "contenido"}}
+    <link rel="stylesheet" href="/css/login.css">
+
+    <h1 class="text-center">Registro</h1>
+
+    <form action="/registrarse" method="post">
+        <div class="input-group input-group-lg" id="username-container">
+            <input type="text" class="form-control" name="nombre" placeholder="Nombre" aria-describedby="sizing-addon1" value="" required>
+        </div>
+        <br>
+        <div class="input-group input-group-lg" id="username-container">
+            <input type="text" class="form-control" name="username" placeholder="Usuario" id="Username" aria-describedby="sizing-addon1" value="" required>
+        </div>
+        <br>
+        <div class="input-group input-group-lg" id="password-container">
+            <input type="password" name="password" class="form-control" placeholder="Contraseña" aria-describedby="sizing-addon1" value="" required>
+        </div>
+        <br>
+        <div class="input-group input-group-lg" id="username-container">
+            <input type="email" name="mail" class="form-control" placeholder="example@example.com" aria-describedby="sizing-addon1" value="" required>
+        </div>
+        <br>
+        <div class="input-group input-group-lg" id="username-container">
+            <input type="text" name="numero" class="form-control" placeholder="Número de teléfono" aria-describedby="sizing-addon1" value="" required>
+        </div>
+        <br>
+        <input class="btn btn-lg btn-primary btn-block btn-signin" id="IngresoLog" type="submit" value="Registrarse"/>
+    </form>
+{{/partial}}
+
+{{>layout.hbs}}
