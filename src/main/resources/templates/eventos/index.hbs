@@ -4,11 +4,11 @@
     <h1 class="text-center mb-4">Eventos</h1>
 
     {{#each this}}
-    	<input type = "hidden" class="id_value" value = {{id}} />
-    	<input type = "hidden" class="titulo_value" value = {{titulo}} />
-    	<input type = "hidden" class="fecha_inicio_value" value = {{fechaInicio}} />
-    	<input type = "hidden" class="fecha_fin_value" value = {{fechaFin}} />
-    	<input type = "hidden" class="tipo_evento_value" value = {{tipoEvento}} />
+    	<input type = "hidden" class="id_value" value="{{id}}"/>
+    	<input type = "hidden" class="titulo_value" value="{{titulo}}"/>
+    	<input type = "hidden" class="fecha_inicio_value" value="{{fechaInicio}}"/>
+    	<input type = "hidden" class="fecha_fin_value" value="{{fechaFin}}"/>
+    	<input type = "hidden" class="tipo_evento_value" value="{{tipoEvento}}"/>
     {{/each}}
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
@@ -74,14 +74,20 @@
 			anio_inicio = new Date(list_fechaInicio[i].value).getFullYear()
 			mes_inicio = new Date(list_fechaInicio[i].value).getMonth()
 			dia_inicio = new Date(list_fechaInicio[i].value).getDate()
+			hora_inicio = new Date(list_fechaInicio[i].value).getHours()
+			minutos_inicio = new Date(list_fechaInicio[i].value).getMinutes()
+			
 			anio_fin = new Date(list_fechaFin[i].value).getFullYear()
 			mes_fin = new Date(list_fechaFin[i].value).getMonth()
 			dia_fin = new Date(list_fechaFin[i].value).getDate()
+			hora_fin = new Date(list_fechaInicio[i].value).getHours()
+			minutos_fin = new Date(list_fechaInicio[i].value).getMinutes()
+			
 			un_evento = {
 				id: parseInt(list_ids[i].value),
 				title: list_titulos[i].value,
-				start: new Date(anio_inicio, mes_inicio, dia_inicio),
-				end: new Date(anio_fin, mes_fin, dia_fin),
+				start: new Date(anio_inicio, mes_inicio, dia_inicio, hora_inicio, minutos_inicio),
+				end: new Date(anio_fin, mes_fin, dia_fin, hora_fin, minutos_fin),
 				url: '/eventos/' + list_ids[i].value + '/sugerencias',
 				className: 'info',
 				allDay: false
@@ -116,7 +122,7 @@
 			allDaySlot: false,
 			selectHelper: true,
 			select: function(start, end, allDay) {
-				var title = prompt('Event Title:');
+				/*var title = prompt('Event Title:');
 				if (title) {
 					calendar.fullCalendar('renderEvent',
 						{
@@ -128,7 +134,7 @@
 						true // make the event "stick"
 					);
 				}
-				calendar.fullCalendar('unselect');
+				calendar.fullCalendar('unselect');*/
 			},
 			droppable: true, // this allows things to be dropped onto the calendar !!!
 			drop: function(date, allDay) { // this function is called when something is dropped
@@ -157,7 +163,7 @@
 			
 			events: eventos,		
 		});
-			
+		
 	});
 
 </script>
