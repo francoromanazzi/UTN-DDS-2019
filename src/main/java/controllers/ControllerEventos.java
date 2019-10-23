@@ -50,13 +50,13 @@ public class ControllerEventos {
 		long idUser = Long.parseLong(Token.Desencriptar(req.cookie("userId")));
 		Usuario user = new RepositorioUsuarios().buscarPorId(idUser);
 		
-		LocalDateTime fechaInicio = LocalDateTime.parse(req.params("fecha_inicio"));
-		LocalDateTime fechaFin = LocalDateTime.parse(req.params("fecha_fin"));
-		FrecuenciaEvento frecuencia = FrecuenciaEvento.valueOf(req.params("frecuencia").toUpperCase());
-		TipoEvento tipo = TipoEvento.valueOf(req.params("tipo").toUpperCase());
-		Guardarropa g = new RepositorioGuardarropas().buscarPorId(Long.parseLong(req.params("id_guardarropa"))); 
+		LocalDateTime fechaInicio = LocalDateTime.parse(req.queryParams("fecha_inicio"));
+		LocalDateTime fechaFin = LocalDateTime.parse(req.queryParams("fecha_fin"));
+		FrecuenciaEvento frecuencia = FrecuenciaEvento.valueOf(req.queryParams("frecuencia").toUpperCase().replace(" ", "_"));
+		TipoEvento tipo = TipoEvento.valueOf(req.queryParams("tipo").toUpperCase());
+		Guardarropa g = new RepositorioGuardarropas().buscarPorId(Long.parseLong(req.queryParams("id_guardarropa"))); 
 		
-		Evento nuevoEvento = new Evento(req.params("titulo"), fechaInicio, fechaFin, frecuencia, tipo);
+		Evento nuevoEvento = new Evento(req.queryParams("titulo"), fechaInicio, fechaFin, frecuencia, tipo);
 
 		user.agendarEvento(nuevoEvento, g);
 
