@@ -1,10 +1,7 @@
 package server;
 
 import controllers.*;
-import excepciones.EventoNoEncontradoException;
-import excepciones.GuardarropaNoEncontradoException;
-import excepciones.SugerenciaNoEncontradaException;
-import excepciones.UsuarioNoEncontradoException;
+import excepciones.*;
 import spark.ModelAndView;
 import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -37,6 +34,7 @@ public class Router {
 		get("/guardarropas/:id/nuevaPrenda", ControllerPrendas::crear,engine);
 		before("/guardarropas/:id/nuevaPrenda", Auth::userEsPropietarioDeGuardarropa);
 		post("/guardarropas/:id/nuevaPrenda", controllerPrendas::add);
+		exception(MaterialNoTieneSentidoParaEseTipoException.class, ControllerPrendas::materialNoTieneSentido);
 		exception(GuardarropaNoEncontradoException.class, ControllerGuardarropas::noEncontrado);
 
 		before("/eventos", Auth::tieneToken);

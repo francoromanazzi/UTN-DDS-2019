@@ -54,4 +54,19 @@ public class Color {
 	public String toString() {
 		return "(" + rojo + ", " + verde + ", " + azul + ")";
 	}
+
+	/* Hay que darle un string de tipo (111,222,333) */
+	public static Color fromString(String s){
+		String[] parsed = s.split("\\D+");
+
+		String redString = parsed[1];
+		String greenString = parsed[2];
+		String blueString = parsed[3];
+
+		int red = Integer.parseInt(redString);
+		int green = Integer.parseInt(greenString);
+		int blue = Integer.parseInt(blueString);
+
+		return new Color(red, green, blue);
+	}
 }

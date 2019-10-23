@@ -1,87 +1,83 @@
 {{#partial "contenido"}}
     <h1 class="text-center mb-4">Crear Nueva Prenda</h1>
-
-    <div class="text-center mb-2">
-        <div class="card-deck mb-4 text-center">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Tipo</h3>
-                </div>
-                <div class="card-body">
-                    <select data-placeholder="Tipo de Prenda" class="chosen-select" tabindex="2">
-                        <option value=""></option>
-                        <option>REMERA MANGA CORTA</option>
-                        <option>REMERA MANGA LARGA</option>
-                        <option>CAMISA</option>
-                        <option>BUZO</option>
-                        <option>CAMPERA</option>
-                        <option>PANTALON LARGO</option>
-                        <option>BERMUDA</option>
-                        <option>POLLERA</option>
-                    </select>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <h3>Material</h3>
-                </div>
-                <div class="card-body">
-                        <select data-placeholder="Tipo de Prenda" class="chosen-select" tabindex="2">
-                            <option value=""></option>
-                            <option>CUERO</option>
-                            <option>LANA</option>
-                            <option>ALGODON</option>
-                            <option>POLIESTER</option>
-                            <option>GOMA</option>
-                            <option>PLATA</option>
-                            <option>ORO</option>
-                            <option>PLASTICO</option>
-                            <option>DENIM</option>
+    <form action="/guardarropas/{{id}}/nuevaPrenda" method="post">
+        <div class="text-center mb-2">
+            <div class="card-deck mb-4 text-center">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Tipo</h3>
+                    </div>
+                    <div class="card-body">
+                        <select placeholder="Tipo de Prenda" class="chosen-select" tabindex="2" name="tipo">
+                            <option value="REMERA_MANGA_CORTA">REMERA MANGA CORTA</option>
+                            <option value="REMERA_MANGA_LARGA">REMERA MANGA LARGA</option>
+                            <option value="CAMISA">CAMISA</option>
+                            <option value="BUZO">BUZO</option>
+                            <option value="CAMPERA">CAMPERA</option>
+                            <option value="PANTALON_LARGO">PANTALON LARGO</option>
+                            <option value="BERMUDA">BERMUDA</option>
+                            <option value="POLLERA">POLLERA</option>
                         </select>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Material</h3>
+                    </div>
+                    <div class="card-body">
+                        <select placeholder="Tipo de Prenda" class="chosen-select" tabindex="2" name="material">
+                            <option value="CUERO">CUERO</option>
+                            <option value="LANA">LANA</option>
+                            <option value="ALGODON">ALGODON</option>
+                            <option value="POLIESTER">POLIESTER</option>
+                            <option value="GOMA">GOMA</option>
+                            <option value="PLATA">PLATA</option>
+                            <option value="ORO">ORO</option>
+                            <option value="PLASTICO">PLASTICO</option>
+                            <option value="DENIM">DENIM</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Color Principal</h3>
+                    </div>
+                    <div class="card-body">
+                        <select id="colorselector" name="colorPrincipal">
+                            <option value="(255,255,255)">BLANCO</option>
+                            <option value="(0,0,0)">NEGRO</option>
+                            <option value="(0,0,255)">AZUL</option>
+                            <option value="(255,0,0)">ROJO</option>
+                            <option value="(255,255,0)">AMARILLO</option>
+                            <option value="(0,255,0)">VERDE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Color Secundario</h3>
+                    </div>
+                    <div class="card-body">
+                        <select id="colorselector" name="colorSecundario">
+                            <option value=""> - </option>
+                            <option value="(255,255,255)">BLANCO</option>
+                            <option value="(0,0,0)">NEGRO</option>
+                            <option value="(0,0,255)">AZUL</option>
+                            <option value="(255,0,0)">ROJO</option>
+                            <option value="(255,255,0)">AMARILLO</option>
+                            <option value="(0,255,0)">VERDE</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <h3>Color Principal</h3>
-                </div>
-                <div class="card-body">
-                    <select id="colorselector">
-                        <option>Blanco</option>
-                        <option>Negro</option>
-                        <option>Azul</option>
-                        <option>Rojo</option>
-                        <option>Amarrillo</option>
-                        <option>Verde</option>
-                    </select>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <h3>Color Secundario</h3>
-                </div>
-                <div class="card-body">
-                    <select id="colorselector">
-                        <option>Blanco</option>
-                        <option>Negro</option>
-                        <option>Azul</option>
-                        <option>Rojo</option>
-                        <option>Amarrillo</option>
-                        <option>Verde</option>
-                    </select>
-                </div>
-            </div>
-
         </div>
-    </div>
-    <div class="text-center mb-4">
-        <a class="btn btn-primary" href="/guardarropas/{{id}}/prendas" type="submit">
-            Agregar Prenda
-        </a>
-        <a class="btn btn-primary" href="/guardarropas/{{id}}/prendas" type="submit">
-            Volver
-        </a>
-    </div>
-
+        <div class="text-center mb-4">
+            <input class="btn btn-primary" type="submit" value="Crear"/>
+            <a class="btn btn-primary" href="/guardarropas/{{id}}/prendas" type="submit">
+                Volver
+            </a>
+        </div>
+    </form>
 {{/partial}}
 
 {{>layout.hbs}}

@@ -1,5 +1,6 @@
 package controllers;
 
+import excepciones.MaterialNoTieneSentidoParaEseTipoException;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Color;
 import modelo.prenda.Material;
@@ -31,13 +32,34 @@ public class ControllerPrendas implements WithGlobalEntityManager, Transactional
 	public String add(Request req, Response res) {
 		long idGuardarropa = Long.parseLong(req.params("id"));
 		Guardarropa guardarropa = new RepositorioGuardarropas().buscarPorId(idGuardarropa);
-		guardarropa.addPrenda(new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON,new Color(0, 0, 0), Optional.empty(), Optional.empty()));
-		withTransaction(() ->{
-			new RepositorioGuardarropas().agregarPrenda(new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON,new Color(0, 0, 0), Optional.empty(), Optional.empty()));
+
+		String valueTipo = req.queryParams("tipo");
+		Tipo tipo = Tipo.valueOf(valueTipo);
+
+		String valueMaterial = req.queryParams("material");
+		Material material = Material.valueOf(valueMaterial);
+
+		String valueColor = req.queryParams("colorPrincipal");
+		Color colorPrincipal = Color.fromString(valueColor);
+
+		String valueColorSecundario = req.queryParams("colorSecundario");
+		Optional<Color> colorSecundario = valueColorSecundario.equals("") ? Optional.empty() : Optional.of(Color.fromString(valueColorSecundario));
+
+		Prenda prenda = new Prenda(tipo, material, colorPrincipal, colorSecundario, Optional.empty()); // La imagen por ahora no se puede cargar.
+
+		guardarropa.addPrenda(prenda);
+
+		withTransaction(() -> {
+			new RepositorioGuardarropas().agregarPrenda(prenda);
 		});
+
 		res.redirect("/guardarropas");
+
 		return null;
 	}
 
+	public static void materialNoTieneSentido(MaterialNoTieneSentidoParaEseTipoException ex, Request req, Response res){
+		res.redirect("/error");
+	}
 
 }
