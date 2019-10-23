@@ -1,17 +1,23 @@
 package controllers;
 
+import excepciones.CapacidadExcedidaGuardarropaException;
 import excepciones.MaterialNoTieneSentidoParaEseTipoException;
+import excepciones.UsuarioNoEsPropietarioDelGuardarropaException;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Color;
 import modelo.prenda.Material;
 import modelo.prenda.Prenda;
 import modelo.prenda.Tipo;
+import modelo.usuario.Usuario;
 import repositorios.RepositorioGuardarropas;
+import repositorios.RepositorioPrendas;
+import repositorios.RepositorioUsuarios;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
+import utils.Token;
 
 import java.util.Optional;
 
@@ -29,7 +35,10 @@ public class ControllerPrendas implements WithGlobalEntityManager, Transactional
 		return new ModelAndView(guardarropa, "guardarropas/prendas/nuevaPrenda.hbs");
 	}
 
-	public String add(Request req, Response res) {
+	public static String add(Request req, Response res) throws MaterialNoTieneSentidoParaEseTipoException, UsuarioNoEsPropietarioDelGuardarropaException, CapacidadExcedidaGuardarropaException {
+		long idUser = Long.parseLong(Token.Desencriptar(req.cookie("userId")));
+		Usuario usuario = new RepositorioUsuarios().buscarPorId(idUser);
+
 		long idGuardarropa = Long.parseLong(req.params("id"));
 		Guardarropa guardarropa = new RepositorioGuardarropas().buscarPorId(idGuardarropa);
 
@@ -45,13 +54,10 @@ public class ControllerPrendas implements WithGlobalEntityManager, Transactional
 		String valueColorSecundario = req.queryParams("colorSecundario");
 		Optional<Color> colorSecundario = valueColorSecundario.equals("") ? Optional.empty() : Optional.of(Color.fromString(valueColorSecundario));
 
-		Prenda prenda = new Prenda(tipo, material, colorPrincipal, colorSecundario, Optional.empty()); // La imagen por ahora no se puede cargar.
+		Prenda prenda = new Prenda(tipo, material, colorPrincipal, colorSecundario, Optional.empty()); // TODO: La imagen por ahora no se puede cargar.
 
-		guardarropa.addPrenda(prenda);
+		new RepositorioPrendas().guardar(prenda, guardarropa, usuario);
 
-		new RepositorioGuardarropas().add(guardarropa); //TODO: se persiste el guardarropas con la nueva prenda o solo la prenda con el id de guardarropas
-
-		res.status(200);
 		res.redirect("/guardarropas");
 
 		return null;
@@ -61,4 +67,11 @@ public class ControllerPrendas implements WithGlobalEntityManager, Transactional
 		res.redirect("/error");
 	}
 
+	public static void usuarioNoEsPropietarioDelGuardarropa(UsuarioNoEsPropietarioDelGuardarropaException ex, Request req, Response res){
+		res.redirect("/error");
+	}
+
+	public static void capacidadExcedidaGuardarropa(CapacidadExcedidaGuardarropaException ex, Request req, Response res){
+		res.redirect("/error");
+	}
 }

@@ -24,11 +24,9 @@ public class Router {
 		get("/logout", ControllerLogin::logout);
 		get("/loginFailed", ControllerLogin::loginFailed, engine);
 
-		ControllerRegistro controllerRegistro = new ControllerRegistro();
 		get("/registro", ControllerRegistro::mostrar, engine);
-		post("/registrarse", controllerRegistro::registrar);
+		post("/registrarse", ControllerRegistro::registrar);
 
-		ControllerPrendas controllerPrendas = new ControllerPrendas();
 		before("/guardarropas", Auth::tieneToken);
 		before("/guardarropas/*", Auth::tieneToken);
 		get("/guardarropas", ControllerGuardarropas::listar, engine);
@@ -36,9 +34,11 @@ public class Router {
 		get("/guardarropas/:id/prendas", ControllerPrendas::listar, engine);
 		get("/guardarropas/:id/nuevaPrenda", ControllerPrendas::crear,engine);
 		before("/guardarropas/:id/nuevaPrenda", Auth::userEsPropietarioDeGuardarropa);
-		post("/guardarropas/:id/nuevaPrenda", controllerPrendas::add);
+		post("/guardarropas/:id/nuevaPrenda", ControllerPrendas::add);
 		exception(MaterialNoTieneSentidoParaEseTipoException.class, ControllerPrendas::materialNoTieneSentido);
 		exception(GuardarropaNoEncontradoException.class, ControllerGuardarropas::noEncontrado);
+		exception(UsuarioNoEsPropietarioDelGuardarropaException.class, ControllerPrendas::usuarioNoEsPropietarioDelGuardarropa);
+		exception(CapacidadExcedidaGuardarropaException.class, ControllerPrendas::capacidadExcedidaGuardarropa);
 
 		before("/eventos", Auth::tieneToken);
 		before("/eventos/*", Auth::tieneToken);

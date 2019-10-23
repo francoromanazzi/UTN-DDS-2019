@@ -40,7 +40,7 @@ public class RepositorioUsuarios implements WithGlobalEntityManager {
 		return entityManager().createQuery("FROM Usuario", Usuario.class).getResultList();
 	}
 
-	public void nuevoUsuario(Usuario user){
+	public void guardar(Usuario user){
 		entityManager().persist(user);
 	}
 }
