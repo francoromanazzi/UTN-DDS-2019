@@ -1,6 +1,6 @@
 {{#partial "contenido"}}
     <h1 class="text-center mb-4">Crear Nueva Prenda</h1>
-    <form action="/guardarropas/{{id}}/nuevaPrenda" method="post">
+    <form action="/guardarropas/{{guardarropa.id}}/nuevaPrenda" method="post">
         <div class="text-center mb-2">
             <div class="card-deck mb-4 text-center">
                 <div class="card">
@@ -9,14 +9,9 @@
                     </div>
                     <div class="card-body">
                         <select placeholder="Tipo de Prenda" class="chosen-select" tabindex="2" name="tipo">
-                            <option value="REMERA_MANGA_CORTA">REMERA MANGA CORTA</option>
-                            <option value="REMERA_MANGA_LARGA">REMERA MANGA LARGA</option>
-                            <option value="CAMISA">CAMISA</option>
-                            <option value="BUZO">BUZO</option>
-                            <option value="CAMPERA">CAMPERA</option>
-                            <option value="PANTALON_LARGO">PANTALON LARGO</option>
-                            <option value="BERMUDA">BERMUDA</option>
-                            <option value="POLLERA">POLLERA</option>
+                            {{#each tiposDePrendaPosibles}}
+                                <option value="{{this}}">{{sinGuionesBajos this}}</option>
+                            {{/each}}
                         </select>
                     </div>
                 </div>
@@ -26,15 +21,9 @@
                     </div>
                     <div class="card-body">
                         <select placeholder="Tipo de Prenda" class="chosen-select" tabindex="2" name="material">
-                            <option value="CUERO">CUERO</option>
-                            <option value="LANA">LANA</option>
-                            <option value="ALGODON">ALGODON</option>
-                            <option value="POLIESTER">POLIESTER</option>
-                            <option value="GOMA">GOMA</option>
-                            <option value="PLATA">PLATA</option>
-                            <option value="ORO">ORO</option>
-                            <option value="PLASTICO">PLASTICO</option>
-                            <option value="DENIM">DENIM</option>
+                            {{#each materialesDePrendaPosibles}}
+                                <option value="{{this}}">{{sinGuionesBajos this}}</option>
+                            {{/each}}
                         </select>
                     </div>
                 </div>
@@ -73,7 +62,7 @@
         </div>
         <div class="text-center mb-4">
             <input class="btn btn-primary" type="submit" value="Crear"/>
-            <a class="btn btn-primary" href="/guardarropas/{{id}}/prendas" type="submit">
+            <a class="btn btn-primary" href="/guardarropas/{{guardarropa.id}}/prendas">
                 Volver
             </a>
         </div>

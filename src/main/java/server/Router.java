@@ -26,6 +26,7 @@ public class Router {
 
 		get("/registro", ControllerRegistro::mostrar, engine);
 		post("/registrarse", ControllerRegistro::registrar);
+		exception(UsernameEnUsoException.class, ControllerRegistro::usernameEnUso);
 
 		before("/guardarropas", Auth::tieneToken);
 		before("/guardarropas/*", Auth::tieneToken);

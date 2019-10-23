@@ -13,4 +13,5 @@ public class RepositorioPrendas implements WithGlobalEntityManager, Transactiona
 	public void guardar(Prenda prenda, Guardarropa guardarropa, Usuario usuario) throws UsuarioNoEsPropietarioDelGuardarropaException, CapacidadExcedidaGuardarropaException {
 		withTransaction(() -> usuario.addPrenda(prenda, guardarropa));
 	}
+
 }
