@@ -1,15 +1,17 @@
 package repositorios;
 
+import excepciones.UsernameEnUsoException;
 import excepciones.UsuarioNoEncontradoException;
 import modelo.usuario.Usuario;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 import utils.SHA256Builder;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 
-public class RepositorioUsuarios implements WithGlobalEntityManager {
+public class RepositorioUsuarios implements WithGlobalEntityManager, TransactionalOps {
 	public Usuario buscarPorId(Long Id) throws UsuarioNoEncontradoException {
 		Usuario ret = entityManager().find(Usuario.class, Id);
 
@@ -40,7 +42,10 @@ public class RepositorioUsuarios implements WithGlobalEntityManager {
 		return entityManager().createQuery("FROM Usuario", Usuario.class).getResultList();
 	}
 
-	public void guardar(Usuario user){
-		entityManager().persist(user);
+	public void guardar(Usuario user) throws UsernameEnUsoException {
+		if(this.obtenerTodos().stream().anyMatch(u -> u.getUsername().equals(user.getUsername())))
+			throw new UsernameEnUsoException();
+
+		withTransaction(() -> entityManager().persist(user));
 	}
 }

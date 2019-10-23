@@ -1,6 +1,6 @@
 {{#partial "contenido"}}
-	<link rel="stylesheet" href="/css/login.css">
-	
+    <link rel="stylesheet" href="/css/login.css">
+
     <h1 class="text-center">Bienvenido a Que Me Pongo</h1>
     <div class="icono">
         <img src="/img/logo.png" alt="remera">
@@ -8,16 +8,22 @@
     <div class="ContentForm">
         <form action="/login" method="post" name="FormEntrar">
             <div class="input-group input-group-lg" id="username-container">
-                <input type="text" class="form-control" name="username" placeholder="Usuario" id="Username" aria-describedby="sizing-addon1" value="" required>
+                <input type="text" class="form-control" name="username" placeholder="Usuario" id="Username"
+                       aria-describedby="sizing-addon1" value="" required>
             </div>
             <br>
             <div class="input-group input-group-lg" id="password-container">
-                <input type="password" name="password" class="form-control" placeholder="******" aria-describedby="sizing-addon1" value="" required>
+                <input type="password" name="password" class="form-control" placeholder="******"
+                       aria-describedby="sizing-addon1" value="" required>
             </div>
             <br>
             <input class="btn btn-lg btn-primary btn-block btn-signin" id="IngresoLog" type="submit" value="Entrar"/>
             <br>
-            <a class="btn btn-lg btn-primary btn-block btn-signin" id="IngresoLog" href="/registro">Registrarse</a> <!-- CORREGIR LONGITUD BOTON -->
+            <p class="text-center lead mt-4">No tenes una cuenta?
+                <a class="text-primary" href="/registro">
+                    Registrate
+                </a>
+            </p>
         </form>
     </div>
 {{/partial}}

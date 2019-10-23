@@ -1,8 +1,7 @@
 package controllers;
 
+import excepciones.UsernameEnUsoException;
 import modelo.usuario.Usuario;
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 import repositorios.RepositorioUsuarios;
 import spark.ModelAndView;
 import spark.Request;
@@ -13,7 +12,7 @@ public class ControllerRegistro {
 		return new ModelAndView(null, "registro/index.hbs");
 	}
 
-	public static String registrar(Request req, Response res) {
+	public static String registrar(Request req, Response res) throws UsernameEnUsoException {
 		String nombre = req.queryParams("nombre");
 		String username = req.queryParams("username");
 		String password = req.queryParams("password");
@@ -24,10 +23,13 @@ public class ControllerRegistro {
 
 		new RepositorioUsuarios().guardar(user);
 
-		res.status(200);
 		res.redirect("/");
 
 		return null;
+	}
+
+	public static void usernameEnUso(UsernameEnUsoException ex, Request req, Response res) {
+		res.redirect("/error");
 	}
 
 }

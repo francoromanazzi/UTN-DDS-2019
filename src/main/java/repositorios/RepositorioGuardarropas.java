@@ -4,10 +4,11 @@ import excepciones.GuardarropaNoEncontradoException;
 import modelo.guardarropa.Guardarropa;
 import modelo.prenda.Prenda;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import java.util.List;
 
-public class RepositorioGuardarropas implements WithGlobalEntityManager {
+public class RepositorioGuardarropas implements WithGlobalEntityManager, TransactionalOps {
 	public Guardarropa buscarPorId(long id) throws GuardarropaNoEncontradoException {
 		Guardarropa ret = entityManager().find(Guardarropa.class, id);
 
@@ -27,6 +28,6 @@ public class RepositorioGuardarropas implements WithGlobalEntityManager {
 	}
 
 	public void guardar(Guardarropa guardarropa) {
-		entityManager().persist(guardarropa);
+		withTransaction(() -> entityManager().persist(guardarropa));
 	}
 }
