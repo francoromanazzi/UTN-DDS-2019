@@ -31,6 +31,6 @@ public class Server {
 
 		ServicioDelClima.getInstance().agregarMeteorologo(new AccuWeather());
 		ServicioDelClima.getInstance().agregarMeteorologo(new DarkSky());
-		//new HardcodearDatosDB().agendarEventos();
+		new HardcodearDatosDB().agendarEventos();
 	}
 }

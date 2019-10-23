@@ -1,5 +1,44 @@
 {{#partial "contenido"}}
     <h1 class="text-center mb-4">Crea tu evento</h1>
+    
+    <form method="POST" action="/eventos/new">
+  		<div class="form-group">
+    		<label for="titulo-evento">Titulo</label>
+    		<input type="text" class="form-control" name="titulo" id="titulo-evento" placeholder="Ir al trabajo..." required>
+  		</div>
+  		<div class="form-row">
+    		<div class="form-group col-md-6">
+      			<label for="fecha_inicio_evento">Fecha de inicio</label>
+      			<input type="datetime-local" name="fecha_inicio" class="form-control" id="fecha_inicio_evento" required>
+    		</div>
+    		<div class="form-group col-md-6">
+      			<label for="fecha_fin_evento">Fecha de fin</label>
+      			<input type="datetime-local" name="fecha_fin" class="form-control" id="fecha_fin_evento" required>
+    		</div>
+  		</div>
+  		<div class="form-row">
+  			<div class="form-group col-md-6">
+      			<label for="tipo_evento">Tipo de evento</label>
+      			<select name="tipo" id="tipo_evento" class="form-control">
+        			<option selected>Informal</option>
+        			<option>Formal</option>
+      			</select>
+    		</div>
+  			<div class="form-group col-md-6">
+      			<label for="frecuencia_evento">Frecuencia</label>
+      			<select name="frecuencia" id="frecuencia_evento" class="form-control">
+        			<option selected>Unica vez</option>
+        			<option>Diario</option>
+        			<option>Semanal</option>
+        			<option>Mensual</option>
+        			<option>Anual</option>
+      			</select>
+    		</div>
+    	</div>
+    	<div style="text-align: center; margin-top: 2%;">
+  			<button type="submit" class="btn btn-primary" style="width: 25%;">Crear</button>
+  		</div>
+	</form>
 {{/partial}}
 
 {{>layout.hbs}}
