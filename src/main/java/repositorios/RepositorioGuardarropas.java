@@ -26,7 +26,7 @@ public class RepositorioGuardarropas implements WithGlobalEntityManager {
 				setParameter("idUsuario", id_user).getResultList();
 	}
 
-	public void agregarPrenda(Prenda prenda) {
-		entityManager().persist(prenda);
+	public void add(Guardarropa guardarropa){
+		//entityManager().persist(guardarropa);
 	}
 }
