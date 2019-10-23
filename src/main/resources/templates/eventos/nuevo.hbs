@@ -35,6 +35,16 @@
       			</select>
     		</div>
     	</div>
+    	<div class="form-row">
+    		<div class="form-group col-md-6">
+      			<label for="id_guardarropa">Guardarropa</label>
+      			<select name="id_guardarropa" id="id_guardarropa" class="form-control">
+      				{{#each this}}
+      					<option selected>{{id}}</option>
+      				{{/each}}
+      			</select>
+    		</div>
+    	</div>
     	<div style="text-align: center; margin-top: 2%;">
   			<button type="submit" class="btn btn-primary" style="width: 25%;">Crear</button>
   		</div>

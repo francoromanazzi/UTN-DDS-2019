@@ -3,14 +3,22 @@ package controllers;
 import excepciones.EventoNoEncontradoException;
 import modelo.evento.Evento;
 import modelo.evento.FrecuenciaEvento;
+import modelo.evento.TipoEvento;
+import modelo.guardarropa.Guardarropa;
+import modelo.usuario.Usuario;
 import repositorios.RepositorioEventos;
+import repositorios.RepositorioGuardarropas;
+import repositorios.RepositorioUsuarios;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import utils.Token;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ControllerEventos {
 
@@ -32,6 +40,27 @@ public class ControllerEventos {
 	}
 	
 	public static ModelAndView nuevoEvento(Request req, Response res) {
-		return new ModelAndView(null, "eventos/nuevo.hbs");
+		long idUser = Long.parseLong(Token.Desencriptar(req.cookie("userId")));
+		List<Guardarropa> listaDeGuardarropas = new RepositorioGuardarropas().obtenerTodosDelUsuario(idUser);
+		
+		return new ModelAndView(listaDeGuardarropas, "eventos/nuevo.hbs");
+	}
+	
+	public static String registrarEventoNuevo(Request req, Response res) {
+		long idUser = Long.parseLong(Token.Desencriptar(req.cookie("userId")));
+		Usuario user = new RepositorioUsuarios().buscarPorId(idUser);
+		
+		LocalDateTime fechaInicio = LocalDateTime.parse(req.params("fecha_inicio"));
+		LocalDateTime fechaFin = LocalDateTime.parse(req.params("fecha_fin"));
+		FrecuenciaEvento frecuencia = FrecuenciaEvento.valueOf(req.params("frecuencia").toUpperCase());
+		TipoEvento tipo = TipoEvento.valueOf(req.params("tipo").toUpperCase());
+		Guardarropa g = new RepositorioGuardarropas().buscarPorId(Long.parseLong(req.params("id_guardarropa"))); 
+		
+		Evento nuevoEvento = new Evento(req.params("titulo"), fechaInicio, fechaFin, frecuencia, tipo);
+
+		user.agendarEvento(nuevoEvento, g);
+
+		res.redirect("/eventos");
+		return null;
 	}
 }

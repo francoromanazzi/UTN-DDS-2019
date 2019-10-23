@@ -45,6 +45,7 @@ public class Router {
 		before("/eventos/*", Auth::tieneToken);
 		get("/eventos", ControllerEventos::listar, engine);
 		get("/eventos/new", ControllerEventos::nuevoEvento, engine);
+		post("/eventos/new", ControllerEventos::registrarEventoNuevo);
 		before("/eventos/:id/sugerencias", Auth::userEsPropietarioDeEvento);
 		get("/eventos/:id/sugerencias", ControllerSugerencias::listar, engine);
 		exception(EventoNoEncontradoException.class, ControllerEventos::noEncontrado);
