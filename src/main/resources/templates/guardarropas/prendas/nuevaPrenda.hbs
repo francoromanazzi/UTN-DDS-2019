@@ -1,72 +1,57 @@
 {{#partial "contenido"}}
-    <h1 class="text-center mb-4">Crear Nueva Prenda</h1>
-    <form action="/guardarropas/{{guardarropa.id}}/nuevaPrenda" method="post">
-        <div class="text-center mb-2">
-            <div class="card-deck mb-4 text-center">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Tipo</h3>
-                    </div>
-                    <div class="card-body">
-                        <select placeholder="Tipo de Prenda" class="chosen-select" tabindex="2" name="tipo">
-                            {{#each tiposDePrendaPosibles}}
-                                <option value="{{this}}">{{sinGuionesBajos this}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Material</h3>
-                    </div>
-                    <div class="card-body">
-                        <select placeholder="Tipo de Prenda" class="chosen-select" tabindex="2" name="material">
-                            {{#each materialesDePrendaPosibles}}
-                                <option value="{{this}}">{{sinGuionesBajos this}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Color Principal</h3>
-                    </div>
-                    <div class="card-body">
-                        <select id="colorselector" name="colorPrincipal">
-                            <option value="(255,255,255)">BLANCO</option>
-                            <option value="(0,0,0)">NEGRO</option>
-                            <option value="(0,0,255)">AZUL</option>
-                            <option value="(255,0,0)">ROJO</option>
-                            <option value="(255,255,0)">AMARILLO</option>
-                            <option value="(0,255,0)">VERDE</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Color Secundario</h3>
-                    </div>
-                    <div class="card-body">
-                        <select id="colorselector" name="colorSecundario">
-                            <option value=""> - </option>
-                            <option value="(255,255,255)">BLANCO</option>
-                            <option value="(0,0,0)">NEGRO</option>
-                            <option value="(0,0,255)">AZUL</option>
-                            <option value="(255,0,0)">ROJO</option>
-                            <option value="(255,255,0)">AMARILLO</option>
-                            <option value="(0,255,0)">VERDE</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="text-center mb-4">
-            <input class="btn btn-primary" type="submit" value="Crear"/>
-            <a class="btn btn-primary" href="/guardarropas/{{guardarropa.id}}/prendas">
+    <h1 class="text-center mb-4">Crear Nueva Prenda</h1>    
+    
+    <form action="/guardarropas/{{guardarropa.id}}/nuevaPrenda" method="POST">
+  		<div class="form-row" style="margin-bottom: 1.5%;">
+  			<div class="form-group col-md-6">
+      			<label for="tipo_prenda">Tipo</label>
+      			<select name="tipo" id="tipo_prenda" class="form-control">
+        			{{#each tiposDePrendaPosibles}}
+                    	<option selected value="{{this}}">{{sinGuionesBajos this}}</option>
+                    {{/each}}
+      			</select>
+    		</div>
+  			<div class="form-group col-md-6">
+      			<label for="material">Material</label>
+      			<select name="material" id="material" class="form-control">
+        			{{#each materialesDePrendaPosibles}}
+                    	<option selected value="{{this}}">{{sinGuionesBajos this}}</option>
+                    {{/each}}
+      			</select>
+    		</div>
+    	</div>
+    	<div class="form-row">
+    		<div class="form-group col-md-6">
+      			<label for="colorPrincipal">Color principal</label>
+      			<select name="colorPrincipal" id="colorPrincipal" class="form-control">
+      				<option selected value="(255,255,255)">BLANCO</option>
+                    <option value="(0,0,0)">NEGRO</option>
+                    <option value="(0,0,255)">AZUL</option>
+                    <option value="(255,0,0)">ROJO</option>
+                    <option value="(255,255,0)">AMARILLO</option>
+                    <option value="(0,255,0)">VERDE</option>
+      			</select>
+    		</div>
+    		<div class="form-group col-md-6">
+      			<label for="colorSecundario">Color secundario</label>
+      			<select name="colorSecundario" id="colorSecundario" class="form-control">
+      				<option selected value=""> - </option>
+                    <option value="(255,255,255)">BLANCO</option>
+                    <option value="(0,0,0)">NEGRO</option>
+                    <option value="(0,0,255)">AZUL</option>
+                    <option value="(255,0,0)">ROJO</option>
+                    <option value="(255,255,0)">AMARILLO</option>
+                    <option value="(0,255,0)">VERDE</option>
+      			</select>
+    		</div>
+    	</div>
+    	<div style="align-items: center; margin-top: 2%; display: flex; flex-direction: column;">
+  			<button type="submit" class="btn btn-primary" style="width: 25%; margin-bottom: 1%;">Crear</button>
+  			<a style="width: 10%; text-align: center;" class="btn btn-primary" href="/guardarropas/{{guardarropa.id}}/prendas">
                 Volver
             </a>
-        </div>
-    </form>
+  		</div>
+	</form>
 {{/partial}}
 
 {{>layout.hbs}}
