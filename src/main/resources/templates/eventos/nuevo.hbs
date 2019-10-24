@@ -49,6 +49,22 @@
   			<button type="submit" class="btn btn-primary" style="width: 25%;">Crear</button>
   		</div>
 	</form>
+	
+	<<script type="text/javascript">
+		function sleep(ms) {
+		  return new Promise(resolve => setTimeout(resolve, ms));
+		}
+	
+		$('form').submit( async function(event) {
+	    	var formId = this.id,
+	    	    form = this;
+
+	    	event.preventDefault();
+	    	form.submit();
+	    	
+	    	await sleep(2000)
+		});
+	</script>
 {{/partial}}
 
 {{>layout.hbs}}
