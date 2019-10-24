@@ -19,10 +19,12 @@ public class ControllerRegistro {
 		String mail = req.queryParams("mail");
 		String numero = req.queryParams("numero");
 
-		Usuario user = new Usuario(nombre, mail, numero, username, password);
+		// Podria hacer un checkeo para verificar que el username no este en uso
 
+        Usuario user = new Usuario(nombre, mail, numero, username, password);
 		new RepositorioUsuarios().guardar(user);
 
+		res.status(200);
 		res.redirect("/");
 
 		return null;

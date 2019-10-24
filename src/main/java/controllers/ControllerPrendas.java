@@ -68,6 +68,7 @@ public class ControllerPrendas implements WithGlobalEntityManager, Transactional
 
 		new RepositorioPrendas().guardar(prenda, guardarropa, usuario);
 
+		res.status(200);
 		res.redirect("/guardarropas");
 
 		return null;
