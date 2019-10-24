@@ -1,12 +1,39 @@
 {{#partial "contenido"}}
+	<style>
+		@media (min-width: 576px) {
+    		.card-columns {
+        		column-count: 1;
+    		}
+		}
+
+			@media (min-width: 768px) {
+    		.card-columns {
+        		column-count: 1;
+    		}
+		}
+
+		@media (min-width: 992px) {
+    		.card-columns {
+        		column-count: 1;
+    		}
+		}
+
+		@media (min-width: 1200px) {
+		    .card-columns {
+		        column-count: 1;
+		    }
+		}
+	</style>
     <h1 class="text-center mb-4">Guardarropas</h1>
 
+<div class="container py-5 bg-faded" style="padding: 0 0 0 0 !important;">
+	<div class="card-columns">
     {{#each this}}
-        <div class="card mb-4">
+        <div class="card mb-4 guardarropa-card">
             <a class="nav-link" href="/guardarropas/{{id}}/prendas">
                 <div class="card-body">
                     <h4 class="card-title">Guardarropas {{sumar1 @index}}</h4>
-                    <p>Propietarios:
+                    <p style="margin-bottom: 1%;">Propietarios:
                         {{#each usuariosPropietarios}}
                             <span>{{nombre}}.</span>
                         {{/each}}
@@ -16,6 +43,10 @@
             </a>
         </div>
     {{/each}}
+    </div>
+</div>
+    
+    
 {{/partial}}
 
 {{>layout.hbs}}
