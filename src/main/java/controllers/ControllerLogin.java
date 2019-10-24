@@ -1,5 +1,6 @@
 package controllers;
 
+import excepciones.DesencriptacionException;
 import excepciones.UsuarioNoEncontradoException;
 import modelo.usuario.Usuario;
 import repositorios.RepositorioUsuarios;
@@ -12,6 +13,12 @@ import utils.Token;
 public class ControllerLogin {
 
 	public static ModelAndView mostrar(Request req, Response res) {
+		try {
+			String cookie = Token.Desencriptar(req.cookie("userId"));
+			if(!cookie.isEmpty())
+				res.redirect("/guardarropas");
+		}catch(DesencriptacionException e) {}
+		
 		return new ModelAndView(null, "login/index.hbs");
 	}
 
