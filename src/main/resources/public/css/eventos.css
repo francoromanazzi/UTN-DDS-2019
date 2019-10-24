@@ -3,12 +3,9 @@
  * Docs & License: http://arshaw.com/fullcalendar/
  * (c) 2013 Adam Shaw
  */
- @import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i');
 td.fc-day {
 
 background:#FFF !important;
-font-family: 'Roboto', sans-serif;
-
 }
 td.fc-today {
 	background:#FFF !important;
@@ -18,7 +15,6 @@ td.fc-today {
 }
 
 .fc-first th{
-	font-family: 'Roboto', sans-serif;
     background:#9675ce !important;
 	color:#FFF;
 	font-size:14px !important;
@@ -26,7 +22,6 @@ td.fc-today {
 
 	}
 .fc-event-inner {
-	font-family: 'Roboto', sans-serif;
     background: #03a9f3!important;
     color: #FFF!important;
     font-size: 12px!important;
@@ -47,8 +42,6 @@ td.fc-today {
 html .fc,
 .fc table {
 	font-size: 1em;
-	font-family: "Helvetica Neue",Helvetica;
-
 	}
 	
 .fc td,
@@ -93,10 +86,8 @@ html .fc,
 	font-size: 32px;
     font-weight: 100;
     margin-bottom: 10px;
-		font-family: 'Roboto', sans-serif;
 }
 	span.fc-button {
-    font-family: 'Roboto', sans-serif;
     border-color: #9675ce;
 	color: #9675ce;
 }
@@ -215,7 +206,7 @@ html .fc,
 	}
 
 /*
-	Our default prev/next buttons use HTML entities like ‹ › « »
+	Our default prev/next buttons use HTML entities like ï¿½ ï¿½ ï¿½ ï¿½
 	and we'll try to make them look good cross-browser.
 */
 
@@ -227,7 +218,7 @@ html .fc,
 	}
 
 .fc-button-prev .fc-text-arrow,
-.fc-button-next .fc-text-arrow { /* for ‹ › */
+.fc-button-next .fc-text-arrow { /* for ï¿½ ï¿½ */
 	font-weight: bold;
 	}
 	
@@ -651,7 +642,6 @@ table.fc-border-separate {
 	overflow: hidden !important;
 	line-height: 8px !important;
 	font-size: 11px  !important;
-	font-family: monospace;
 	text-align: center;
 	cursor: s-resize;
 	}
@@ -731,10 +721,6 @@ table.fc-header{
 
 body {
 	    margin-bottom: 40px;
-		text-align: center;
-		font-size: 14px;
-		font-family: 'Roboto', sans-serif;
-		background:url(http://www.digiphotohub.com/wp-content/uploads/2015/09/bigstock-Abstract-Blurred-Background-Of-92820527.jpg);
 		}
 		
 	#wrap {
