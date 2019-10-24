@@ -26,13 +26,8 @@ public class RepositorioGuardarropas implements WithGlobalEntityManager, Transac
 				"g.usuariosPropietarios u WHERE u.Id = :idUsuario", Guardarropa.class).
 				setParameter("idUsuario", id_user).getResultList();
 	}
-
-<<<<<<< HEAD
-	public void add(Guardarropa guardarropa){
-		entityManager().persist(guardarropa);
-=======
+	
 	public void guardar(Guardarropa guardarropa) {
 		withTransaction(() -> entityManager().persist(guardarropa));
->>>>>>> 020b27e905bf1038163f5262c1ea429133dd4ca4
 	}
 }
