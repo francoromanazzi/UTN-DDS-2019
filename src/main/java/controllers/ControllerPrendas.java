@@ -49,7 +49,9 @@ public class ControllerPrendas implements WithGlobalEntityManager, Transactional
 
 		guardarropa.addPrenda(prenda);
 
-		new RepositorioGuardarropas().add(guardarropa); //TODO: se persiste el guardarropas con la nueva prenda o solo la prenda con el id de guardarropas
+		withTransaction(() -> {
+			new RepositorioGuardarropas().add(guardarropa);
+		});
 
 		res.status(200);
 		res.redirect("/guardarropas");

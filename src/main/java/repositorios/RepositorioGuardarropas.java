@@ -27,6 +27,6 @@ public class RepositorioGuardarropas implements WithGlobalEntityManager {
 	}
 
 	public void add(Guardarropa guardarropa){
-		//entityManager().persist(guardarropa);
+		entityManager().persist(guardarropa);
 	}
 }
