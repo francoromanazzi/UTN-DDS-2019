@@ -1,8 +1,14 @@
 {{#partial "contenido"}}
 	<script src="/js/eventos.js"></script>
 	<link rel="stylesheet" href="/css/eventos.css">
-    <h1 class="text-center mb-4">Eventos</h1>
-
+	
+	<div style="display: flex; flex-direction: row;">
+		<h1 class="text-center mb-4" style="margin-left: 9.5%;">Eventos</h1>
+		<button type="button" class="btn btn-primary btn-lg" style="margin-left: 54.3%; height: 75%!important;">
+			<a href="/eventos/new">Nuevo evento</a>
+		</button>
+	</div>
+    
     {{#each this}}
     	<input type = "hidden" class="id_value" value="{{id}}"/>
     	<input type = "hidden" class="titulo_value" value="{{titulo}}"/>
@@ -63,7 +69,6 @@
 		
 		var eventos_size = 0
 		Array.prototype.forEach.call(list_ids, function(el) {
-			console.log('Date: ' + new Date(list_fechaInicio[eventos_size].value).getMonth()) 
     		eventos_size = eventos_size + 1
     		
 		});
@@ -122,7 +127,6 @@
 			allDaySlot: false,
 			selectHelper: true,
 			select: function(start, end, allDay) {
-				location.href="/eventos/new?fechaInicio=" + start + "&fechaFin=" + end
 			},
 			droppable: true, // this allows things to be dropped onto the calendar !!!
 			drop: function(date, allDay) { // this function is called when something is dropped
