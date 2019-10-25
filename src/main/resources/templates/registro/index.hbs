@@ -26,6 +26,20 @@
         <br>
         <input class="btn btn-lg btn-primary btn-block btn-signin" id="IngresoLog" type="submit" value="Registrarse"/>
     </form>
+
+    <script>
+        let params = new URLSearchParams(document.location.search.substring(1));
+        let usernameEnUso = params.get("usernameEnUso");
+        if(usernameEnUso === "1"){
+            bs4pop.notice('El nombre de usuario ya se encuentra en uso', {
+                type: 'danger',
+                position: 'bottomcenter',
+                appendType: 'append',
+                closeBtn: false,
+                className: ''
+            })
+        }
+    </script>
 {{/partial}}
 
 {{>layout.hbs}}

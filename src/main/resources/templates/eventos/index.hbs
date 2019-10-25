@@ -171,7 +171,7 @@
 	<script>
 	let params = new URLSearchParams(document.location.search.substring(1));
 	let eventCreated = params.get("eventCreated");
-	if(eventCreated == "1"){
+	if(eventCreated === "1"){
 		bs4pop.notice('Evento registrado correctamente', {
     		type: 'success',
     		position: 'bottomcenter',
@@ -180,7 +180,28 @@
     		className: ''
  		})
 	}
-    	
+
+    let sugerenciaAceptada = params.get("sugerenciaAceptada");
+    if(sugerenciaAceptada === "1"){
+        bs4pop.notice('Sugerencia aceptada correctamente', {
+            type: 'success',
+            position: 'bottomcenter',
+            appendType: 'append',
+            closeBtn: false,
+            className: ''
+        })
+    }
+
+    let sugerenciaCalificada = params.get("sugerenciaCalificada");
+    if(sugerenciaCalificada === "1"){
+        bs4pop.notice('Sugerencia calificada correctamente', {
+            type: 'success',
+            position: 'bottomcenter',
+            appendType: 'append',
+            closeBtn: false,
+            className: ''
+        })
+    }
 	</script>
 {{/partial}}
 

@@ -19,19 +19,16 @@ public class ControllerRegistro {
 		String mail = req.queryParams("mail");
 		String numero = req.queryParams("numero");
 
-		// Podria hacer un checkeo para verificar que el username no este en uso
-
         Usuario user = new Usuario(nombre, mail, numero, username, password);
 		new RepositorioUsuarios().guardar(user);
 
-		res.status(200);
-		res.redirect("/");
+		res.redirect("/?registroExitoso=1");
 
 		return null;
 	}
 
 	public static void usernameEnUso(UsernameEnUsoException ex, Request req, Response res) {
-		res.redirect("/error");
+		res.redirect("/registro?usernameEnUso=1");
 	}
 
 }

@@ -52,6 +52,42 @@
             </a>
   		</div>
 	</form>
+
+    <script>
+        let params = new URLSearchParams(document.location.search.substring(1));
+        let materialNoTieneSentido = params.get("materialNoTieneSentido");
+        if(materialNoTieneSentido === "1") {
+            bs4pop.notice('El material no tiene sentido para ese tipo de prenda', {
+                type: 'danger',
+                position: 'bottomcenter',
+                appendType: 'append',
+                closeBtn: false,
+                className: ''
+            })
+        }
+
+        let usuarioNoEsPropietarioDelGuardarropa = params.get("usuarioNoEsPropietarioDelGuardarropa");
+        if(usuarioNoEsPropietarioDelGuardarropa === "1") {
+            bs4pop.notice('No sos propietario del guardarropa', {
+                type: 'danger',
+                position: 'bottomcenter',
+                appendType: 'append',
+                closeBtn: false,
+                className: ''
+            })
+        }
+
+        let capacidadExcedidaGuardarropa = params.get("capacidadExcedidaGuardarropa");
+        if(capacidadExcedidaGuardarropa === "1") {
+            bs4pop.notice('Capacidad del guardarropa excedido para la version gratuita', {
+                type: 'danger',
+                position: 'bottomcenter',
+                appendType: 'append',
+                closeBtn: false,
+                className: ''
+            })
+        }
+    </script>
 {{/partial}}
 
 {{>layout.hbs}}

@@ -69,20 +69,23 @@ public class ControllerPrendas implements WithGlobalEntityManager, Transactional
 		new RepositorioPrendas().guardar(prenda, guardarropa, usuario);
 
 		res.status(200);
-		res.redirect("/guardarropas");
+		res.redirect("/guardarropas?prendaAgregada=1");
 
 		return null;
 	}
 
 	public static void materialNoTieneSentido(MaterialNoTieneSentidoParaEseTipoException ex, Request req, Response res) {
-		res.redirect("/error");
+		long idGuardarropa = Long.parseLong(req.params("id"));
+		res.redirect("/guardarropas/" + idGuardarropa + "/nuevaPrenda?materialNoTieneSentido=1");
 	}
 
 	public static void usuarioNoEsPropietarioDelGuardarropa(UsuarioNoEsPropietarioDelGuardarropaException ex, Request req, Response res) {
-		res.redirect("/error");
+		long idGuardarropa = Long.parseLong(req.params("id"));
+		res.redirect("/guardarropas/" + idGuardarropa + "/nuevaPrenda?usuarioNoEsPropietarioDelGuardarropa=1");
 	}
 
 	public static void capacidadExcedidaGuardarropa(CapacidadExcedidaGuardarropaException ex, Request req, Response res) {
-		res.redirect("/error");
+		long idGuardarropa = Long.parseLong(req.params("id"));
+		res.redirect("/guardarropas/" + idGuardarropa + "/nuevaPrenda?capacidadExcedidaGuardarropa=1");
 	}
 }

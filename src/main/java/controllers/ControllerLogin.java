@@ -23,7 +23,7 @@ public class ControllerLogin {
 	}
 
 	public static ModelAndView loginFailed(Request req, Response res) {
-		return new ModelAndView(null, "login/loginFailed.hbs");
+		return new ModelAndView(null, "login/index.hbs");
 	}
 
 	public static String login(Request req, Response res) throws UsuarioNoEncontradoException {
@@ -40,14 +40,14 @@ public class ControllerLogin {
 	}
 
 	public static void userNoEncontrado(UsuarioNoEncontradoException ex, Request req, Response res) {
-		res.redirect("/loginFailed");
+		res.redirect("/?loginFailed=1");
 	}
 
 	public static String logout(Request req, Response res) {
 		res.status(200);
 		res.removeCookie("userId");
 
-		res.redirect("/");
+		res.redirect("/?logoutExitoso=1");
 		return null;
 	}
 }

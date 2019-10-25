@@ -34,7 +34,7 @@ public class ControllerSugerencias {
 
 		new RepositorioSugerencias().aceptar(sugerencia, usuario);
 
-		res.redirect("/eventos");
+		res.redirect("/eventos?sugerenciaAceptada=1");
 
 		return null;
 	}
@@ -62,7 +62,7 @@ public class ControllerSugerencias {
 
 		new RepositorioSugerencias().calificar(sugerencia, usuario, calificacionSugerencia);
 
-		res.redirect("/eventos");
+		res.redirect("/eventos?sugerenciaCalificada=1");
 
 		return null;
 	}

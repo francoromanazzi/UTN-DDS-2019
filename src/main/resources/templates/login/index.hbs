@@ -25,6 +25,42 @@
             </p>
         </form>
     </div>
+
+    <script>
+        let params = new URLSearchParams(document.location.search.substring(1));
+        let loginFailed = params.get("loginFailed");
+        if(loginFailed === "1"){
+            bs4pop.notice('Username/password incorrectos', {
+                type: 'danger',
+                position: 'bottomcenter',
+                appendType: 'append',
+                closeBtn: false,
+                className: ''
+            })
+        }
+
+        let logoutExitoso = params.get("logoutExitoso");
+        if(logoutExitoso === "1"){
+            bs4pop.notice('Logout exitoso', {
+                type: 'success',
+                position: 'bottomcenter',
+                appendType: 'append',
+                closeBtn: false,
+                className: ''
+            })
+        }
+
+        let registroExitoso = params.get("registroExitoso");
+        if(registroExitoso === "1"){
+            bs4pop.notice('Registro exitoso', {
+                type: 'success',
+                position: 'bottomcenter',
+                appendType: 'append',
+                closeBtn: false,
+                className: ''
+            })
+        }
+    </script>
 {{/partial}}
 
 {{>layout.hbs}}

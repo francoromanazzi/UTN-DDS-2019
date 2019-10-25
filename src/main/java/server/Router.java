@@ -22,7 +22,6 @@ public class Router {
 		post("/login", ControllerLogin::login);
 		exception(UsuarioNoEncontradoException.class, ControllerLogin::userNoEncontrado);
 		get("/logout", ControllerLogin::logout);
-		get("/loginFailed", ControllerLogin::loginFailed, engine);
 
 		get("/registro", ControllerRegistro::mostrar, engine);
 		post("/registrarse", ControllerRegistro::registrar);
@@ -53,9 +52,8 @@ public class Router {
 		post("/eventos/:id/sugerencias/aceptadas", ControllerSugerencias::aceptar);
 		exception(SugerenciaNoEncontradaException.class, ControllerSugerencias::noEncontrado);
 
-		before("/sugerencias/aceptadas", Auth::tieneToken);
+		before("/sugerencias/*", Auth::tieneToken);
 		get("/sugerencias/aceptadas", ControllerSugerencias::listarAceptadasParaCalificarlas, engine);
-		before("/sugerencias/calificadas", Auth::tieneToken);
 		post("/sugerencias/calificadas", ControllerSugerencias::calificar);
 	}
 }

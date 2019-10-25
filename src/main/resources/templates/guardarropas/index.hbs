@@ -45,8 +45,20 @@
     {{/each}}
     </div>
 </div>
-    
-    
+
+    <script>
+        let params = new URLSearchParams(document.location.search.substring(1));
+        let prendaAgregada = params.get("prendaAgregada");
+        if(prendaAgregada === "1"){
+            bs4pop.notice('Prenda agregada exitosamente', {
+                type: 'success',
+                position: 'bottomcenter',
+                appendType: 'append',
+                closeBtn: false,
+                className: ''
+            })
+        }
+    </script>
 {{/partial}}
 
 {{>layout.hbs}}
