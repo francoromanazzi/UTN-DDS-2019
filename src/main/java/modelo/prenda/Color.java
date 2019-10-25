@@ -59,6 +59,7 @@ public class Color {
 	public static Color fromString(String s){
 		String[] parsed = s.split("\\D+");
 
+		// parsed[0] es un string nulo
 		String redString = parsed[1];
 		String greenString = parsed[2];
 		String blueString = parsed[3];
