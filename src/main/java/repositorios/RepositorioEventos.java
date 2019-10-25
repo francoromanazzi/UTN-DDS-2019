@@ -16,11 +16,16 @@ public class RepositorioEventos implements WithGlobalEntityManager, Transactiona
 		return ret;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Evento> obtenerEventosDeUsuario(Long id_user) {
-		return entityManager()
+		/*return entityManager()
 				.createQuery("SELECT e FROM Usuario u JOIN u.eventos e " +
 						"WHERE u.Id = :idUsuario", Evento.class).
 						setParameter("idUsuario", id_user)
+				.getResultList(); */
+		return (List<Evento>) entityManager()
+				.createNativeQuery("SELECT * FROM eventos e WHERE e.usuario_id = :idUsuario", Evento.class)
+				.setParameter("idUsuario", id_user)
 				.getResultList();
 	}
 

@@ -59,6 +59,7 @@ public class ControllerEventos {
 		Evento nuevoEvento = new Evento(req.queryParams("titulo"), fechaInicio, fechaFin, frecuencia, tipo);
 
 		user.agendarEvento(nuevoEvento, g);
+		new RepositorioEventos().guardar(nuevoEvento);
 
 		res.redirect("/eventos?eventCreated=1");
 		return null;
