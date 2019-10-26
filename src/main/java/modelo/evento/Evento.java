@@ -74,7 +74,8 @@ public class Evento {
 	}
 	
 	public List<Sugerencia> getSugerenciasAceptadas() {
-		return this.sugerencias.stream().filter(sug -> sug.getEstado() == EstadoSugerencia.ACEPTADO).collect(Collectors.toList());
+		return this.sugerencias.stream().filter(sug -> sug.getEstado() == EstadoSugerencia.ACEPTADO || sug.getEstado() == EstadoSugerencia.CALIFICADO)
+				.collect(Collectors.toList());
 	}
 
 	public void addSugerencia(Sugerencia sugerencia) {
