@@ -185,8 +185,6 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 	}
 
 	public void agendarEventos() {
-		this.beginTransaction();
-
 		Usuario user1 = new RepositorioUsuarios().buscarPorId(1L);
 		Usuario user2 = new RepositorioUsuarios().buscarPorId(2L);
 
@@ -197,10 +195,16 @@ public class HardcodearDatosDB implements WithGlobalEntityManager, Transactional
 		Evento ev2 = new Evento("Ir al trabajo", LocalDateTime.now().plusDays(2), LocalDateTime.now().plusDays(2).plusHours(8), FrecuenciaEvento.UNICA_VEZ, TipoEvento.FORMAL);
 		Evento ev3 = new Evento("Ir a correr", LocalDateTime.now().plusMinutes(2), LocalDateTime.now().plusHours(4), FrecuenciaEvento.UNICA_VEZ, TipoEvento.INFORMAL);
 
+		this.beginTransaction();
 		user1.agendarEvento(ev1, guardarropa1);
-		user1.agendarEvento(ev2, guardarropa1);
-		user2.agendarEvento(ev3, guardarropa2);
+		this.commitTransaction();
 
+		this.beginTransaction();
+		user1.agendarEvento(ev2, guardarropa1);
+		this.commitTransaction();
+
+		this.beginTransaction();
+		user2.agendarEvento(ev3, guardarropa2);
 		this.commitTransaction();
 	}
 }

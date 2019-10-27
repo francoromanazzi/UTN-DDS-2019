@@ -2,8 +2,8 @@ package server;
 
 import controllers.*;
 import excepciones.*;
+import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
 import spark.ModelAndView;
-import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import utils.Auth;
 
@@ -55,5 +55,10 @@ public class Router {
 		before("/sugerencias/*", Auth::tieneToken);
 		get("/sugerencias/aceptadas", ControllerSugerencias::listarAceptadasParaCalificarlas, engine);
 		post("/sugerencias/calificadas", ControllerSugerencias::calificar);
+
+		after((req, res) -> {
+			PerThreadEntityManagers.getEntityManager();
+			PerThreadEntityManagers.closeEntityManager();
+		});
 	}
 }
