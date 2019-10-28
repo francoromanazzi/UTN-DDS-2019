@@ -1,0 +1,32 @@
+{{#partial "contenido"}}
+    <h1 class="text-center mb-4">Crear Nuevo Guardarropa</h1>
+
+    <form action="/guardarropas/nuevo" method="POST">
+        <div class="form-group">
+            <label for="titulo-evento">Usuarios propietarios</label>
+            <input type="text" class="form-control" name="usuarios-propietarios" id="usuarios-propietarios" placeholder="juan123,carlos123,franco_r,">
+        </div>
+    	<div style="align-items: center; margin-top: 2%; display: flex; flex-direction: column;">
+  			<button type="submit" class="btn btn-primary" style="width: 25%; margin-bottom: 1%;">Crear</button>
+  			<a style="width: 10%; text-align: center;" class="btn btn-primary" href="/guardarropas">
+                Volver
+            </a>
+  		</div>
+	</form>
+
+	    <script>
+            let params = new URLSearchParams(document.location.search.substring(1));
+            let usernamePropietarioNoEncontrado = params.get("usernamePropietarioNoEncontrado");
+            if(usernamePropietarioNoEncontrado === "1"){
+                bs4pop.notice('Uno de los nombres de usuario indicado no existe', {
+                    type: 'danger',
+                    position: 'bottomcenter',
+                    appendType: 'append',
+                    closeBtn: false,
+                    className: ''
+                })
+            }
+        </script>
+{{/partial}}
+
+{{>layout.hbs}}

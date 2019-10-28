@@ -39,7 +39,7 @@ public class ControllerEventos {
 		res.redirect("/error");
 	}
 	
-	public static ModelAndView nuevoEvento(Request req, Response res) {
+	public static ModelAndView nuevo(Request req, Response res) {
 		long idUser = Long.parseLong(Token.Desencriptar(req.cookie("userId")));
 		List<Guardarropa> listaDeGuardarropas = new RepositorioGuardarropas().obtenerTodosDelUsuario(idUser);
 		
@@ -61,7 +61,7 @@ public class ControllerEventos {
 		user.agendarEvento(nuevoEvento, g);
 		new RepositorioEventos().guardar(nuevoEvento);
 
-		res.redirect("/eventos?eventCreated=1");
+		res.redirect("/eventos?eventoCreado=1");
 		return null;
 	}
 }

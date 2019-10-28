@@ -4,9 +4,10 @@
 	
 	<div style="display: flex; flex-direction: row;">
 		<h1 class="text-center mb-4" style="margin-left: 9.5%;">Eventos</h1>
-		<button type="button" class="btn btn-primary btn-lg" style="margin-left: 54.3%; height: 75%!important;">
-			<a href="/eventos/new">Nuevo evento</a>
-		</button>
+		<a class="btn btn-primary btn-lg" style="margin-left: 54.3%; height: 75%!important;" href="/eventos/nuevo">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+			Nuevo Evento
+		</a>
 	</div>
     
     {{#each this}}
@@ -170,9 +171,9 @@
 
 	<script>
 	let params = new URLSearchParams(document.location.search.substring(1));
-	let eventCreated = params.get("eventCreated");
+	let eventCreated = params.get("eventoCreado");
 	if(eventCreated === "1"){
-		bs4pop.notice('Evento registrado correctamente', {
+		bs4pop.notice('Evento creado correctamente', {
     		type: 'success',
     		position: 'bottomcenter',
     		appendType: 'append',

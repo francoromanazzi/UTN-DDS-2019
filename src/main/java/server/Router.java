@@ -2,7 +2,6 @@ package server;
 
 import controllers.*;
 import excepciones.*;
-import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import utils.Auth;
@@ -39,12 +38,15 @@ public class Router {
 		exception(GuardarropaNoEncontradoException.class, ControllerGuardarropas::noEncontrado);
 		exception(UsuarioNoEsPropietarioDelGuardarropaException.class, ControllerPrendas::usuarioNoEsPropietarioDelGuardarropa);
 		exception(CapacidadExcedidaGuardarropaException.class, ControllerPrendas::capacidadExcedidaGuardarropa);
+		get("/guardarropas/nuevo", ControllerGuardarropas::crear, engine);
+		post("/guardarropas/nuevo", ControllerGuardarropas::registrarGuardarropaNuevo);
+		exception(UsernamePropietarioNoEncontradoException.class, ControllerGuardarropas::usernamePropietarioNoEncontrado);
 
 		before("/eventos", Auth::tieneToken);
 		before("/eventos/*", Auth::tieneToken);
 		get("/eventos", ControllerEventos::listar, engine);
-		get("/eventos/new", ControllerEventos::nuevoEvento, engine);
-		post("/eventos/new", ControllerEventos::registrarEventoNuevo);
+		get("/eventos/nuevo", ControllerEventos::nuevo, engine);
+		post("/eventos/nuevo", ControllerEventos::registrarEventoNuevo);
 		before("/eventos/:id/sugerencias", Auth::userEsPropietarioDeEvento);
 		get("/eventos/:id/sugerencias", ControllerSugerencias::listar, engine);
 		exception(EventoNoEncontradoException.class, ControllerEventos::noEncontrado);
@@ -56,9 +58,6 @@ public class Router {
 		get("/sugerencias/aceptadas", ControllerSugerencias::listarAceptadasParaCalificarlas, engine);
 		post("/sugerencias/calificadas", ControllerSugerencias::calificar);
 
-		after((req, res) -> {
-			PerThreadEntityManagers.getEntityManager();
-			PerThreadEntityManagers.closeEntityManager();
-		});
+		after((req, res) -> new ReseteadorEntityManager().cerrar());
 	}
 }
