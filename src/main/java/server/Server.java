@@ -11,7 +11,8 @@ import spark.utils.*;
 
 public class Server {
 	public static void main(String[] args) {
-		Spark.port(9000);
+		Spark.port(getPort());
+
 		Spark.staticFiles.location("/public");
 		Spark.init();
 
@@ -32,5 +33,15 @@ public class Server {
 		ServicioDelClima.getInstance().agregarMeteorologo(new AccuWeather());
 		ServicioDelClima.getInstance().agregarMeteorologo(new DarkSky());
 		//new HardcodearDatosDB().agendarEventos();
+	}
+
+	private static int getPort() {
+		ProcessBuilder processBuilder = new ProcessBuilder();
+
+		if (processBuilder.environment().get("PORT") != null) {
+			return Integer.parseInt(processBuilder.environment().get("PORT"));
+		}
+
+		return 9000;
 	}
 }
