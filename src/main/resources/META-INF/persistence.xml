@@ -27,16 +27,19 @@
         <properties>
             <property name="hibernate.archive.autodetection" value="class"/>
 
-            <property name="hibernate.connection.url"
+            <!-- LOCALHOST -->
+            <!--
+                 <property name="hibernate.connection.url"
                       value="jdbc:mysql://localhost:3306/queMePongo?serverTimezone=UTC"/>
-            <property name="hibernate.connection.username" value="root"/>
-            <property name="hibernate.connection.password" value="champions1234"/>
+                <property name="hibernate.connection.username" value="root"/>
+                <property name="hibernate.connection.password" value="champions1234"/>
+            -->
 
-            <!--   <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
-            <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:app-db"/>
-            <property name="hibernate.connection.username" value="sa"/>
-            <property name="hibernate.connection.password" value=""/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/> -->
+            <!-- CLOUD -->
+            <property name="hibernate.connection.url"
+                      value="jdbc:mysql://us-cdbr-iron-east-05.cleardb.net/heroku_88c1e7e8d5826b4?reconnect=true&amp;serverTimezone=UTC"/>
+            <property name="hibernate.connection.username" value="b979c484fd8962"/>
+            <property name="hibernate.connection.password" value="d93f5e10"/>
 
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
