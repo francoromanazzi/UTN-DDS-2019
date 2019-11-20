@@ -12,6 +12,7 @@ public class TestSenders {
 		MailSender.send("asd", "Prueba", "Envío el mail de prueba papa!");
 	}
 
+	@Ignore
 	@Test
 	public void deberiaPoderMandarUnMail() {
 		MailSender.send("utnquemepongo@gmail.com", "Prueba", "Envío el mail de prueba papa!");
