@@ -1,4 +1,15 @@
 #username-container, #password-container, #IngresoLog {
-	width: 35vw!important;
 	margin: auto!important;
+}
+
+@media (min-width: 768px) {
+	#username-container, #password-container, #IngresoLog {
+		width: 60vw!important;
+	}
+}
+
+@media (min-width: 992px) {
+	#username-container, #password-container, #IngresoLog {
+		width: 35vw!important;
+	}
 }

@@ -28,6 +28,10 @@ public class Imagen {
 		this.imagen = leerYNormalizarImagen(arch);
 	}
 
+	public Imagen(BufferedImage imagen) {
+		this.imagen = resize(imagen);
+	}
+
 	public Imagen() {
 	}
 
@@ -52,7 +56,6 @@ public class Imagen {
 		BufferedImage imagenOriginal;
 		try {
 			imagenOriginal = ImageIO.read(archivoImagen);
-
 		} catch (IOException e) {
 			throw new ImagenNoPudoSerLeidaException();
 		}

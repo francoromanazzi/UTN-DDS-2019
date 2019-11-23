@@ -35,6 +35,8 @@ public class Router {
 		before("/guardarropas/:id/nuevaPrenda", Auth::userEsPropietarioDeGuardarropa);
 		post("/guardarropas/:id/nuevaPrenda", ControllerPrendas::add);
 		exception(MaterialNoTieneSentidoParaEseTipoException.class, ControllerPrendas::materialNoTieneSentido);
+		exception(ImagenNoPudoSerLeidaException.class, ControllerPrendas::imagenNoPudoSerLeida);
+		exception(ColoresIgualesException.class, ControllerPrendas::coloresIguales);
 		exception(GuardarropaNoEncontradoException.class, ControllerGuardarropas::noEncontrado);
 		exception(UsuarioNoEsPropietarioDelGuardarropaException.class, ControllerPrendas::usuarioNoEsPropietarioDelGuardarropa);
 		exception(CapacidadExcedidaGuardarropaException.class, ControllerPrendas::capacidadExcedidaGuardarropa);

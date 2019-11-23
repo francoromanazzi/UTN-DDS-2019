@@ -1,11 +1,11 @@
 {{#partial "contenido"}}
     <h1 class="text-center mb-4">Crear Nueva Prenda</h1>    
     
-    <form action="/guardarropas/{{guardarropa.id}}/nuevaPrenda" method="POST">
-  		<div class="form-row" style="margin-bottom: 1.5%;">
+    <form action="/guardarropas/{{guardarropa.id}}/nuevaPrenda" method="POST" enctype="multipart/form-data">
+  		<div class="form-row" style="margin-bottom: 2%;">
   			<div class="form-group col-md-6">
       			<label for="tipo_prenda">Tipo</label>
-      			<select name="tipo" id="tipo_prenda" class="form-control">
+      			<select name="tipo" id="tipo_prenda" class="custom-select form-control">
         			{{#each tiposDePrendaPosibles}}
                     	<option selected value="{{this}}">{{sinGuionesBajos this}}</option>
                     {{/each}}
@@ -13,18 +13,17 @@
     		</div>
   			<div class="form-group col-md-6">
       			<label for="material">Material</label>
-      			<select name="material" id="material" class="form-control">
+      			<select name="material" id="material" class="custom-select form-control">
         			{{#each materialesDePrendaPosibles}}
                     	<option selected value="{{this}}">{{sinGuionesBajos this}}</option>
                     {{/each}}
       			</select>
     		</div>
     	</div>
-    	<div class="form-row">
+    	<div class="form-row" style="margin-bottom: 2%;">
     		<div class="form-group col-md-6">
       			<label for="colorPrincipal">Color principal</label>
-                <!--input type="color"-->
-      			<select name="colorPrincipal" id="colorPrincipal" class="form-control">
+      			<select name="colorPrincipal" id="colorPrincipal" class="custom-select form-control">
       				<option selected value="(255,255,255)">BLANCO</option>
                     <option value="(0,0,0)">NEGRO</option>
                     <option value="(0,0,255)">AZUL</option>
@@ -35,7 +34,7 @@
     		</div>
     		<div class="form-group col-md-6">
       			<label for="colorSecundario">Color secundario</label>
-      			<select name="colorSecundario" id="colorSecundario" class="form-control">
+      			<select name="colorSecundario" id="colorSecundario" class="custom-select form-control">
       				<option selected value=""> - </option>
                     <option value="(255,255,255)">BLANCO</option>
                     <option value="(0,0,0)">NEGRO</option>
@@ -46,6 +45,12 @@
       			</select>
     		</div>
     	</div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label class="custom-file-label" for="cargaFoto">Seleccionar foto</label>
+                <input type="file" class="custom-file-input" id="cargaFoto" name="cargaFoto" accept="image/*">
+            </div>
+        </div>
     	<div style="align-items: center; margin-top: 2%; display: flex; flex-direction: column;">
   			<button type="submit" class="btn btn-primary" style="width: 25%; margin-bottom: 1%;">Crear</button>
   			<a style="width: 10%; text-align: center;" class="btn btn-primary" href="/guardarropas/{{guardarropa.id}}/prendas">
@@ -56,6 +61,7 @@
 
     <script>
         let params = new URLSearchParams(document.location.search.substring(1));
+
         let materialNoTieneSentido = params.get("materialNoTieneSentido");
         if(materialNoTieneSentido === "1") {
             bs4pop.notice('El material no tiene sentido para ese tipo de prenda', {
@@ -88,6 +94,29 @@
                 className: ''
             })
         }
+
+        let imagenNoPudoSerLeida = params.get("imagenNoPudoSerLeida");
+        if(imagenNoPudoSerLeida === "1") {
+            bs4pop.notice('La imagen no pudo ser leida', {
+                type: 'danger',
+                position: 'bottomcenter',
+                appendType: 'append',
+                closeBtn: false,
+                className: ''
+            })
+        }
+
+        let coloresIguales = params.get("coloresIguales");
+        if(coloresIguales === "1") {
+            bs4pop.notice('Los colores no pueden ser iguales', {
+                type: 'danger',
+                position: 'bottomcenter',
+                appendType: 'append',
+                closeBtn: false,
+                className: ''
+            })
+        }
+
     </script>
 {{/partial}}
 
