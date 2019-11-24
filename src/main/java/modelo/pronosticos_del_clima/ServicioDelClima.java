@@ -1,6 +1,5 @@
 package modelo.pronosticos_del_clima;
 
-import cron_jobs.EscucharAlertasMeteorologicas;
 import excepciones.PronosticoNoDisponibleException;
 import excepciones.ProveedorDeClimaSeCayoException;
 import modelo.alerta_meteorologica.AlertaMeteorologica;

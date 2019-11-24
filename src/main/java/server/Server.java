@@ -1,5 +1,6 @@
 package server;
 
+import cron_jobs.EscucharAlertasMeteorologicas;
 import hardcodear_datos_db.HardcodearDatosDB;
 import modelo.pronosticos_del_clima.ServicioDelClima;
 import modelo.pronosticos_del_clima.proveedores.AccuWeather;
@@ -9,7 +10,12 @@ import spark.debug.DebugScreen;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import spark.utils.*;
 
+import java.time.LocalDateTime;
+import java.util.Timer;
+
 public class Server {
+	private static EscucharAlertasMeteorologicas escuchaAlertasMeteorologicas;
+
 	public static void main(String[] args) {
 		Spark.port(getPort());
 
@@ -33,6 +39,8 @@ public class Server {
 		ServicioDelClima.getInstance().agregarMeteorologo(new AccuWeather());
 		ServicioDelClima.getInstance().agregarMeteorologo(new DarkSky());
 		//new HardcodearDatosDB().agendarEventos();
+
+		planificarEscuchaAlertasMeteorologicas();
 	}
 
 	private static int getPort() {
@@ -43,5 +51,10 @@ public class Server {
 		}
 
 		return 9000;
+	}
+
+	private static void planificarEscuchaAlertasMeteorologicas(){
+		Timer timer = new Timer();
+		timer.schedule(escuchaAlertasMeteorologicas, 30000, 60000); //Cada minuto
 	}
 }
