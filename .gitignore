@@ -14,3 +14,5 @@
 *.ear
 *.class
 /.metadata/
+
+presistence-deploy.xml
