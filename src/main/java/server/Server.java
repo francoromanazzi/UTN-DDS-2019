@@ -17,7 +17,7 @@ public class Server {
 	private static EscucharAlertasMeteorologicas escuchaAlertasMeteorologicas;
 
 	public static void main(String[] args) {
-		Spark.port(getPort());
+		Spark.port(getHerokuAssignedPort());
 
 		Spark.staticFiles.location("/public");
 		Spark.init();
@@ -43,7 +43,7 @@ public class Server {
 		planificarEscuchaAlertasMeteorologicas();
 	}
 
-	private static int getPort() {
+	private static int getHerokuAssignedPort() {
 		ProcessBuilder processBuilder = new ProcessBuilder();
 
 		if (processBuilder.environment().get("PORT") != null) {
