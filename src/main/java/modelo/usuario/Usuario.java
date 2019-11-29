@@ -170,7 +170,7 @@ public class Usuario {
 		Timer timer = new Timer();
 		LocalDateTime fechaDeEjecucion = evento.getFechaInicio().minusHours(2);
 
-		long delay = !fechaDeEjecucion.isAfter(LocalDateTime.now()) ? 0 : LocalDateTime.now().until(fechaDeEjecucion, ChronoUnit.MILLIS);
+		long delay = (!fechaDeEjecucion.isAfter(LocalDateTime.now())) ? 0 : LocalDateTime.now().until(fechaDeEjecucion, ChronoUnit.MILLIS);
 
 		if(evento.getFrecuencia() == FrecuenciaEvento.UNICA_VEZ)
 			timer.schedule(generarSugerencias, delay);
