@@ -28,7 +28,7 @@ public class Server {
 
 		Router.configurar(engine);
 
-		DebugScreen.enableDebugScreen();
+		//DebugScreen.enableDebugScreen();
 
 		ServicioDelClima.getInstance().agregarMeteorologo(new AccuWeather());
 		ServicioDelClima.getInstance().agregarMeteorologo(new DarkSky());
