@@ -31,7 +31,7 @@ public class GenerarSugerencias extends TimerTask {
 
 		// Verifico que el usuario no haya borrado el evento ni quitado el guardarropa
 		if (!user.getEventos().contains(evento) || !guardarropa.tieneUsuario(user))
-			return;
+			return; //TODO puede estar causando problemas en la generacion de sugerencias en Heroku?
 
 		List<Sugerencia> sugerenciasGeneradas =
 				guardarropa.generarSugerencias(evento, user.getHistorialSugerencias());

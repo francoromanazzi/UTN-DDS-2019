@@ -36,7 +36,7 @@ public class ControllerEventos {
 	}
 
 	public static void noEncontrado(EventoNoEncontradoException ex, Request req, Response res) {
-		res.redirect("/error");
+		res.redirect("/error?mensaje=EventoNoEncontrado");
 	}
 	
 	public static ModelAndView nuevo(Request req, Response res) {

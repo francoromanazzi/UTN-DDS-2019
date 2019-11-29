@@ -40,6 +40,7 @@ public class Server {
 		ServicioDelClima.getInstance().agregarMeteorologo(new DarkSky());
 		//new HardcodearDatosDB().agendarEventos();
 
+		escuchaAlertasMeteorologicas = new EscucharAlertasMeteorologicas();
 		planificarEscuchaAlertasMeteorologicas();
 	}
 

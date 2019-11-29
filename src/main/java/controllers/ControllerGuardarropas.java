@@ -64,6 +64,6 @@ public class ControllerGuardarropas {
 	}
 
 	public static void noEncontrado(GuardarropaNoEncontradoException ex, Request req, Response res) {
-		res.redirect("/error");
+		res.redirect("/error?mensaje=GuardarropaNoEncontrado");
 	}
 }
