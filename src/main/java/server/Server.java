@@ -10,12 +10,9 @@ import spark.debug.DebugScreen;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import spark.utils.*;
 
-import java.time.LocalDateTime;
 import java.util.Timer;
 
 public class Server {
-	private static EscucharAlertasMeteorologicas escuchaAlertasMeteorologicas;
-
 	public static void main(String[] args) {
 		Spark.port(getPort());
 
@@ -55,6 +52,6 @@ public class Server {
 
 	private static void planificarEscuchaAlertasMeteorologicas(){
 		Timer timer = new Timer();
-		timer.schedule(escuchaAlertasMeteorologicas, 30000, 60000); //Cada minuto
+		timer.schedule(new EscucharAlertasMeteorologicas(), 0, 1000L * 60L * 5L); // Cada 5 minutos
 	}
 }
