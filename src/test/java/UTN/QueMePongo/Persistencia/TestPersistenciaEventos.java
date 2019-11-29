@@ -48,7 +48,7 @@ public class TestPersistenciaEventos extends AbstractPersistenceTest implements 
 
 		user.eliminarEvento(evento1);
 
-		Usuario usuarioDB = entityManager().createQuery("FROM Usuario u", Usuario.class).getSingleResult();
+		Usuario usuarioDB = entityManager().createQuery("FROM Usuario u WHERE u.Id = " + user.getId(), Usuario.class).getSingleResult();
 		assertEquals(0, usuarioDB.getEventos().size());
 
 		// El evento sigue existiendo pero no tiene duenio

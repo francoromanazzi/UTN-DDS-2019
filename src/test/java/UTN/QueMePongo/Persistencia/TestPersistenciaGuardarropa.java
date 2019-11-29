@@ -34,7 +34,7 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
 		entityManager().persist(guardarropa1);
 
 		List<Guardarropa> guardarropas = entityManager().
-				createQuery("from Guardarropa", Guardarropa.class).
+				createQuery("FROM Guardarropa g WHERE g.id = "+ guardarropa1.getId(), Guardarropa.class).
 				getResultList();
 
 		assertEquals(1, guardarropas.size());
@@ -48,9 +48,13 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
 		entityManager().persist(guardarropa1);
 		entityManager().persist(guardarropa2);
 
-		List<Guardarropa> guardarropas = entityManager().
-				createQuery("from Guardarropa", Guardarropa.class).
-				getResultList();
+		String qlString = "FROM Guardarropa g " +
+				"WHERE g.id = " + guardarropa1.getId() +
+				" OR g.id = " + guardarropa2.getId();
+
+		List<Guardarropa> guardarropas = entityManager()
+				.createQuery(qlString, Guardarropa.class)
+				.getResultList();
 
 		assertEquals(2, guardarropas.size());
 
@@ -118,9 +122,9 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
 		entityManager().persist(guardarropa1);
 		guardarropa1.addPrenda(new Prenda(Tipo.REMERA_MANGA_CORTA, Material.ALGODON, new Color(0, 0, 0), Optional.empty(), Optional.empty()));
 
-		Guardarropa guardarropaDB = entityManager().
-				createQuery("from Guardarropa", Guardarropa.class).
-				getSingleResult();
+		Guardarropa guardarropaDB = entityManager()
+									.createQuery("FROM Guardarropa g WHERE g.id = " + guardarropa1.getId(), Guardarropa.class)
+									.getSingleResult();
 
 		assertEquals(1, guardarropaDB.getPrendas().size());
 		assertEquals(Tipo.REMERA_MANGA_CORTA, guardarropaDB.getPrendas().get(0).getTipo());
@@ -160,11 +164,10 @@ public class TestPersistenciaGuardarropa extends AbstractPersistenceTest impleme
 		assertEquals(0, guardarropas.size());
 
 		// Verifico que el guardarropas sigue existiendo, pero no tiene propietario
-		List<Guardarropa> todosLosGuardarropas = entityManager().
-				createQuery("from Guardarropa", Guardarropa.class).
-				getResultList();
+		List<Guardarropa> guardarropasConIdDel1 = entityManager().
+				createQuery("FROM Guardarropa g WHERE g.id = " + guardarropa1.getId(), Guardarropa.class).getResultList();
 
-		assertEquals(1, todosLosGuardarropas.size());
-		assertEquals(0, todosLosGuardarropas.get(0).getUsuariosPropietarios().size());
+		assertEquals(1, guardarropasConIdDel1.size());
+		assertEquals(0, guardarropasConIdDel1.get(0).getUsuariosPropietarios().size());
 	}
 }
