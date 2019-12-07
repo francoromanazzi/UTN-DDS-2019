@@ -28,10 +28,31 @@
             <property name="hibernate.archive.autodetection" value="class"/>
 
             <!-- LOCALHOST -->
-            <property name="hibernate.connection.url"
-                 value="jdbc:mysql://localhost:3306/queMePongo?serverTimezone=UTC"/>
+            <!--property name="hibernate.connection.url"
+                      value="jdbc:mysql://localhost:3306/queMePongo?serverTimezone=UTC"/>
             <property name="hibernate.connection.username" value="root"/>
-            <property name="hibernate.connection.password" value="champions1234"/>
+            <property name="hibernate.connection.password" value="champions1234"/-->
+
+            <!-- HEROKU -->
+            <!--property name="hibernate.connection.url"
+                      value="jdbc:mysql://us-cdbr-iron-east-05.cleardb.net/heroku_88c1e7e8d5826b4?reconnect=true&amp;serverTimezone=UTC"/>
+            <property name="hibernate.connection.username" value="b979c484fd8962"/>
+            <property name="hibernate.connection.password" value="d93f5e10"/-->
+
+            <!-- AWS -->
+            <!--<property name="hibernate.connection.url"
+                      value="jdbc:mysql://aa991svhmepje1.cl6gfhkvv7kc.us-east-2.rds.amazonaws.com/queMePongo?reconnect=true&amp;serverTimezone=UTC"/>
+            <property name="hibernate.connection.username" value="root"/>
+            <property name="hibernate.connection.password" value="champions1234"/>-->
+
+            <!-- JawsDB -->
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.url"
+                      value="jdbc:mysql://eio25lvv3aa1mtsk:jfhfvitdevdey1t7@gp96xszpzlqupw4k.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/u08r3mafaksst6di"/>
+            <property name="hibernate.connection.username" value="eio25lvv3aa1mtsk"/>
+            <property name="hibernate.connection.password" value="jfhfvitdevdey1t7"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+
 
 
             <property name="hibernate.show_sql" value="true"/>

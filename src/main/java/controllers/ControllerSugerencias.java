@@ -1,5 +1,6 @@
 package controllers;
 
+import excepciones.SinSugerenciasPosiblesException;
 import excepciones.SugerenciaNoEncontradaException;
 import modelo.evento.Evento;
 import modelo.sugerencia.CalificacionSugerencia;
@@ -40,7 +41,7 @@ public class ControllerSugerencias {
 	}
 
 	public static void noEncontrado(SugerenciaNoEncontradaException ex, Request req, Response res) {
-		res.redirect("/error");
+		res.redirect("/error?mensaje=SugerenciaNoEncontrada");
 	}
 
 	public static ModelAndView listarAceptadasParaCalificarlas(Request req, Response res) {
@@ -65,5 +66,9 @@ public class ControllerSugerencias {
 		res.redirect("/eventos?sugerenciaCalificada=1");
 
 		return null;
+	}
+
+	public static void sinSugerenciasPosibles(SinSugerenciasPosiblesException ex, Request req, Response res){
+		res.redirect("/error?mensaje=SinSugerenciasPosibles");
 	}
 }

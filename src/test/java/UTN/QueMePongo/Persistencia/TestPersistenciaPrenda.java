@@ -28,10 +28,9 @@ public class TestPersistenciaPrenda extends AbstractPersistenceTest implements W
 		entityManager().persist(buzoRojo);
 
 		List<Prenda> prendas = entityManager()
-				.createQuery("from Prenda", Prenda.class)
+				.createQuery("from Prenda p WHERE p.id = " + buzoRojo.getId(), Prenda.class)
 				.getResultList();
 
-		assertEquals(1, prendas.size());
 		assertEquals(Tipo.BUZO, prendas.get(0).getTipo());
 	}
 }

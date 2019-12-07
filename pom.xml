@@ -50,7 +50,7 @@
 				<version>2.0.13</version>
 				<configuration>
 					<jdkVersion>1.8</jdkVersion>
-					<appName>que-me-pongo</appName>
+					<appName>que-me-pongo-13</appName>
 					<processTypes>
 						<!-- Tell Heroku how to launch your application -->
 						<web>java -jar ./target/2019-vi-no-group-13-0.0.1-SNAPSHOT-jar-with-dependencies.jar</web>

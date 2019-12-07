@@ -15,7 +15,7 @@ public class Router {
 			return null;
 		}));
 
-		get("/error", (req, res) -> new ModelAndView(null, "error.hbs"), engine);
+		get("/error", ControllerError::error, engine);
 
 		get("/", ControllerLogin::mostrar, engine);
 		post("/login", ControllerLogin::login);
@@ -55,6 +55,7 @@ public class Router {
 		before("/eventos/:id/sugerencias/aceptadas", Auth::userEsPropietarioDeEvento);
 		post("/eventos/:id/sugerencias/aceptadas", ControllerSugerencias::aceptar);
 		exception(SugerenciaNoEncontradaException.class, ControllerSugerencias::noEncontrado);
+		exception(SinSugerenciasPosiblesException.class, ControllerSugerencias::sinSugerenciasPosibles);
 
 		before("/sugerencias/*", Auth::tieneToken);
 		get("/sugerencias/aceptadas", ControllerSugerencias::listarAceptadasParaCalificarlas, engine);

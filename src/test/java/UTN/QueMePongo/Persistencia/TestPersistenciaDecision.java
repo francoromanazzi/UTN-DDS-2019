@@ -30,7 +30,7 @@ public class TestPersistenciaDecision extends AbstractPersistenceTest implements
 
 		Usuario userDB = new RepositorioUsuarios().buscarPorCredenciales("luqui", "asd");
 
-		List<Decision> decisiones = entityManager().createQuery("from Decision", Decision.class).getResultList();
+		List<Decision> decisiones = entityManager().createQuery("SELECT d FROM Usuario u JOIN u.ultimaDecision d WHERE u.Id = " + user.getId(), Decision.class).getResultList();
 
 		assertEquals(1, decisiones.size());
 		assertEquals(DecisionVacia.class, userDB.getUltimaDecision().getClass());

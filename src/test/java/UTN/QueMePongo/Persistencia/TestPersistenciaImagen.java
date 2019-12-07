@@ -42,11 +42,12 @@ public class TestPersistenciaImagen extends AbstractPersistenceTest implements W
 
 		entityManager().persist(remera);
 
-		Prenda prendaDB = entityManager().createQuery("FROM Prenda", Prenda.class).getSingleResult();
+		Prenda prendaDB = entityManager().createQuery("FROM Prenda p WHERE p.id = " + remera.getId(), Prenda.class).getSingleResult();
 
 		assertEquals(Optional.empty(), prendaDB.getImagen());
 
-		List<Imagen> imagenesDB = entityManager().createQuery("FROM Imagen", Imagen.class).getResultList();
+		String qlString = "SELECT im FROM Prenda p JOIN p.imagen im WHERE p.Id = " + remera.getId();
+		List<Imagen> imagenesDB = entityManager().createQuery(qlString, Imagen.class).getResultList();
 
 		assertEquals(0, imagenesDB.size());
 	}
