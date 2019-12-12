@@ -14,7 +14,7 @@ import java.util.Timer;
 
 public class Server {
 	public static void main(String[] args) {
-		Spark.port(getHerokuAssignedPort());
+		Spark.port(getPort());
 
 		Spark.staticFiles.location("/public");
 		Spark.init();
@@ -37,11 +37,10 @@ public class Server {
 		ServicioDelClima.getInstance().agregarMeteorologo(new DarkSky());
 		//new HardcodearDatosDB().agendarEventos();
 
-		escuchaAlertasMeteorologicas = new EscucharAlertasMeteorologicas();
 		planificarEscuchaAlertasMeteorologicas();
 	}
 
-	private static int getHerokuAssignedPort() {
+	private static int getPort() {
 		ProcessBuilder processBuilder = new ProcessBuilder();
 
 		if (processBuilder.environment().get("PORT") != null) {

@@ -1,2 +1,38 @@
-# 2019-vi-no-group-13
-[Última entrega](https://mail-attachment.googleusercontent.com/attachment/u/0/?ui=2&ik=8cd4a57916&attid=0.1&permmsgid=msg-f:1650568623860621136&th=16e7ff6b169e1f50&view=att&disp=inline&realattid=f_k31nynoh0&saddbat=ANGjdJ9aYXm0Dj-0iAQG24JKM2jTq03mTTJYE7R2TGccZy3JiZ0uqWS_aSgKLjdDq-Xtydx_KWpYLmvDl8JwsUTuoiPYKD6bsKaemoQmRX-U2TznTpmir8hImvDNMUb7J3Y3XyoREiFj6av421zmwEV481nWiBP5n1yyDa9DxqeLxQ7LpZmK49pQ_B6YPmcQJZfHRmYplB5MAgvchj4c742UGUxdTXrjDpDUtrXMhLH95XzcKknyD_CbESZYd27Ct9fDhpctuLnzUHpgTgFxVGU_SJ0yRD2aNgXZwQUX0CL13Mrgf_BY52VG9aH6ej7VGxTHX9Lo0XchglzInUVFmyk1rq5GtYUhVUCo9u_q7QWkjubhksoptaEpD1uTcZdkW1yzpPWbFDOi7_8bOo9zPMPJPkcjubpbc6LoRwJEatjxN0p3EhMWRQFluJXOJqvNUCZG4VGl-fpyKmEiV8ph7etth8Qw1TwOQ-BhWm_keQwvqPBJNM-_RH0cVvQ-WtehF732qMyMD1xTczmzVybdp74Kb33y3gk2eEcLnlpykIjsYbu60AfDscHEEhMoHQjijbD_DCe5UZrny83FSX6pPq5t6jrcBRIzOn2uwXKZtl15gh6FZavmP8BebdpzDGxQNSF8Qi_X2XY1tXcly0FY5D2QafPvULm5x7EHQ3GFlTa8XRrhuqsHp-9EPjCGZOQ)
+# Que Me Pongo?
+
+Que Me Pongo es una aplicación web que genera atuendos para cada evento que cargue el usuario, en función de sus gustos, de las prendas que haya cargado, y de las condiciones climáticas.
+
+Demo: http://que-me-pongo-13.herokuapp.com/
+
+## Capturas de pantalla
+
+#### Login
+
+![Login](/docs/Landing.jpg?raw=true 'Login')
+
+#### Eventos
+
+![Eventos](/docs/Eventos.jpg?raw=true 'Eventos')
+
+#### Guardarropas
+
+![Guardarropas](/docs/Guardarropas.jpg?raw=true 'Guardarropas')
+
+#### Prendas de un guardarropa
+
+![Prendas](/docs/Prendas.jpg?raw=true 'Prendas')
+
+#### Sugerencias generadas para un evento próximo
+
+![SugerenciasGeneradas](/docs/SugerenciasGeneradas.jpg?raw=true 'SugerenciasGeneradas')
+
+#### Calificar sugerencias generadas
+
+![CalificarSugerencias](/docs/CalificarSugerencias.jpg?raw=true 'CalificarSugerencias')
+
+## Tecnologías utilizadas (Arquitectura MVC)
+
+- **Frontend**: HTML/CSS/JS, Bootstrap, Handlabars
+- **Backend**: SparkJava, Java 8, JPA (Hibernate), MySQL
+
+
